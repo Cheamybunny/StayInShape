@@ -14,6 +14,9 @@ public class GardenUIBehaviour2 : MonoBehaviour
     public const int CHILLI = 4;
     public const int EGGPLANT = 5;
     public const int LOOFA = 6;
+    public const int SWEETPOTATO = 7;
+    public const int PAPAYA = 8;
+    public const int CALAMANSI = 9;
     public int rayDistance = 5;
     private Component equippedItem;
     public GardenUIEvents gardenUIEvents;
@@ -123,15 +126,35 @@ public class GardenUIBehaviour2 : MonoBehaviour
             gardenUIEvents.UpdatePickedItem(TROWEL);
             equippedItem = trowelLogic;
         }
-        else if(item.TryGetComponent<ChilliBag>(out ChilliBag chilliBag))
+        else if (item.TryGetComponent<ChilliBag>(out ChilliBag chilliBag))
         {
             gardenUIEvents.UpdatePickedItem(CHILLI);
             equippedItem = chilliBag;
         }
-        else if(item.TryGetComponent<EggplantBag>(out EggplantBag eggplantBag))
+        else if (item.TryGetComponent<EggplantBag>(out EggplantBag eggplantBag))
         {
             gardenUIEvents.UpdatePickedItem(EGGPLANT);
             equippedItem = eggplantBag;
+        }
+        else if (item.TryGetComponent<LoofaBag>(out LoofaBag loofaBag))
+        {
+            gardenUIEvents.UpdatePickedItem(LOOFA);
+            equippedItem = loofaBag;
+        }
+        else if (item.TryGetComponent<SweetPotatoBag>(out SweetPotatoBag sweetPotatoBag))
+        {
+            gardenUIEvents.UpdatePickedItem(SWEETPOTATO);
+            equippedItem = sweetPotatoBag;
+        }
+        else if (item.TryGetComponent<PapayaBag>(out PapayaBag papayaBag))
+        {
+            gardenUIEvents.UpdatePickedItem(PAPAYA);
+            equippedItem = papayaBag;
+        }
+        else if (item.TryGetComponent<CalamansiBag>(out CalamansiBag calamansiBag))
+        {
+            gardenUIEvents.UpdatePickedItem(CALAMANSI);
+            equippedItem = calamansiBag;
         }
         else
         {

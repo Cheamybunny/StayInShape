@@ -131,6 +131,21 @@ public class GardenUIEvents : MonoBehaviour
             Debug.Log("LOOOOOFAAAA");
             pickedItem.style.backgroundImage= new StyleBackground(loofaSprite);
         }
+        else if (item == 7)
+        {
+            Debug.Log("SWEET POTATOOO TA TA TA");
+            pickedItem.style.backgroundImage = new StyleBackground(sweetPotatoSprite);
+        }
+        else if (item == 8)
+        {
+            Debug.Log("PAPAPAPAPAYAYAYAYA");
+            pickedItem.style.backgroundImage = new StyleBackground(papayaSprite);
+        }
+        else if (item == 9)
+        {
+            Debug.Log("CALAMANSHEEEEEESH");
+            pickedItem.style.backgroundImage = new StyleBackground(kalamansiSprite);
+        }
     }
 
     private void OnTakePhotoClick(ClickEvent evt)

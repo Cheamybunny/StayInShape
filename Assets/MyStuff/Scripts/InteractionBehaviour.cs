@@ -71,10 +71,10 @@ public class InteractionBehaviour : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
-                if(hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
+                if (hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
                 {
                     Component heldItem = gardenUIBehaviour2.getEquipped();
-                    if (heldItem != null && !heldItem.TryGetComponent<WaterLogic>(out WaterLogic water) && 
+                    if (heldItem != null && !heldItem.TryGetComponent<WaterLogic>(out WaterLogic water) &&
                         !heldItem.TryGetComponent<FertiliserLogic>(out FertiliserLogic fertiliser) &&
                         !heldItem.TryGetComponent<TrowelLogic>(out TrowelLogic trowel))
                     {
@@ -82,7 +82,12 @@ public class InteractionBehaviour : MonoBehaviour
                     }
                 }
                 //logic if player taps bag of seeds
-                else if(hit.transform.TryGetComponent<ChilliBag>(out ChilliBag chilliBag))
+                else if (hit.transform.TryGetComponent<ChilliBag>(out ChilliBag chilliBag) ||
+                    hit.transform.TryGetComponent<EggplantBag>(out EggplantBag eggplantBag) ||
+                    hit.transform.TryGetComponent<LoofaBag>(out LoofaBag loofaBag) ||
+                    hit.transform.TryGetComponent<SweetPotatoBag>(out SweetPotatoBag sweetPotatoBag) ||
+                    hit.transform.TryGetComponent<CalamansiBag>(out CalamansiBag calamansiBag) ||
+                    hit.transform.TryGetComponent<PapayaBag>(out PapayaBag papayaBag))
                 {
                     gardenUIBehaviour2.UpdateItem(hit.transform);
                 }
