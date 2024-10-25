@@ -120,7 +120,7 @@ public class InteractionBehaviour : MonoBehaviour
                             {
                                 if (player.GetWater() >= 1)
                                 {
-                                    if (plant.Insert(gardenUIBehaviour2 .getEquipped()))
+                                    if (plant.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
                                         plant.getStatus();
                                         player.SetWater(player.GetWater() - 1);
@@ -247,6 +247,174 @@ public class InteractionBehaviour : MonoBehaviour
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
                                 eggplant.DestroyPlant();
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("nothing equipped");
+                        }
+                    }
+                }
+                else if (hit.transform.TryGetComponent<SweetpotatoLogic>(out SweetpotatoLogic sweetpotato))
+                {
+                    if (sweetpotato.HarvestPlant())
+                    {
+                        Debug.Log("1200xp gained!");
+                        player.SetExp(1200);
+                        player.SetSweetPotatoCrop(1);
+                        saveManager.Save();
+                    }
+                    else
+                    {
+                        if (gardenUIBehaviour2.getEquipped() != null)
+                        {
+                            if (gardenUIBehaviour2.getEquipped().GetType() == typeof(FertiliserLogic))
+                            {
+                                if (player.GetFertilizer() >= 1)
+                                {
+                                    if (sweetpotato.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        sweetpotato.getStatus();
+                                        player.SetFertilizer(player.GetFertilizer() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No fertilizer");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
+                            {
+                                if (player.GetWater() >= 1)
+                                {
+                                    if (sweetpotato.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        sweetpotato.getStatus();
+                                        player.SetWater(player.GetWater() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No water");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
+                            {
+                                sweetpotato.DestroyPlant();
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("nothing equipped");
+                        }
+                    }
+                }
+                else if (hit.transform.TryGetComponent<PapayaLogic>(out PapayaLogic papaya))
+                {
+                    if (papaya.HarvestPlant())
+                    {
+                        Debug.Log("2000xp gained!");
+                        player.SetExp(2000);
+                        player.SetPapayaCrop(1);
+                        saveManager.Save();
+                    }
+                    else
+                    {
+                        if (gardenUIBehaviour2.getEquipped() != null)
+                        {
+                            if (gardenUIBehaviour2.getEquipped().GetType() == typeof(FertiliserLogic))
+                            {
+                                if (player.GetFertilizer() >= 1)
+                                {
+                                    if (papaya.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        papaya.getStatus();
+                                        player.SetFertilizer(player.GetFertilizer() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No fertilizer");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
+                            {
+                                if (player.GetWater() >= 1)
+                                {
+                                    if (papaya.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        papaya.getStatus();
+                                        player.SetWater(player.GetWater() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No water");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
+                            {
+                                papaya.DestroyPlant();
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("nothing equipped");
+                        }
+                    }
+                }
+                else if (hit.transform.TryGetComponent<CalamansiLogic>(out CalamansiLogic calamansi))
+                {
+                    if (calamansi.HarvestPlant())
+                    {
+                        Debug.Log("1500xp gained!");
+                        player.SetExp(1500);
+                        player.SetKalamansiCrop(1);
+                        saveManager.Save();
+                    }
+                    else
+                    {
+                        if (gardenUIBehaviour2.getEquipped() != null)
+                        {
+                            if (gardenUIBehaviour2.getEquipped().GetType() == typeof(FertiliserLogic))
+                            {
+                                if (player.GetFertilizer() >= 1)
+                                {
+                                    if (calamansi.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        calamansi.getStatus();
+                                        player.SetFertilizer(player.GetFertilizer() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No fertilizer");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
+                            {
+                                if (player.GetWater() >= 1)
+                                {
+                                    if (calamansi.Insert(gardenUIBehaviour2.getEquipped()))
+                                    {
+                                        calamansi.getStatus();
+                                        player.SetWater(player.GetWater() - 1);
+                                        saveManager.Save();
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("No water");
+                                }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
+                            {
+                                calamansi.DestroyPlant();
                             }
                         }
                         else

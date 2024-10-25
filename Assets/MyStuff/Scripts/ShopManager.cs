@@ -38,7 +38,7 @@ public class ShopManager : MonoBehaviour
         if(player.GetWater() >= 3)
         {
             player.SetChilliCrop(1);
-            player.SetWater(-3);
+            player.SetWater(player.GetWater() - 3);
             saveManager.Save();
         }
         else

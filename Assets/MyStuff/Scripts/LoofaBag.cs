@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class LoofaBag : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] TMPro.TextMeshPro loofaStock;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        loofaStock.text = PlantManager.instance.GetLoofaStock().ToString();
     }
 }

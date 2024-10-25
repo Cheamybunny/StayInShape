@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class CalamansiBag : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] TMPro.TextMeshPro calamansiStock;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        calamansiStock.text = PlantManager.instance.GetCalamansiCrop().ToString();
     }
 }

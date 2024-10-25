@@ -67,6 +67,36 @@ public class PlantManager : MonoBehaviour
         return papayaPrefab;
     }
 
+    public int GetChilliStock()
+    {
+        return player.GetChilliCrop();
+    }
+
+    public int GetEggplantStock()
+    {
+        return player.GetEggplantCrop();
+    }
+
+    public int GetLoofaStock()
+    {
+        return player.GetLoofaCrop();
+    }
+
+    public int GetSweetPotatoCrop()
+    {
+        return player.GetEggplantCrop();
+    }
+
+    public int GetPapayaCrop()
+    {
+        return player.GetPapayaCrop();
+    }
+
+    public int GetCalamansiCrop()
+    {
+        return player.GetKalamansiCrop();
+    }
+
     public List<PlantData> GetPlants()
     {
         return player.GetPlants();

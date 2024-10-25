@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class PapayaBag : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] TMPro.TextMeshPro papayaStock;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        papayaStock.text = PlantManager.instance.GetPapayaCrop().ToString();
     }
 }

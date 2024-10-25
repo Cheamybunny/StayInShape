@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class SweetPotatoBag : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] TMPro.TextMeshPro sweetPotatoStock;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        sweetPotatoStock.text = PlantManager.instance.GetSweetPotatoCrop().ToString();
     }
 }
