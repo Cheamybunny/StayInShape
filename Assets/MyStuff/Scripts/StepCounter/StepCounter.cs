@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit.Filtering;
 
 // Code adapted from https://medium.com/@xavidevsama/create-a-simple-step-counter-pedometer-with-unity-c-a68151354b82
 
@@ -11,10 +10,10 @@ public class StepCounter : MonoBehaviour
 {
     // Variables
     public TMP_Text distanceText;
-    public float threshold = 5f;
+    public float threshold = 1f;
     public float stepLength = 0.75f;
     private float timer = 0.0f;
-    private float stepDelay = 0.5f;
+    private float stepDelay = 0.35f;
 
     [SerializeField]
     public SaveManagerSO saveManager;
@@ -49,29 +48,49 @@ public class StepCounter : MonoBehaviour
     [SerializeField] private int stepCount = 0;
     private Vector3 acceleration;
     private Vector3 prevAcceleration;
+    private bool isInitialized = false;
 
     private void Start()
     {
-        InputSystem.EnableDevice(Accelerometer.current);
-        // Tare acceleration
-        prevAcceleration = Input.acceleration;
-        saveManager.Load();
-        stepCount = playerData.GetSteps();
-        CalculateDistance();
+        if (Accelerometer.current != null)
+        {
+            isInitialized = true;
+            InputSystem.EnableDevice(Accelerometer.current);
+            // Tare acceleration
+            prevAcceleration = Input.acceleration;
+            saveManager.Load();
+            stepCount = playerData.GetSteps();
+            CalculateDistance();
+        }
+        else
+        {
+            Debug.Log("Step Counter did not initialised properly!");
+        }
     }
 
     private void OnDisable()
     {
-        Debug.Log("StepCounter disabled");
-        playerData.SetSteps(stepCount);
-        saveManager.Save();
+        if (isInitialized)
+        {
+            Debug.Log("StepCounter disabled");
+            playerData.SetSteps(stepCount);
+            saveManager.Save();
+        }
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
-        DetectSteps();
-        CalculateDistance();
+        if (isInitialized)
+        {
+            timer += Time.deltaTime;
+            DetectSteps();
+            CalculateDistance();
+
+            if (distanceText != null)
+            {
+                distanceText.text = GetStepCount().ToString();
+            }
+        }
         //if (Accelerometer.current != null)
         //{
         //    acceleration = Accelerometer.current.acceleration.ReadValue();
@@ -80,20 +99,19 @@ public class StepCounter : MonoBehaviour
         //{
         //    stepText.text = "DISABLED";
         //}
-        distanceText.text = GetStepCount().ToString();
     }
     // Checks if device's acceleration is above a particular threshold and adds the "stepCount" variable accordingly
     private void DetectSteps()
     {
-        acceleration = Accelerometer.current.acceleration.ReadValue();
-        float delta = (acceleration - prevAcceleration).magnitude;
-        if (delta > threshold && timer > stepDelay)
-        {
-            timer = 0.0f;
-            stepCount++;
-            Debug.Log($"Step detected! Count: {stepCount}");
-        }
-        prevAcceleration = acceleration;
+            acceleration = Accelerometer.current.acceleration.ReadValue();
+            float delta = (acceleration - prevAcceleration).magnitude;
+            if (delta > threshold && timer > stepDelay)
+            {
+                timer = 0.0f;
+                stepCount++;
+                Debug.Log($"Step detected! Count: {stepCount}");
+            }
+            prevAcceleration = acceleration;
     }
 
     private void CalculateDistance()

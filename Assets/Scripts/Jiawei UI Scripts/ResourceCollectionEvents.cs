@@ -67,19 +67,21 @@ public class ResourceCollectionEvents : MonoBehaviour
     {
         Debug.Log("You pressed the Snap Play Button");
 
-        SceneManager.LoadScene("SnapSceneJia");
+        SceneManager.LoadScene("SnapScene");
     }
 
     private void OnMatchingPlayClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Matching Play Button");
 
-        SceneManager.LoadScene("MatchingSceneJia");
+        SceneManager.LoadScene("MatchingCardScene");
     }
 
     private void OnChickenPlayClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Chicken Play Button");
+
+        SceneManager.LoadScene("ChickenInvaderScene");
     }
 
     private void OnAllButtonsClick(ClickEvent evt)

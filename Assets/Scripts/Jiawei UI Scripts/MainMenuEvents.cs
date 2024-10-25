@@ -63,14 +63,14 @@ public class MainMenuEvents : MonoBehaviour
     {
         Debug.Log("You pressed the My Garden Button");
         onGardenButtonClicked?.Invoke();
-        SceneManager.LoadScene("GardenScene");
+        SceneManager.LoadScene("GardenSceneJia");
     }
 
     private void OnCollectResourcesClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Collect Resources Button");
 
-        SceneManager.LoadScene("ResourceCollectionScene");
+        SceneManager.LoadScene("ResourceCollectionSceneJia");
     }
 
     private void OnMyStepsClick(ClickEvent evt)

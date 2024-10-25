@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlotLogic : MonoBehaviour
 {
 
-    const string DATETIME_FORMAT = "MM/dd/yyyy HH:mm";
+    const string DATETIME_FORMAT = "MM/dd/yyyy HH:mm:ss";
     List<PlantData> plants;
     private void Awake()
     {
@@ -19,14 +20,6 @@ public class PlotLogic : MonoBehaviour
     {
         LoadPlants();
         gameObject.SetActive(true);
-        //ceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
-        //SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-        GardenUIBehaviourScript.onHomeButtonClicked += GardenUIBehaviourScript_onHomeButtonClicked;
-    }
-
-    private void GardenUIBehaviourScript_onHomeButtonClicked()
-    {
-        gameObject.SetActive(false);
     }
 
     public void InsertPlant(GameObject plantPrefab, Vector3 position)
@@ -45,41 +38,88 @@ public class PlotLogic : MonoBehaviour
         plants = PlantManager.instance.GetPlants();
         foreach (var plant in plants)
         {
-            GameObject spawnedPlant = Instantiate(PlantManager.instance.getPlantPrefab());
+            GameObject spawnedPlant;
+            if (plant.plantType == 1)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getPlantPrefab());
+
+            }
+            else if (plant.plantType == 2)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getLoofaPrefab());
+            }
+            else if(plant.plantType == 3)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getEggplantPrefab());
+            }
+            else if(plant.plantType == 4)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getSweetPotatoPrefab());
+            }
+            else if(plant.plantType == 5)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getPapayaPrefab());
+            }
+            else
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getKalamansiPrefab());
+            }
             spawnedPlant.transform.SetParent(transform);
-            TimeSpan elapsedTime = DateTime.Now - DateTime.ParseExact(plant.plantedTime, DATETIME_FORMAT, null);
+            String reformattingTime = DateTime.Now.ToString(DATETIME_FORMAT);
+            TimeSpan elapsedTime = DateTime.ParseExact(reformattingTime, DATETIME_FORMAT, null) - DateTime.ParseExact(plant.plantedTime, DATETIME_FORMAT, null);
             float elapsedSeconds = (float)elapsedTime.TotalSeconds;
             spawnedPlant.transform.localPosition = plant.position;
             spawnedPlant.transform.rotation = transform.rotation;
             spawnedPlant.transform.localScale = new Vector3(0.3f, 2f, 0.3f);
-            spawnedPlant.TryGetComponent<PlantLogic>(out PlantLogic plantLogic);
-            plantLogic.setGrowthAmount(plant.growthAmount + elapsedSeconds);
-            plantLogic.setGrowthRate(plant.growthRate);
-            plantLogic.setWither(plant.witherTime + elapsedSeconds);
-            Debug.Log("Spawned a plant with position " + plant.position + " with elapsed time " + elapsedTime + " wither time " + plant.witherTime);
-            //plants.Remove(plant);
+            if(plant.plantType == 1)
+            {
+                spawnedPlant.TryGetComponent<PlantLogic>(out PlantLogic plantLogic);
+                plantLogic.setGrowthAmount(plant.growthAmount + elapsedSeconds);
+                plantLogic.setGrowthRate(plant.growthRate);
+                plantLogic.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if(plant.plantType == 2)
+            {
+                spawnedPlant.TryGetComponent<LoofaLogic>(out LoofaLogic loofaLogic);
+                loofaLogic.setGrowthAmount(plant.growthAmount + elapsedSeconds);
+                loofaLogic.setGrowthRate(plant.growthRate);
+                loofaLogic.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 3)
+            {
+                spawnedPlant.TryGetComponent<EggplantLogic>(out EggplantLogic eggplant);
+                eggplant.setGrowthAmount(plant.growthAmount + elapsedSeconds);
+                eggplant.setGrowthRate(plant.growthRate);
+                eggplant.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 4)
+            {
+                spawnedPlant.TryGetComponent<SweetpotatoLogic>(out SweetpotatoLogic sweetpotato);
+                sweetpotato.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                sweetpotato.setGrowthRate(plant.growthRate);
+                sweetpotato.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 5)
+            {
+                spawnedPlant.TryGetComponent<PapayaLogic>(out PapayaLogic papaya);
+                papaya.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                papaya.setGrowthRate(plant.growthRate);
+                papaya.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else
+            {
+                spawnedPlant.TryGetComponent<CalamansiLogic>(out CalamansiLogic calamansi);
+                calamansi.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                calamansi.setGrowthRate(plant.growthRate);
+                calamansi.setWither(plant.witherTime + elapsedSeconds);
+            }
         }
-        //PlantManager.instance.ResetPlants();
+        Debug.Log("Plants spawned, list cleared");
+        PlantManager.instance.ClearList();
     }
 
     private void OnDestroy()
     {
-        
-    }
-    /**
-    private void PlantManager_onSpawnPlants(GameObject plantPrefab, Dictionary<int, Tuple<Vector3, Vector3, float, float>> plantsToSpawn)
-    {
-        foreach (var plant in plantsToSpawn)
-        {
-            GameObject spawnedPlant = Instantiate(plantPrefab);
-            spawnedPlant.TryGetComponent<PlantLogic>(out PlantLogic plantLogic);
-            spawnedPlant.transform.SetParent(transform);
-            spawnedPlant.transform.localPosition = plant.Value.Item1;
-            spawnedPlant.transform.localScale = plant.Value.Item2;
-            plantLogic.setGrowthAmount(plant.Value.Item3);
-            plantLogic.setGrowthRate(plant.Value.Item4);
 
-        }
     }
-    **/
 }
