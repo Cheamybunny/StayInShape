@@ -36,6 +36,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         gardenUIEvents.setFertiliserText(player.GetFertilizer());
         gardenUIEvents.setWaterText(player.GetWater());
+        gardenUIEvents.setCurrentLevel((int) Mathf.Floor(player.GetExp() / 1000));
     }
     public RaycastHit TestCheck()
     {
