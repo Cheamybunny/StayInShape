@@ -27,7 +27,7 @@ public class InvaderLogic : MonoBehaviour
         while (!isChasedAway && !manager.isGameEnded)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * SMALL_CONSTANT); // My "Move" method doesn't work smoothly with the LookAt method :(
-            transform.LookAt(target);
+            transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z)); // Constrain Y-Axis
             yield return new WaitForSeconds(interval);
         }
     }
