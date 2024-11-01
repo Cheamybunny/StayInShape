@@ -43,8 +43,8 @@ public class GardenUIEvents : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _document = GetComponent<UIDocument>();
 
-        _button1 = _document.rootVisualElement.Q("BackButton") as Button;
-        _button1.RegisterCallback<ClickEvent>(OnBackButtonClick);
+        _button1 = _document.rootVisualElement.Q("StepsButton") as Button;
+        _button1.RegisterCallback<ClickEvent>(OnStepsButtonClick);
 
 
         _button2 = _document.rootVisualElement.Q("TakePhotoButton") as Button;
@@ -80,7 +80,7 @@ public class GardenUIEvents : MonoBehaviour
 
     private void OnDisable()
     {
-        _button1.UnregisterCallback<ClickEvent>(OnBackButtonClick);
+        _button1.UnregisterCallback<ClickEvent>(OnStepsButtonClick);
         _button2.UnregisterCallback<ClickEvent>(OnTakePhotoClick);
         _button3.UnregisterCallback<ClickEvent>(OnCareBookClick);
         _button4.UnregisterCallback<ClickEvent>(OnShopClick);
@@ -93,11 +93,11 @@ public class GardenUIEvents : MonoBehaviour
         }
     }
 
-    private void OnBackButtonClick(ClickEvent evt)
+    private void OnStepsButtonClick(ClickEvent evt)
     {
-        Debug.Log("You pressed Back Button");
+        Debug.Log("You pressed Steps Button");
 
-        SceneManager.LoadScene("HomeScene");
+        SceneManager.LoadScene("MyStepsScene");
     }
     public void UpdatePickedItem(int item)
     {

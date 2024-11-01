@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chilliSprite: {fileID: 21300000, guid: 53420b0b2a881be4e920a9307248d02b, type: 3}
-  luffaSprite: {fileID: 21300000, guid: 0ca88de19ff668442940ddde7fdc7092, type: 3}
+  loofaSprite: {fileID: 21300000, guid: 0ca88de19ff668442940ddde7fdc7092, type: 3}
   calamansiSprite: {fileID: 21300000, guid: eefe6631a3316594d963fbb9aa53302a, type: 3}
   sweetPotatoSprite: {fileID: 21300000, guid: cde37656bde02694fbd327ddcc7ee7e2, type: 3}
   eggplantSprite: {fileID: 21300000, guid: 8b1432a8f64fd754fa7a43357b667dce, type: 3}
