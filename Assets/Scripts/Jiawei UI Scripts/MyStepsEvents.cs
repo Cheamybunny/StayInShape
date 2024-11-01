@@ -47,7 +47,7 @@ public class MyStepsEvents : MonoBehaviour
     {
         Debug.Log("You pressed the Back Button");
 
-        SceneManager.LoadScene("HomeScene");
+        SceneManager.LoadScene("GardenSceneJia");
     }
 
     private void OnAllButtonsClick(ClickEvent evt)
