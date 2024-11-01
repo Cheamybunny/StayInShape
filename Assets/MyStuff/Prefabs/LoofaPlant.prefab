@@ -76,8 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage1: {fileID: 8091849741235528480}
   stage2: {fileID: 3363214517991297370}
-  stage3: {fileID: 3238975076231537042}
-  stage3_harvest: {fileID: 6983486804609489846}
+  stage3: {fileID: 6983486804609489846}
+  stage3_harvest: {fileID: 3238975076231537042}
   stage1_withered: {fileID: 952919871420044907}
   stage2_withered: {fileID: 1156971915934474931}
   stage3_withered: {fileID: 56263187965102804}
@@ -2375,7 +2375,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

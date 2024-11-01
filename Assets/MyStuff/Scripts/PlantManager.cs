@@ -12,6 +12,9 @@ public class PlantManager : MonoBehaviour
     [SerializeField] GameObject chilliPrefab;
     [SerializeField] GameObject luffaPrefab;
     [SerializeField] GameObject eggPlantPrefab;
+    [SerializeField] GameObject sweetPotatoPrefab;
+    [SerializeField] GameObject papayaPrefab;
+    [SerializeField] GameObject kalamansiPrefab;
     [SerializeField] private PlayerDataSO player;
     [SerializeField] private SaveManagerSO saveManager;
 
@@ -42,6 +45,56 @@ public class PlantManager : MonoBehaviour
     public GameObject getLoofaPrefab()
     {
         return luffaPrefab;
+    }
+
+    public GameObject getEggplantPrefab()
+    {
+        return eggPlantPrefab;
+    }
+
+    public GameObject getSweetPotatoPrefab()
+    {
+        return sweetPotatoPrefab;
+    }
+
+    public GameObject getKalamansiPrefab()
+    {
+        return kalamansiPrefab;
+    }
+
+    public GameObject getPapayaPrefab()
+    {
+        return papayaPrefab;
+    }
+
+    public int GetChilliStock()
+    {
+        return player.GetChilliCrop();
+    }
+
+    public int GetEggplantStock()
+    {
+        return player.GetEggplantCrop();
+    }
+
+    public int GetLoofaStock()
+    {
+        return player.GetLoofaCrop();
+    }
+
+    public int GetSweetPotatoCrop()
+    {
+        return player.GetEggplantCrop();
+    }
+
+    public int GetPapayaCrop()
+    {
+        return player.GetPapayaCrop();
+    }
+
+    public int GetCalamansiCrop()
+    {
+        return player.GetKalamansiCrop();
     }
 
     public List<PlantData> GetPlants()

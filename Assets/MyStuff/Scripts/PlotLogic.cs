@@ -44,9 +44,25 @@ public class PlotLogic : MonoBehaviour
                 spawnedPlant = Instantiate(PlantManager.instance.getPlantPrefab());
 
             }
-            else
+            else if (plant.plantType == 2)
             {
                 spawnedPlant = Instantiate(PlantManager.instance.getLoofaPrefab());
+            }
+            else if(plant.plantType == 3)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getEggplantPrefab());
+            }
+            else if(plant.plantType == 4)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getSweetPotatoPrefab());
+            }
+            else if(plant.plantType == 5)
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getPapayaPrefab());
+            }
+            else
+            {
+                spawnedPlant = Instantiate(PlantManager.instance.getKalamansiPrefab());
             }
             spawnedPlant.transform.SetParent(transform);
             String reformattingTime = DateTime.Now.ToString(DATETIME_FORMAT);
@@ -62,12 +78,40 @@ public class PlotLogic : MonoBehaviour
                 plantLogic.setGrowthRate(plant.growthRate);
                 plantLogic.setWither(plant.witherTime + elapsedSeconds);
             }
-            else
+            else if(plant.plantType == 2)
             {
                 spawnedPlant.TryGetComponent<LoofaLogic>(out LoofaLogic loofaLogic);
                 loofaLogic.setGrowthAmount(plant.growthAmount + elapsedSeconds);
                 loofaLogic.setGrowthRate(plant.growthRate);
                 loofaLogic.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 3)
+            {
+                spawnedPlant.TryGetComponent<EggplantLogic>(out EggplantLogic eggplant);
+                eggplant.setGrowthAmount(plant.growthAmount + elapsedSeconds);
+                eggplant.setGrowthRate(plant.growthRate);
+                eggplant.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 4)
+            {
+                spawnedPlant.TryGetComponent<SweetpotatoLogic>(out SweetpotatoLogic sweetpotato);
+                sweetpotato.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                sweetpotato.setGrowthRate(plant.growthRate);
+                sweetpotato.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else if (plant.plantType == 5)
+            {
+                spawnedPlant.TryGetComponent<PapayaLogic>(out PapayaLogic papaya);
+                papaya.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                papaya.setGrowthRate(plant.growthRate);
+                papaya.setWither(plant.witherTime + elapsedSeconds);
+            }
+            else
+            {
+                spawnedPlant.TryGetComponent<CalamansiLogic>(out CalamansiLogic calamansi);
+                calamansi.setGrowthAmount(plant.growthRate + elapsedSeconds);
+                calamansi.setGrowthRate(plant.growthRate);
+                calamansi.setWither(plant.witherTime + elapsedSeconds);
             }
         }
         Debug.Log("Plants spawned, list cleared");

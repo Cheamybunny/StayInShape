@@ -12,11 +12,12 @@ public class GardenUIBehaviourScript : MonoBehaviour
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private Button insertPlantButton;
     [SerializeField] private Button insertLoofaButton;
+    [SerializeField] private Button insertEggplantButton;
     [SerializeField] private Button homeButton;
     [SerializeField] private Button shopButton;
     [SerializeField] GameObject chilliAsset;
     [SerializeField] GameObject loofaAsset;
-    [SerializeField] ReticleBehaviour reticleBehaviour;
+    [SerializeField] GameObject eggplantAsset;
     [SerializeField] private RawImage itemImage;
     [SerializeField] private Texture2D defaultImage;
     [SerializeField] private Texture2D waterImage;
@@ -28,19 +29,22 @@ public class GardenUIBehaviourScript : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI expUI;
     [SerializeField] TMPro.TextMeshProUGUI chillicropUI;
     [SerializeField] TMPro.TextMeshProUGUI loofacropUI;
+    [SerializeField] TMPro.TextMeshProUGUI eggplantcropUI;
     [SerializeField] TMPro.TextMeshProUGUI waterUI;
     [SerializeField] TMPro.TextMeshProUGUI fertUI;
     [SerializeField] TMPro.TextMeshProUGUI stepsUI;
 
     public static event Action onHomeButtonClicked;
 
-    private GardenLogic gardenLogic;
+    private GardenLogic gardenLogic; //not used
     private Component equippedItem;
+    public int rayDistance = 5;
     // to Add Listeners to the buttons
     private void Start()
     {
         insertPlantButton.onClick.AddListener(InsertPlant);
         insertLoofaButton.onClick.AddListener(InsertLoofa);
+        insertEggplantButton.onClick.AddListener(InsertEggplant);
         homeButton.onClick.AddListener(BackHome);
         shopButton.onClick.AddListener(Shop);
     }
@@ -52,17 +56,11 @@ public class GardenUIBehaviourScript : MonoBehaviour
     // to check if the object to rotate is assigned
     private void Update()
     {
-        if (reticleBehaviour.getTransform() != null)
-        {
-            if (gardenLogic == null)
-            {
-                this.gardenLogic = reticleBehaviour.getTransform().GetComponent<GardenLogic>();
-            }
-        }
-        lvlUI.text = Mathf.Floor(player.GetExp()/1000).ToString();
+        lvlUI.text = Mathf.Floor(player.GetExp() / 1000).ToString();
         expUI.text = player.GetExp().ToString();
         chillicropUI.text = player.GetChilliCrop().ToString();
         loofacropUI.text = player.GetLoofaCrop().ToString();
+        eggplantcropUI.text = player.GetEggplantCrop().ToString();
         waterUI.text = player.GetWater().ToString();
         fertUI.text = player.GetFertilizer().ToString();
         stepsUI.text = player.GetSteps().ToString();
@@ -70,49 +68,67 @@ public class GardenUIBehaviourScript : MonoBehaviour
 
     public void Shop()
     {
-        if(player.GetSteps() >= 200)
+        SceneManager.LoadScene("TempShop");
+    }
+
+    public RaycastHit TestCheck()
+    {
+        Vector3 screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        Ray crosshairRay = Camera.main.ScreenPointToRay(screenCenter);
+        RaycastHit crosshairHit;
+
+        // Perform the raycast and check if it hit something
+        if (Physics.Raycast(crosshairRay, out crosshairHit, rayDistance))
         {
-            player.SetSteps(player.GetSteps() - 200);
-            player.SetChilliCrop(1);
-            saveManager.Save();
+            return crosshairHit; // Return the hit information
         }
+        return default(RaycastHit);
     }
     public void InsertPlant()
     {
-        if (reticleBehaviour.getTransform() == null)
+        RaycastHit hit = TestCheck();
+        Debug.Log("Raycast SHOT");
+
+        // Check if we hit something and get the transform
+        if (hit.transform != null && hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
         {
-            Debug.Log("You are too far from the soil to insert plant");
-        }
-        else
-        {
-            if (reticleBehaviour.getTransform().TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
+            if (player.GetChilliCrop() >= 1)
             {
-                if(player.GetChilliCrop() >= 1)
-                {
-                    plotLogic.InsertPlant(chilliAsset, reticleBehaviour.transform.position);
-                    player.SetChilliCrop(-1);
-                    saveManager.Save();
-                }
+                plotLogic.InsertPlant(chilliAsset, hit.point); // Use hit.point for exact position
+                player.SetChilliCrop(-1);
+                saveManager.Save();
             }
         }
     }
 
     public void InsertLoofa()
     {
-        if (reticleBehaviour.getTransform() == null)
+        RaycastHit hit = TestCheck();
+
+        // Check if we hit something and get the transform
+        if (hit.transform != null && hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
         {
-            Debug.Log("You are too far from the soil to insert plant");
-        }
-        else
-        {
-            if (reticleBehaviour.getTransform().TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
+            if (player.GetLoofaCrop() >= 1)
             {
-                if (player.GetLoofaCrop() >= 1)
-                {
-                    plotLogic.InsertPlant(loofaAsset, reticleBehaviour.transform.position);
-                    player.SetLoofaCrop(-1);
-                    saveManager.Save();
-                }
+                plotLogic.InsertPlant(loofaAsset, hit.point); // Use hit.point for exact position
+                player.SetLoofaCrop(-1);
+                saveManager.Save();
+            }
+        }
+    }
+
+    public void InsertEggplant()
+    {
+        RaycastHit hit = TestCheck();
+
+        // Check if we hit something and get the transform
+        if (hit.transform != null && hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
+        {
+            if (player.GetEggplantCrop() >= 1)
+            {
+                plotLogic.InsertPlant(eggplantAsset, hit.point); // Use hit.point for exact position
+                player.SetEggplantCrop(-1);
+                saveManager.Save();
             }
         }
     }
@@ -124,7 +140,7 @@ public class GardenUIBehaviourScript : MonoBehaviour
     }
 
 
-    public void UpdateItem(Transform item)
+    public virtual void UpdateItem(Transform item)
     {
         if(item.TryGetComponent<WaterLogic>(out WaterLogic water))
         {
