@@ -28,3 +28,20 @@
     background-color: rgba(0, 0, 0, 0);
     flex-grow: 0;
 }
+
+.title {
+    -unity-background-scale-mode: scale-to-fit;
+    background-image: url("project://database/Assets/Sprites/Shop/seeds%20title.png?fileID=21300000&guid=7bcbd7b3a8dcea84c9042635df684050&type=3#seeds title");
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 125%;
+    align-self: center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}

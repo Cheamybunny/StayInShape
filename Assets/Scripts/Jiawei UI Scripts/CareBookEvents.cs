@@ -23,7 +23,7 @@ public class CareBookEvents : MonoBehaviour
 
     private Sprite spriteToUse;
     public Sprite chilliSprite;
-    public Sprite luffaSprite;
+    public Sprite loofaSprite;
     public Sprite calamansiSprite;
     public Sprite sweetPotatoSprite;
     public Sprite eggplantSprite;
@@ -40,8 +40,8 @@ public class CareBookEvents : MonoBehaviour
         button2 = document.rootVisualElement.Q("ChilliButton") as Button;
         button2.RegisterCallback<ClickEvent>(OnChilliClick);
 
-        button3 = document.rootVisualElement.Q("LuffaButton") as Button;
-        button3.RegisterCallback<ClickEvent>(OnLuffaClick);
+        button3 = document.rootVisualElement.Q("LoofaButton") as Button;
+        button3.RegisterCallback<ClickEvent>(OnLoofaClick);
 
         button4 = document.rootVisualElement.Q("CalamansiButton") as Button;
         button4.RegisterCallback<ClickEvent>(OnCalamansiClick);
@@ -67,7 +67,7 @@ public class CareBookEvents : MonoBehaviour
     {
         button1.UnregisterCallback<ClickEvent>(OnReturnClick);
         button2.UnregisterCallback<ClickEvent>(OnChilliClick);
-        button3.UnregisterCallback<ClickEvent>(OnLuffaClick);
+        button3.UnregisterCallback<ClickEvent>(OnLoofaClick);
         button4.UnregisterCallback<ClickEvent>(OnCalamansiClick);
         button5.UnregisterCallback<ClickEvent>(OnEggplantClick);
         button6.UnregisterCallback<ClickEvent>(OnSweetPotatoClick);
@@ -93,11 +93,11 @@ public class CareBookEvents : MonoBehaviour
         ChangeSceneWithSprite("PlantInstructionsScene", chilliSprite);
     }
 
-    private void OnLuffaClick(ClickEvent evt)
+    private void OnLoofaClick(ClickEvent evt)
     {
-        Debug.Log("You pressed the Luffa Button");
+        Debug.Log("You pressed the Loofa Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", luffaSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", loofaSprite);
     }
 
     private void OnCalamansiClick(ClickEvent evt)
