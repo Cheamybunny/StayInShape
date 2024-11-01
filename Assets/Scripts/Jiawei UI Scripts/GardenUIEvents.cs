@@ -15,6 +15,7 @@ public class GardenUIEvents : MonoBehaviour
 
     private IntegerField fertiliserValue;
     private IntegerField waterValue;
+    private IntegerField levelValue;
 
     private VisualElement resourceTracker;
     private VisualElement pickedItem;
@@ -59,12 +60,13 @@ public class GardenUIEvents : MonoBehaviour
 
         fertiliserValue = _document.rootVisualElement.Q("fertiliserValue") as IntegerField;
         waterValue = _document.rootVisualElement.Q("waterValue") as IntegerField;
+        levelValue = _document.rootVisualElement.Q("levelValue") as IntegerField;
 
 
         pickedItem = _document.rootVisualElement.Q("PickedItem") as VisualElement;
 
-        //resourceTracker = _document.rootVisualElement.Q("ResourceTracker") as VisualElement;
-        //resourceTracker.RegisterCallback<ClickEvent>(OnResourceTrackerClick);
+        resourceTracker = _document.rootVisualElement.Q("ResourceTracker") as VisualElement;
+        resourceTracker.RegisterCallback<ClickEvent>(OnResourceTrackerClick);
 
         popUp = _document.rootVisualElement.Q("PopUp") as VisualElement;
         popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
@@ -84,7 +86,7 @@ public class GardenUIEvents : MonoBehaviour
         _button2.UnregisterCallback<ClickEvent>(OnTakePhotoClick);
         _button3.UnregisterCallback<ClickEvent>(OnCareBookClick);
         _button4.UnregisterCallback<ClickEvent>(OnShopClick);
-        //resourceTracker.UnregisterCallback<ClickEvent>(OnResourceTrackerClick);
+        resourceTracker.UnregisterCallback<ClickEvent>(OnResourceTrackerClick);
         popUp.UnregisterCallback<ClickEvent>(OnPopUpClick);
 
         for (int i = 0; i < _menuButtons.Count; i++)
@@ -202,11 +204,11 @@ public class GardenUIEvents : MonoBehaviour
         SceneManager.LoadScene("ShopScene");
     }
 
-    /**
+    
     private void OnResourceTrackerClick(ClickEvent evt)
     {
-         Debug.Log("You pressed Resource Tracker");
-
+        Debug.Log("You pressed Resource Tracker");
+        /**
         if (isOriginal)
         {
             ChangeSprite(newSprite, 86f, 46f);
@@ -215,8 +217,10 @@ public class GardenUIEvents : MonoBehaviour
         }
 
         isOriginal = !isOriginal;
+        **/
+        SceneManager.LoadScene("ResourceCollectionSceneJia");
     }
-    **/
+    
 
      private void ChangeSprite(Sprite sprite, float widthPercent, float heightPercent)
     {
@@ -257,6 +261,11 @@ public class GardenUIEvents : MonoBehaviour
     public void setFertiliserText(int value)
     {
         fertiliserValue.value = value;
+    }
+
+    public void setCurrentLevel(int value)
+    {
+        levelValue.value = value;
     }
     private void OnAllButtonsClick(ClickEvent evt)
     {
