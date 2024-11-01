@@ -6,15 +6,15 @@ public class InvaderLogic : MonoBehaviour
     public float moveSpeed;
     private bool isChasedAway;
     public static float interval = 0.3f;
-    private static float SMALL_CONSTANT = 0.3f;
+    private static float SMALL_CONSTANT = 0.025f;
     private ChickenInvaderManager manager;
     private Transform goal;
 
     public void Move(Vector3 direction, float scale) // Should be called per frame
     {
         // Ensure that chicken cannot "go" into the ground
-        direction = new Vector3(direction.x, 0, direction.z).normalized;
-        direction *= moveSpeed * Time.deltaTime * SMALL_CONSTANT * scale;
+        direction = new Vector3(direction.x, 1, direction.z).normalized;
+        direction *= moveSpeed * SMALL_CONSTANT * scale;
         transform.position += direction;
     }
 
@@ -26,7 +26,8 @@ public class InvaderLogic : MonoBehaviour
         manager = man;
         while (!isChasedAway && !manager.isGameEnded)
         {
-            MoveTo(moveSpeed/10);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * SMALL_CONSTANT); // My "Move" method doesn't work smoothly with the LookAt method :(
+            transform.LookAt(target);
             yield return new WaitForSeconds(interval);
         }
     }
@@ -36,12 +37,5 @@ public class InvaderLogic : MonoBehaviour
         //Vector3 heightlessPosition = new Vector3(target.position.x, 0, target.position.z);
         Vector3 direction = transform.position - goal.position;
         Move(direction, 2 * moveSpeed);
-    }
-
-    public void MoveTo(float speed)
-    {
-        //Vector3 heightlessPosition = new Vector3(target.position.x, 0, target.position.z);
-        Vector3 direction = goal.position - transform.position;
-        Move(direction, speed);
     }
 }

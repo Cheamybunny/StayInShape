@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
@@ -152,7 +151,10 @@ public class ChickenInvaderManager : MonoBehaviour
     {
         for (int i = 0; i < nChickens; i++) 
         {
-            SpawnInvader(target, ground, CalculateSpawnPosition(spawnRange));
+            if (!isGameEnded)
+            {
+                SpawnInvader(target, ground, CalculateSpawnPosition(spawnRange));
+            }
             yield return new WaitForSeconds(interval);
         }
     }

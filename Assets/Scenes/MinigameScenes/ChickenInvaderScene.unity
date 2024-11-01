@@ -1315,8 +1315,8 @@ MonoBehaviour:
   timeLeft: 0
   isGameEnded: 0
   reward: 5
-  nChickens: 5
-  chickenInterval: 5
+  nChickens: 10
+  chickenInterval: 3
 --- !u!1 &1908382382
 GameObject:
   m_ObjectHideFlags: 0
