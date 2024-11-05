@@ -47,10 +47,8 @@ public class GardenUIEvents : MonoBehaviour
         _button1 = _document.rootVisualElement.Q("StepsButton") as Button;
         _button1.RegisterCallback<ClickEvent>(OnStepsButtonClick);
 
-
         _button2 = _document.rootVisualElement.Q("TakePhotoButton") as Button;
         _button2.RegisterCallback<ClickEvent>(OnTakePhotoClick);
-
         
         _button3 = _document.rootVisualElement.Q("CareBookButton") as Button;
         _button3.RegisterCallback<ClickEvent>(OnCareBookClick);
@@ -101,6 +99,7 @@ public class GardenUIEvents : MonoBehaviour
 
         SceneManager.LoadScene("MyStepsScene");
     }
+
     public void UpdatePickedItem(int item)
     {
         if(item == 1)
@@ -188,7 +187,7 @@ public class GardenUIEvents : MonoBehaviour
         AndroidJavaClass classUri = new AndroidJavaClass("android.net.Uri");
         AndroidJavaObject objIntent = new AndroidJavaObject("android.content.Intent", new object[2] { "android.intent.action.MEDIA_MOUNTED", classUri.CallStatic<AndroidJavaObject>("parse", "file://" + desiredSSLocation) });
         objActivity.Call("sendBroadcast", objIntent);
-        }
+    }
 
     private void OnCareBookClick(ClickEvent evt)
     {
@@ -267,6 +266,7 @@ public class GardenUIEvents : MonoBehaviour
     {
         levelValue.value = value;
     }
+    
     private void OnAllButtonsClick(ClickEvent evt)
     {
         _audioSource.Play();
