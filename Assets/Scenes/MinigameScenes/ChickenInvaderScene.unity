@@ -1201,7 +1201,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.642
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1299,8 +1299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerUI: {fileID: 906141184}
   instructionsUI: {fileID: 587193349}
-  chickenClip: {fileID: 0}
   winGameClip: {fileID: 8300000, guid: 90b3e998d89cfeb4788dfed6b5b34110, type: 3}
+  loseGameClip: {fileID: 8300000, guid: 4d52d5db204793446a3da79c519af914, type: 3}
   player: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
   saveManager: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
   trackedImageManager: {fileID: 2512387470422636670}

@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class InvaderLogic : MonoBehaviour
 {
+    [SerializeField] AudioSource chickenSound;
     public float moveSpeed;
     private bool isChasedAway;
-    public static float interval = 0.3f;
+    public static float interval = 0.5f;
     private static float SMALL_CONSTANT = 0.025f;
     private ChickenInvaderManager manager;
     private Transform goal;
@@ -28,6 +29,7 @@ public class InvaderLogic : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * SMALL_CONSTANT); // My "Move" method doesn't work smoothly with the LookAt method :(
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z)); // Constrain Y-Axis
+            chickenSound.Play();
             yield return new WaitForSeconds(interval);
         }
     }

@@ -9,8 +9,8 @@ public class ChickenInvaderManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerUI;
     [SerializeField] TextMeshProUGUI instructionsUI;
-    [SerializeField] AudioClip chickenClip;
     [SerializeField] AudioClip winGameClip;
+    [SerializeField] AudioClip loseGameClip;
     [SerializeField] PlayerDataSO player;
     [SerializeField] SaveManagerSO saveManager;
     [SerializeField] ARTrackedImageManager trackedImageManager;
@@ -66,7 +66,6 @@ public class ChickenInvaderManager : MonoBehaviour
 
     private void RewardPlayer()
     {
-        PlaySound(winGameClip);
         player.SetChickenInvaderTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
@@ -78,6 +77,7 @@ public class ChickenInvaderManager : MonoBehaviour
         StopCoroutine(countdownCoroutine);
         instructionsUI.text = "Hurray! You protected all your seeds. You win!";
         timerUI.text = String.Format("You have earned {0} fertilizers and water!\n Next time to play is {1} minutes later", reward, intervalToPlayGame);
+        PlaySound(winGameClip);
         CompleteGame();
     }
 
@@ -88,6 +88,7 @@ public class ChickenInvaderManager : MonoBehaviour
         RewardPlayer();
         instructionsUI.text = "Oh No! A chicken has reached your seeds. You lost.";
         timerUI.text = String.Format("Next time to play is {0} minutes later", intervalToPlayGame);
+        PlaySound(loseGameClip);
         CompleteGame();
     }
 
