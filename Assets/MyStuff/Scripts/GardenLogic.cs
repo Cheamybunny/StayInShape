@@ -8,7 +8,8 @@ using UnityEngine.XR.ARFoundation;
 public class GardenLogic : MonoBehaviour
 {
     private ARTrackedImageManager imageManager;
-    public Vector3 scaleFactor = new Vector3(0.1f, 0.1f, 0.1f);
+
+    private List<DecoData> decoDataList;
 
     private void Awake()
     {
@@ -16,6 +17,38 @@ public class GardenLogic : MonoBehaviour
         imageManager = FindObjectOfType<ARTrackedImageManager>();
     }
 
+    private void Start()
+    {
+        Debug.Log("Gameobject position " + gameObject.transform.position);
+        Debug.Log("Camera position " + Camera.main.transform.position);
+        Debug.Log("Garden scale " + gameObject.transform.localScale);
+        transform.localPosition +=  new Vector3(0, -0.5f, 0);
+        imageManager.enabled = false;
+        
+    }
+
+    private void LoadDecos()
+    {
+        decoDataList = DecoManager.instance.GetDecorations();
+        foreach(var decoData in decoDataList)
+        {
+            GameObject spawnedDeco;
+            if(decoData.decoType == 1)
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetFlowerPrefab());
+            }
+            else
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetFlowerPrefab()); //yardstick for when more decos are added
+            }
+            spawnedDeco.transform.SetParent(transform);
+            spawnedDeco.transform.localPosition = decoData.position;
+            spawnedDeco.transform.rotation = transform.rotation;
+            spawnedDeco.transform.localScale = new Vector3(2f, 2f, 2f);
+        }
+    }
+
+    /**
     private void OnEnable()
     {
         if (imageManager != null)
@@ -52,13 +85,25 @@ public class GardenLogic : MonoBehaviour
             transform.rotation = trackedImage.transform.rotation;
         }
     }
+    **/
     private void Update()
     {
 
     }
 
+    public void InsertDecoration(GameObject decoPrefab, Vector3 position)
+    {
+        //get relative position of plant with soil
+        Debug.Log("Insert Here");
+        GameObject deco = Instantiate(decoPrefab);
+        deco.transform.SetParent(transform);
+        deco.transform.localPosition = transform.InverseTransformPoint(position);
+        deco.transform.rotation = transform.rotation;
+        deco.transform.localScale = new Vector3(2f, 2f, 2f);
+    }
+
     void OnDestroy()
     {
-        
+        imageManager.enabled = true;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GardenUIBehaviour2 : MonoBehaviour
@@ -7,6 +8,8 @@ public class GardenUIBehaviour2 : MonoBehaviour
     [SerializeField] private PlayerDataSO player;
     [SerializeField] private SaveManagerSO saveManager;
     [SerializeField] private PlantManager plantManager;
+    [SerializeField] private DecoManager decoManager;
+    [SerializeField] private AudioSource plantSound;
 
     public const int WATER = 1;
     public const int FERTILIZER = 2;
@@ -17,6 +20,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
     public const int SWEETPOTATO = 7;
     public const int PAPAYA = 8;
     public const int CALAMANSI = 9;
+    public const int FLOWER = 10;
     public int rayDistance = 5;
     private Component equippedItem;
     public GardenUIEvents gardenUIEvents;
@@ -29,6 +33,11 @@ public class GardenUIBehaviour2 : MonoBehaviour
     private void Awake()
     {
         saveManager.Load();
+        if(player.GetLastHeldItem() == 10)
+        {
+            Debug.Log("123 Player is holding decoration!");
+            UpdateItem(decoManager.GetFlowerPrefab().transform);
+        }
     }
 
     // Update is called once per frame
@@ -38,26 +47,18 @@ public class GardenUIBehaviour2 : MonoBehaviour
         gardenUIEvents.setWaterText(player.GetWater());
         gardenUIEvents.setCurrentLevel((int) Mathf.Floor(player.GetExp() / 1000));
     }
-    public RaycastHit TestCheck()
-    {
-        Vector3 screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
-        Ray crosshairRay = Camera.main.ScreenPointToRay(screenCenter);
-        RaycastHit crosshairHit;
-
-        // Perform the raycast and check if it hit something
-        if (Physics.Raycast(crosshairRay, out crosshairHit, rayDistance))
-        {
-            return crosshairHit; // Return the hit information
-        }
-        return default(RaycastHit);
-    }
     public void InsertPlant(Vector3 tapPosition, PlotLogic plotLogic)
     {
         if (player.GetChilliCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getPlantPrefab(), tapPosition); // Use hit.point for exact position
             player.SetChilliCrop(-1);
             saveManager.Save();
+        }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Chilli Stock.\nGo to the shop to buy more!");
         }
     }
 
@@ -65,9 +66,14 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         if (player.GetLoofaCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getLoofaPrefab(), tapPosition); // Use hit.point for exact position
             player.SetLoofaCrop(-1);
             saveManager.Save();
+        }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Loofa Stock.\nGo to the shop to buy more!");
         }
     }
 
@@ -75,9 +81,14 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         if (player.GetEggplantCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getEggplantPrefab(), tapPosition); // Use hit.point for exact position
             player.SetEggplantCrop(-1);
             saveManager.Save();
+        }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Eggplant Stock.\nGo to the shop to buy more!");
         }
     }
 
@@ -85,9 +96,14 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         if (player.GetSweetPotatoCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getSweetPotatoPrefab(), tapPosition); // Use hit.point for exact position
             player.SetSweetPotatoCrop(-1);
             saveManager.Save();
+        }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Sweet Potato Stock.\nGo to the shop to buy more!");
         }
     }
 
@@ -95,9 +111,14 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         if (player.GetPapayaCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getPapayaPrefab(), tapPosition); // Use hit.point for exact position
             player.SetPapayaCrop(-1);
             saveManager.Save();
+        }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Papaya Stock.\nGo to the shop to buy more!");
         }
     }
 
@@ -105,14 +126,26 @@ public class GardenUIBehaviour2 : MonoBehaviour
     {
         if (player.GetKalamansiCrop() >= 1)
         {
+            plantSound.Play();
             plotLogic.InsertPlant(plantManager.getKalamansiPrefab(), tapPosition); // Use hit.point for exact position
             player.SetKalamansiCrop(-1);
             saveManager.Save();
         }
+        else
+        {
+            ThrowError("Oops! Unfortunately, you do not \nhave any Calamansi Stock.\nGo to the shop to buy more!");
+        }
     }
     public void UpdateItem(Transform item)
     {
-        if (item.TryGetComponent<WaterLogic>(out WaterLogic water))
+        Debug.Log("123 " + item.IsUnityNull());
+        if (item.IsUnityNull())
+        {
+            Debug.Log("123 UNEQUIPPED!");
+            gardenUIEvents.UpdatePickedItem(0);
+            equippedItem = null;
+        }
+        else if (item.TryGetComponent<WaterLogic>(out WaterLogic water))
         {
             gardenUIEvents.UpdatePickedItem(WATER);
             equippedItem = water;
@@ -157,13 +190,18 @@ public class GardenUIBehaviour2 : MonoBehaviour
             gardenUIEvents.UpdatePickedItem(CALAMANSI);
             equippedItem = calamansiBag;
         }
-        else
+        else if (item.TryGetComponent<FlowerLogic>(out FlowerLogic flowerLogic))
         {
-            gardenUIEvents.UpdatePickedItem(0);
-            equippedItem = null;
+            Debug.Log("123 Got component Reached here");
+            gardenUIEvents.UpdatePickedItem(FLOWER);
+            equippedItem = flowerLogic;
         }
     }
 
+    public void ThrowError(string message)
+    {
+        gardenUIEvents.ThrowError(message);
+    }
     public Component getEquipped()
     {
         return equippedItem;

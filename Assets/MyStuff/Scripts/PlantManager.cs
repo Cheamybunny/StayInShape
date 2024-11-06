@@ -84,7 +84,7 @@ public class PlantManager : MonoBehaviour
 
     public int GetSweetPotatoCrop()
     {
-        return player.GetEggplantCrop();
+        return player.GetSweetPotatoCrop();
     }
 
     public int GetPapayaCrop()

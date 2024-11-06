@@ -60,7 +60,7 @@ public class ResourceCollectionEvents : MonoBehaviour
     {
         Debug.Log("You pressed the Home Button");
 
-        SceneManager.LoadScene("GardeneSceneJia");
+        SceneManager.LoadScene("GardenSceneJia");
     }
 
     private void OnSnapPlayClick(ClickEvent evt)

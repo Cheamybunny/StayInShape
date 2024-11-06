@@ -12,10 +12,13 @@ public class GardenUIEvents : MonoBehaviour
     private Button _button2;
     private Button _button3;
     private Button _button4;
+    private Button closeErrorButton;
 
     private IntegerField fertiliserValue;
     private IntegerField waterValue;
     private IntegerField levelValue;
+
+    private TextField errorMessage;
 
     private VisualElement resourceTracker;
     private VisualElement pickedItem;
@@ -30,7 +33,9 @@ public class GardenUIEvents : MonoBehaviour
     public Sprite papayaSprite;
     public Sprite kalamansiSprite;
     public Sprite sweetPotatoSprite;
+    public Sprite flowerSprite;
     private bool isOriginal = true;
+    private int pickedItemType;
 
     private VisualElement popUp;
     private bool isActive = true;
@@ -58,9 +63,15 @@ public class GardenUIEvents : MonoBehaviour
         _button4 = _document.rootVisualElement.Q("ShopButton") as Button;
         _button4.RegisterCallback<ClickEvent>(OnShopClick);
 
+        closeErrorButton = _document.rootVisualElement.Q("CloseErrorMessage") as Button;
+        closeErrorButton.RegisterCallback<ClickEvent>(OnCloseErrorClick);
+        closeErrorButton.style.display = DisplayStyle.None;
+
         fertiliserValue = _document.rootVisualElement.Q("fertiliserValue") as IntegerField;
         waterValue = _document.rootVisualElement.Q("waterValue") as IntegerField;
         levelValue = _document.rootVisualElement.Q("levelValue") as IntegerField;
+        errorMessage = _document.rootVisualElement.Q("ErrorMessage") as TextField;
+        errorMessage.style.display = DisplayStyle.None;
 
 
         pickedItem = _document.rootVisualElement.Q("PickedItem") as VisualElement;
@@ -70,7 +81,7 @@ public class GardenUIEvents : MonoBehaviour
 
         popUp = _document.rootVisualElement.Q("PopUp") as VisualElement;
         popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
-        StartCoroutine(HidePopUpAfterDelay(5f));
+        StartCoroutine(HidePopUpAfterDelay(3f));
 
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
 
@@ -86,6 +97,7 @@ public class GardenUIEvents : MonoBehaviour
         _button2.UnregisterCallback<ClickEvent>(OnTakePhotoClick);
         _button3.UnregisterCallback<ClickEvent>(OnCareBookClick);
         _button4.UnregisterCallback<ClickEvent>(OnShopClick);
+        closeErrorButton.UnregisterCallback<ClickEvent>(OnCloseErrorClick);
         resourceTracker.UnregisterCallback<ClickEvent>(OnResourceTrackerClick);
         popUp.UnregisterCallback<ClickEvent>(OnPopUpClick);
 
@@ -93,6 +105,20 @@ public class GardenUIEvents : MonoBehaviour
         {
             _menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+    }
+
+    private void OnCloseErrorClick(ClickEvent evt)
+    {
+        closeErrorButton.style.display = DisplayStyle.None;
+        errorMessage.style.display = DisplayStyle.None;
+
+    }
+
+    public void ThrowError(string errorMessageText)
+    {
+        closeErrorButton.style.display = DisplayStyle.Flex;
+        errorMessage.value = errorMessageText;
+        errorMessage.style.display = DisplayStyle.Flex;
     }
 
     private void OnStepsButtonClick(ClickEvent evt)
@@ -103,22 +129,28 @@ public class GardenUIEvents : MonoBehaviour
     }
     public void UpdatePickedItem(int item)
     {
-        if(item == 1)
+        pickedItemType = item;
+        if (item == 0)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(originalSprite);
+        }
+
+        if (item == 1)
         {
             Debug.Log("ITS WATER CUHHH");
             pickedItem.style.backgroundImage = new StyleBackground(waterSprite);
         }
-        else if(item == 2)
+        else if (item == 2)
         {
             Debug.Log("FAERTILISERRR");
             pickedItem.style.backgroundImage = new StyleBackground(fertilizerSprite);
         }
-        else if(item == 3)
+        else if (item == 3)
         {
             Debug.Log("TROOOOWELLLL");
             pickedItem.style.backgroundImage = new StyleBackground(trowelSprite);
         }
-        else if(item == 4)
+        else if (item == 4)
         {
             Debug.Log("CHILLIIIIIIIII");
             pickedItem.style.backgroundImage = new StyleBackground(chilliSprite);
@@ -128,10 +160,10 @@ public class GardenUIEvents : MonoBehaviour
             Debug.Log("EGGPLANT");
             pickedItem.style.backgroundImage = new StyleBackground(eggplantSprite);
         }
-        else if(item == 6)
+        else if (item == 6)
         {
             Debug.Log("LOOOOOFAAAA");
-            pickedItem.style.backgroundImage= new StyleBackground(loofaSprite);
+            pickedItem.style.backgroundImage = new StyleBackground(loofaSprite);
         }
         else if (item == 7)
         {
@@ -147,6 +179,10 @@ public class GardenUIEvents : MonoBehaviour
         {
             Debug.Log("CALAMANSHEEEEEESH");
             pickedItem.style.backgroundImage = new StyleBackground(kalamansiSprite);
+        }
+        else if (item == 10)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(flowerSprite);
         }
     }
 
@@ -266,6 +302,11 @@ public class GardenUIEvents : MonoBehaviour
     public void setCurrentLevel(int value)
     {
         levelValue.value = value;
+    }
+
+    public int GetPickedItemType()
+    {
+        return pickedItemType;
     }
     private void OnAllButtonsClick(ClickEvent evt)
     {
