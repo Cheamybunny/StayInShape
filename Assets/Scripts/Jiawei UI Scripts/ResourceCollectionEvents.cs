@@ -67,7 +67,7 @@ public class ResourceCollectionEvents : MonoBehaviour
     {
         Debug.Log("You pressed the Snap Play Button");
 
-        SceneManager.LoadScene("SnapSceneJia");
+        SceneManager.LoadScene("SnapScene");
     }
 
     private void OnMatchingPlayClick(ClickEvent evt)
