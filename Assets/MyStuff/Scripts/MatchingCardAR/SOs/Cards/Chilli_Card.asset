@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Chilli_Card
   m_EditorClassIdentifier: 
   name: Chilli Plant
-  description: Hot and spicy!
+  descriptions:
+  - Hot and spicy
+  - Has a chemical for prickly heat powder
+  - Red and from the Nightshade family
   id: 0
   col: {r: 1, g: 0, b: 0, a: 1}
+  img: {fileID: 21300000, guid: 9b0c5e01e6c93a64dbfbf9ac8b4577ac, type: 3}

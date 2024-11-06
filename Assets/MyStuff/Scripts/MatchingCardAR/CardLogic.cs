@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardLogic : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class CardLogic : MonoBehaviour
     public bool isImage = false;
     public string description;
 
-    [SerializeField] TextMeshProUGUI cardTextFront;
-    [SerializeField] TextMeshProUGUI cardTextBack;
+    [SerializeField] GameObject cardTextFront;
+    [SerializeField] GameObject cardTextBack;
+    [SerializeField] GameObject imgFront;
+    [SerializeField] GameObject imgBack;
     private Transform highlight;
 
     public void SetCard(MatchingCardSO cardData, bool isImage)
@@ -22,22 +25,40 @@ public class CardLogic : MonoBehaviour
         this.plantName = cardData.name;
         this.id = cardData.id;
         this.isImage = isImage;
-        this.description = cardData.description;
+        this.description = cardData.getText();
         if (isImage)
         {
-            cardTextFront.text = cardData.name;
-            cardTextBack.text = cardData.name;
-            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-            if (meshRenderer != null && meshRenderer.material != null)
-            {
-                Debug.Log("Set");
-                meshRenderer.material.color = cardData.col;
-            }
+            showImage(cardData);
         } else
         {
-            cardTextFront.text = cardData.description;
-            cardTextBack.text = cardData.description;
+            showText(cardData);
         }
+    }
+
+    private void showImage(MatchingCardSO cardData)
+    {
+        imgFront.SetActive(true);
+        imgBack.SetActive(true);
+        cardTextFront.SetActive(false);
+        cardTextBack.SetActive(false);
+        imgFront.GetComponent<Image>().sprite = cardData.img;
+        imgBack.GetComponent<Image>().sprite = cardData.img;
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer != null && meshRenderer.material != null)
+        {
+            Debug.Log("Set");
+            meshRenderer.material.color = cardData.col;
+        }
+    }
+
+    private void showText(MatchingCardSO cardData)
+    {
+        imgFront.SetActive(false);
+        imgBack.SetActive(false);
+        cardTextFront.SetActive(true);
+        cardTextBack.SetActive(true);
+        cardTextFront.GetComponent<TextMeshProUGUI>().text = description;
+        cardTextBack.GetComponent<TextMeshProUGUI>().text = description;
     }
 
     public void Select()

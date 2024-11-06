@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Papaya_Card
   m_EditorClassIdentifier: 
   name: Papaya
-  description: Grows on a tree
+  descriptions:
+  - Beats the tropical heat
+  - Orange and from the Caricaceae family
+  - Unripe me has a latex that tenderises meat
   id: 3
   col: {r: 1, g: 0.4890508, b: 0, a: 1}
+  img: {fileID: 21300000, guid: 27c653d30efa27f4ca8157bec4617202, type: 3}
