@@ -13,6 +13,7 @@ public class GardenUIEvents : MonoBehaviour
     private Button _button3;
     private Button _button4;
 
+    public static Texture2D capturedScreenshot;
     private IntegerField fertiliserValue;
     private IntegerField waterValue;
     private IntegerField levelValue;
@@ -158,35 +159,16 @@ public class GardenUIEvents : MonoBehaviour
 
     private IEnumerator TakeScreenshot()
     {
-        // Wait until the end of the frame to capture
         yield return new WaitForEndOfFrame();
 
-        // Define the file path and name
-        string fileName = "Screenshot_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
-        string defaultLocation = Application.persistentDataPath + "/" + fileName;
-        string desiredFolder = "/storage/emulated/0/DCIM/Screenshots/";
-        string desiredSSLocation = desiredFolder + fileName;
+        int width = Screen.width;
+        int height = Screen.height;
+        capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+        capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        capturedScreenshot.Apply();
 
-        if (!System.IO.Directory.Exists(desiredFolder))
-        {
-            System.IO.Directory.CreateDirectory(desiredFolder);
-        }
-
-        // Capture the screenshot
-        ScreenCapture.CaptureScreenshot(fileName);
-
-        // Wait for the file to be saved
-        yield return new WaitForSeconds(1);
-
-        // Move the file to the gallery
-        System.IO.File.Move(defaultLocation, desiredSSLocation);
-
-        // Refresh the Android gallery to show the new screenshot
-        AndroidJavaClass classPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject objActivity = classPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaClass classUri = new AndroidJavaClass("android.net.Uri");
-        AndroidJavaObject objIntent = new AndroidJavaObject("android.content.Intent", new object[2] { "android.intent.action.MEDIA_MOUNTED", classUri.CallStatic<AndroidJavaObject>("parse", "file://" + desiredSSLocation) });
-        objActivity.Call("sendBroadcast", objIntent);
+        // Load the scene where the screenshot will be displayed
+        SceneManager.LoadScene("ScreenshotDisplayScene");
     }
 
     private void OnCareBookClick(ClickEvent evt)
