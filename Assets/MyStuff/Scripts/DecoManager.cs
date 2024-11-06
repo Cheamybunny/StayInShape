@@ -47,6 +47,7 @@ public class DecoManager : MonoBehaviour
     {
         player.InsertDecoration(decoData);
         saveManager.Save();
+        Debug.Log("123 Deco saved");
     }
 
     public void SetEquipped(int decoType)

@@ -169,6 +169,10 @@ public class InteractionBehaviour : MonoBehaviour
                                     gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
+                            else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + plant.getGrowthRate() +"\nCurrent Wither amount: " + plant.getWither());
+                            }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
                                 plant.DestroyPlant();
@@ -505,7 +509,8 @@ public class InteractionBehaviour : MonoBehaviour
                     //if not plant, then check if player trying to equip fertilizer or water OR trowel
                     if ((hit.transform.TryGetComponent<WaterLogic>(out WaterLogic water) || 
                         (hit.transform.TryGetComponent<FertiliserLogic>(out FertiliserLogic fertiliser)) ||
-                        hit.transform.TryGetComponent<TrowelLogic>(out TrowelLogic trowel)))
+                        hit.transform.TryGetComponent<TrowelLogic>(out TrowelLogic trowel) ||
+                        hit.transform.TryGetComponent<MagnifierLogic>(out MagnifierLogic magnifier)))
                     {
                         if(player.GetLastHeldItem() != 10)
                         {

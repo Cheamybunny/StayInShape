@@ -24,6 +24,7 @@ public class GardenUIEvents : MonoBehaviour
     private VisualElement pickedItem;
     public Sprite originalSprite;
     public Sprite newSprite;
+    public Sprite magnifierSprite;
     public Sprite waterSprite;
     public Sprite fertilizerSprite;
     public Sprite trowelSprite;
@@ -134,8 +135,11 @@ public class GardenUIEvents : MonoBehaviour
         {
             pickedItem.style.backgroundImage = new StyleBackground(originalSprite);
         }
-
-        if (item == 1)
+        else if(item == -1)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(magnifierSprite);
+        }
+        else if (item == 1)
         {
             Debug.Log("ITS WATER CUHHH");
             pickedItem.style.backgroundImage = new StyleBackground(waterSprite);

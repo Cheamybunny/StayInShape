@@ -11,6 +11,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
     [SerializeField] private DecoManager decoManager;
     [SerializeField] private AudioSource plantSound;
 
+    public const int MAGNIFY = -1;
     public const int WATER = 1;
     public const int FERTILIZER = 2;
     public const int TROWEL = 3;
@@ -195,6 +196,11 @@ public class GardenUIBehaviour2 : MonoBehaviour
             Debug.Log("123 Got component Reached here");
             gardenUIEvents.UpdatePickedItem(FLOWER);
             equippedItem = flowerLogic;
+        }
+        else if (item.TryGetComponent<MagnifierLogic>(out MagnifierLogic magnifierLogic))
+        {
+            gardenUIEvents.UpdatePickedItem(MAGNIFY);
+            equippedItem = magnifierLogic;
         }
     }
 

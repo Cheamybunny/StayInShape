@@ -24,6 +24,7 @@ public class GardenLogic : MonoBehaviour
         Debug.Log("Garden scale " + gameObject.transform.localScale);
         transform.localPosition +=  new Vector3(0, -0.5f, 0);
         imageManager.enabled = false;
+        LoadDecos();
         
     }
 
@@ -44,7 +45,7 @@ public class GardenLogic : MonoBehaviour
             spawnedDeco.transform.SetParent(transform);
             spawnedDeco.transform.localPosition = decoData.position;
             spawnedDeco.transform.rotation = transform.rotation;
-            spawnedDeco.transform.localScale = new Vector3(2f, 2f, 2f);
+            spawnedDeco.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         }
     }
 
@@ -99,7 +100,7 @@ public class GardenLogic : MonoBehaviour
         deco.transform.SetParent(transform);
         deco.transform.localPosition = transform.InverseTransformPoint(position);
         deco.transform.rotation = transform.rotation;
-        deco.transform.localScale = new Vector3(2f, 2f, 2f);
+        deco.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }
 
     void OnDestroy()
