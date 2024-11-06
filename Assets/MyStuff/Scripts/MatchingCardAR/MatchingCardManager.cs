@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.UI;
-
 
 public class MatchingCardManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI status;
-    [SerializeField] TextMeshProUGUI instructions;
     [SerializeField] AudioClip selectClip;
     [SerializeField] AudioClip matchCorrectClip;
     [SerializeField] AudioClip matchWrongClip;
@@ -19,10 +17,17 @@ public class MatchingCardManager : MonoBehaviour
     [SerializeField] PlayerDataSO player;
     [SerializeField] SaveManagerSO saveManager;
     [SerializeField] GameObject cardPrefab;
-    [SerializeField] GameObject startButton;
-    [SerializeField] GameObject L_ui;
     [SerializeField] ARTrackedImageManager trackedImageManager;
+    [SerializeField] SceneChanger sceneChanger;
 
+    // Jiawei UI stuff
+    private UIDocument document;
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private VisualElement L;
+    private VisualElement popUp;
+    private bool isActive = true;
 
     public int timeToDisplayText = 3;
     public int intervalToPlayGame = 5;
@@ -37,23 +42,29 @@ public class MatchingCardManager : MonoBehaviour
     private Transform parentTransform;
     private MatchingCardsPrefab gamePrefab;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        document = GetComponent<UIDocument>();
+
+        button1 = document.rootVisualElement.Q("ExitButton") as Button;
+        button1.RegisterCallback<ClickEvent>(OnExitClick);
+
+        button2 = document.rootVisualElement.Q("CancelButton") as Button;
+        button2.RegisterCallback<ClickEvent>(OnCancelClick);
+
+        button3 = document.rootVisualElement.Q("StartButton") as Button;
+        button3.RegisterCallback<ClickEvent>(OnStartClick);
+        button3.style.display = DisplayStyle.None;
+
+        L = document.rootVisualElement.Q("L") as VisualElement;
+        L.style.display = DisplayStyle.None;
+
+        popUp = document.rootVisualElement.Q("PopUp") as VisualElement;
+        popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
+        StartCoroutine(HidePopUpAfterDelay(5f));
+
         currReward = 0;
-    }
-
-    private IEnumerator DisplayTextCoroutine(string message, float duration)
-    {
-        status.text = message;
-        yield return new WaitForSeconds(duration);
-        status.text = "";
-    }
-
-    private void DisplayText(string text)
-    {
-        StartCoroutine(DisplayTextCoroutine(text, timeToDisplayText));
     }
 
     private void RewardPlayer(int reward)
@@ -61,21 +72,21 @@ public class MatchingCardManager : MonoBehaviour
         PlaySound(winGameClip);
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
-        DisplayText(String.Format("You have earned {0} fertilizers and water!", 
-            reward));
+        // DisplayText(String.Format("You have earned {0} fertilizers and water!", 
+        //     reward));
     }
 
     private void AddReward(int add, string plantName) // TODO: Find a way to utilise currReward
     {
         currReward += add;
-        DisplayText(String.Format("You have matched a pair of {0} cards!", plantName));
+        // DisplayText(String.Format("You have matched a pair of {0} cards!", plantName));
     }
 
     private void CompleteGame()
     {
         RewardPlayer(reward);
         player.SetMatchingCardTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
-        instructions.text = "You have won the game. Tap on the back button to go to the home screen.\n Next time to play is " + player.GetMatchingCardTimer();
+        // instructions.text = "You have won the game. Tap on the back button to go to the home screen.\n Next time to play is " + player.GetMatchingCardTimer();
         saveManager.Save();
     }
 
@@ -91,32 +102,29 @@ public class MatchingCardManager : MonoBehaviour
         }
     }
 
-    private void SpawnStartButton()
-    {
-        startButton.SetActive(true);
-    }
-
     public void SetupGame(Transform pTransform, MatchingCardsPrefab callee)
     {
         gamePrefab = callee;
-        instructions.text = "Don't see anything? Try moving closer or further to the QR code.";
-        status.text = "To properly spawn AR, move your phone so that the blue and red lines fit inside the L on your screen.\nOnce ready, press START GAME.";
+
+        L.style.display = DisplayStyle.Flex;
+        if (isActive) {
+            popUp.style.display = DisplayStyle.None;
+            isActive = false;
+        }
+        button3.style.display = DisplayStyle.Flex;
+        // instructions.text = "Don't see anything? Try moving closer or further to the QR code.";
+        // status.text = "To properly spawn AR, move your phone so that the blue and red lines fit inside the L on your screen.\nOnce ready, press START GAME.";
         currReward = 0;
         nCardsLeft = nCards;
         parentTransform = pTransform;
-        L_ui.SetActive(true);
-        SpawnStartButton();
-        //Transform[] myCards = GetCards(pTransform, nCards);
-        //RandomiseCards(myCards, nCards);
-        //ArrangeCards(myCards, spawnRange, nCards);
     }
 
     public void StartGame()
     {
-        L_ui.SetActive(false);
-        status.text = "Look up, the cards are in front of you. Good Luck!";
-        instructions.text = "Match every card to another similar card!\r\nYou can select a card by tapping on them!";
-        startButton.SetActive(false);
+        L.style.display = DisplayStyle.None;
+        button3.style.display = DisplayStyle.None;
+        // status.text = "Look up, the cards are in front of you. Good Luck!";
+        // instructions.text = "Match every card to another similar card!\r\nYou can select a card by tapping on them!";
         trackedImageManager.enabled = false;
         SpawnCards();
         Transform[] myCards = GetCards(parentTransform, nCards);
@@ -175,12 +183,10 @@ public class MatchingCardManager : MonoBehaviour
             if (i % 2 == 0)
             {
                 x = Mathf.Cos(angleRadians) * spawnRange;
-                //z = Mathf.Sin(angleRadians) * spawnRange;
                 newSpawnPosition = new Vector3(i * spawnRange * 0.25f - 4, heightOfCards, z_offset);
             } else
             {
                 x = Mathf.Cos(angleRadians) * spawnRange;
-                //z = Mathf.Sin(angleRadians) * spawnRange;
                 newSpawnPosition = new Vector3((i-1) * spawnRange * 0.25f - 4, heightOfCards * 1.5f, z_offset);
             }
             spawnPositions[i] = newSpawnPosition;
@@ -213,7 +219,6 @@ public class MatchingCardManager : MonoBehaviour
         {
             card.localPosition = spawnPositions[i];
             card.transform.Rotate(0, 0, 0);
-            //yRotation -= rotateStep; // Trial and error Tested value
             i += 1;
         }
     }
@@ -261,13 +266,6 @@ public class MatchingCardManager : MonoBehaviour
         else if (selectedCard == null || card != selectedCard)
         {
             selectedCard = card;
-            if (selectedCard.isImage)
-            {
-                DisplayText("You have selected " + selectedCard.plantName);
-            } else
-            {
-                DisplayText("You have selected the trivia card: " + selectedCard.description);
-            }
             selectedCard.Select();
             PlaySound(selectClip);
         }
@@ -279,8 +277,48 @@ public class MatchingCardManager : MonoBehaviour
         {
             selectedCard.Deselect();
             selectedCard = null;
-            DisplayText("Unselected!");
             PlaySound(selectClip);
+        }
+    }
+
+    private void OnExitClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Exit Button");
+
+        sceneChanger.GoToScene("ResourceCollectionSceneJia");
+    }
+
+    private void OnCancelClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Cancel Button");
+
+        Unselect();
+    }
+
+    private void OnStartClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Start Button");
+
+        StartGame();
+    }
+
+    private void OnPopUpClick(ClickEvent evt)
+    {
+        if (isActive)
+        {
+            popUp.style.display = DisplayStyle.None;
+            isActive = false;
+        }
+    }
+
+    private IEnumerator HidePopUpAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (isActive)
+        {
+            popUp.style.display = DisplayStyle.None;
+            isActive = false;
         }
     }
 }
