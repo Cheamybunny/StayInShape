@@ -18,6 +18,9 @@ public class ShopUIEvents : MonoBehaviour
     private Button _button6;
     private Button _button7;
 
+    //decorations buttons
+    private Button flower1Button;
+
     private IntegerField chilliStock;
     private IntegerField eggplantStock;
     private IntegerField loofaStock;
@@ -63,6 +66,9 @@ public class ShopUIEvents : MonoBehaviour
         _button7 = _document.rootVisualElement.Q("PapayaButton") as Button;
         _button7.RegisterCallback<ClickEvent>(OnBuyPapaya);
 
+        flower1Button = _document.rootVisualElement.Q("Flower1Button") as Button;
+        flower1Button.RegisterCallback<ClickEvent>(OnBuyFlower1);
+
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
 
         for (int i = 0; i < _menuButtons.Count; i++)
@@ -74,10 +80,20 @@ public class ShopUIEvents : MonoBehaviour
     private void OnDisable()
     {
         _button1.UnregisterCallback<ClickEvent>(OnBackButtonClick);
+        flower1Button.UnregisterCallback<ClickEvent>(OnBuyFlower1);
 
         for (int i = 0; i < _menuButtons.Count; i++)
         {
             _menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
+        }
+    }
+
+    private void OnBuyFlower1(ClickEvent evt)
+    {
+        bool canBuyFlower1 = ShopManager.instance.CanBuyFlower1();
+        if (canBuyFlower1)
+        {
+            SceneManager.LoadScene("GardenSceneJia");
         }
     }
 

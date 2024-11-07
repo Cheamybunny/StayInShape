@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\mystuff\\scripts\\matchingcardar\\cardlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\matchingcardar\\cardlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\scripts\\scenechanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenechanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\scripts\\jiawei ui scripts\\resourcecollectionevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jiawei ui scripts\\resourcecollectionevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\scripts\\jiawei ui scripts\\gardenuievents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jiawei ui scripts\\gardenuievents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\assets\\mystuff\\scripts\\chickeninvaderar\\chickeninvadermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\chickeninvaderar\\chickeninvadermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\assets\\mystuff\\scripts\\chickeninvaderar\\invaderlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\chickeninvaderar\\invaderlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\assets\\mystuff\\scripts\\chickeninvaderar\\chickeninvadermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\chickeninvaderar\\chickeninvadermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\mystuff\\scripts\\matchingcardar\\cardlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\matchingcardar\\cardlogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\assets\\mystuff\\scripts\\matchingcardar\\matchingcardso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\matchingcardar\\matchingcardso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +38,103 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GardenUIEvents.cs",
+              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
+              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T02:07:56.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "SceneChanger.cs",
+              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\SceneChanger.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneChanger.cs",
+              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\SceneChanger.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SceneChanger.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T02:04:25.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MatchingCardSO.cs",
+              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\MatchingCardAR\\MatchingCardSO.cs",
+              "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\MatchingCardAR\\MatchingCardSO.cs",
+              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\MatchingCardAR\\MatchingCardSO.cs",
+              "RelativeToolTip": "Assets\\MyStuff\\Scripts\\MatchingCardAR\\MatchingCardSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-06T17:28:45.851Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "CardLogic.cs",
               "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\MatchingCardAR\\CardLogic.cs",
               "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\MatchingCardAR\\CardLogic.cs",
               "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\MatchingCardAR\\CardLogic.cs",
               "RelativeToolTip": "Assets\\MyStuff\\Scripts\\MatchingCardAR\\CardLogic.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAowD8AAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAIBZwCIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-01T09:54:09.701Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "InvaderLogic.cs",
               "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\InvaderLogic.cs",
               "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\InvaderLogic.cs",
               "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\InvaderLogic.cs",
               "RelativeToolTip": "Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\InvaderLogic.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-01T08:37:50.561Z"
-            },
+              "WhenOpened": "2024-11-01T08:37:50.561Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ChickenInvaderManager.cs",
               "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\ChickenInvaderManager.cs",
               "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\ChickenInvaderManager.cs",
               "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\ChickenInvaderManager.cs",
               "RelativeToolTip": "Assets\\MyStuff\\Scripts\\ChickenInvaderAR\\ChickenInvaderManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJIAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAuwK0AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-01T08:31:54.45Z"
+              "WhenOpened": "2024-11-01T08:31:54.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ResourceCollectionEvents.cs",
+              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ResourceCollectionEvents.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Jiawei UI Scripts\\ResourceCollectionEvents.cs",
+              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ResourceCollectionEvents.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Jiawei UI Scripts\\ResourceCollectionEvents.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAADwv0IAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-06T18:04:06.588Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -123,4 +123,21 @@ public class ShopManager : MonoBehaviour
             Debug.Log("Either not enough or not high enough level");
         }
     }
+
+    public bool CanBuyFlower1()
+    {
+        if(player.GetChilliCrop() >= 2 && player.GetEggplantCrop() >= 2)
+        {
+            player.SetChilliCrop(-2);
+            player.SetEggplantCrop(-2);
+            player.SetLastHeldItem(10);
+            saveManager.Save();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Either not enough or not high enough level");
+            return false;
+        }
+    }
 }

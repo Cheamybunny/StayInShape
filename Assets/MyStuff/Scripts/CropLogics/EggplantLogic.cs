@@ -14,6 +14,8 @@ public class EggplantLogic : MonoBehaviour
     [SerializeField] private GameObject stage2_withered;
     [SerializeField] private GameObject stage3_withered;
     [SerializeField] private GameObject warning;
+    [SerializeField] private ParticleSystem waterParticles;
+    [SerializeField] private AudioSource waterSound;
 
     private float stage_1_threshold = 60f;
     private float stage_2_threshold = 120f;
@@ -143,6 +145,8 @@ public class EggplantLogic : MonoBehaviour
             stage1_withered.SetActive(false);
             stage2_withered.SetActive(false);
             stage3_withered.SetActive(false);
+            waterParticles.Play();
+            waterSound.Play();
             growthAmount = stage_2_threshold + 1; //reset to prev stage
             growthRate = 1f; //reset rate
             return true; //successful harvest
@@ -160,11 +164,15 @@ public class EggplantLogic : MonoBehaviour
         {
             if (item.TryGetComponent<WaterLogic>(out WaterLogic waterLogic))
             {
+                waterParticles.Play();
+                waterSound.Play();
                 witherTime = 0f;
                 growthRate += 0.5f;
             }
             else if (item.TryGetComponent<FertiliserLogic>(out FertiliserLogic fertiliser))
             {
+                waterParticles.Play();
+                waterSound.Play();
                 growthRate += 0.5f;
             }
             return true;
