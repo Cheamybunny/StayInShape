@@ -237,6 +237,10 @@ public class InteractionBehaviour : MonoBehaviour
                                     gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
+                            else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + loofa.getGrowthRate() + "\nCurrent Wither amount: " + loofa.getWither());
+                            }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
                                 loofa.DestroyPlant();
@@ -301,6 +305,10 @@ public class InteractionBehaviour : MonoBehaviour
                                     gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
+                            else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + eggplant.getGrowthRate() + "\nCurrent Wither amount: " + eggplant.getWither());
+                            }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
                                 eggplant.DestroyPlant();
@@ -364,6 +372,10 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
+                            }
+                            else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + sweetpotato.getGrowthRate() + "\nCurrent Wither amount: " + sweetpotato.getWither());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -433,6 +445,10 @@ public class InteractionBehaviour : MonoBehaviour
                             {
                                 papaya.DestroyPlant();
                             }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + papaya.getGrowthRate() + "\nCurrent Wither amount: " + papaya.getWither());
+                            }
                         }
                         else
                         {
@@ -492,6 +508,10 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
+                            }
+                            else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + calamansi.getGrowthRate() + "\nCurrent Wither amount: " + calamansi.getWither());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GardenUIEvents : MonoBehaviour
 {
+    [SerializeField] SceneChanger sceneChanger;
     private UIDocument _document;
 
     private Button _button1;
@@ -126,7 +127,7 @@ public class GardenUIEvents : MonoBehaviour
     {
         Debug.Log("You pressed Steps Button");
 
-        SceneManager.LoadScene("MyStepsScene");
+        sceneChanger.GoToScene("MyStepsScene");
     }
     public void UpdatePickedItem(int item)
     {
@@ -234,14 +235,14 @@ public class GardenUIEvents : MonoBehaviour
     {
         Debug.Log("You pressed Care Book Button");
 
-        SceneManager.LoadScene("CareBookScene");
+        sceneChanger.GoToScene("CareBookScene");
     }
 
     private void OnShopClick(ClickEvent evt)
     {
         Debug.Log("You pressed Shop Button");
 
-        SceneManager.LoadScene("ShopScene");
+        sceneChanger.GoToScene("ShopScene");
     }
 
     
@@ -258,7 +259,7 @@ public class GardenUIEvents : MonoBehaviour
 
         isOriginal = !isOriginal;
         **/
-        SceneManager.LoadScene("ResourceCollectionSceneJia");
+        sceneChanger.GoToScene("ResourceCollectionSceneJia");
     }
     
 
