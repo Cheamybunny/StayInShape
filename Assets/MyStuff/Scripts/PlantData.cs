@@ -11,7 +11,7 @@ public class PlantData
     public float growthAmount;
     public float growthRate;
     public float witherTime;
-    public int plantType; //1:Chilli, 2:Luffa, 3:Eggplant
+    public int plantType;
 
     public PlantData(String plantedTime, Vector3 position, float growthAmount, float growthRate, float witherTime, int plantType)
     {

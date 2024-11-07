@@ -15,11 +15,13 @@ public class PlayerDataSO : SavableSO
     private int exp = 0;
     private int chillicrop = 3;
     private int loofacrop = 0;
-    private int eggplantcrop = 0;
+    private int eggplantcrop = 3;
     private int sweetpotatocrop = 0;
     private int papayacrop = 0;
     private int kalamansicrop = 0;
+    private int lastHeldItem = -1;
     private List<PlantData> plants = new List<PlantData>();
+    private List<DecoData> decorations = new List<DecoData>();
     private String snapTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the Snap minigame again
     private String matchingCardTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the matching cards minigame again
     private String chickenInvaderTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the chicken invaders minigame again
@@ -133,7 +135,15 @@ public class PlayerDataSO : SavableSO
     {
         return plants;
     }
+    public List<DecoData> GetDecorations()
+    {
+        return decorations;
+    }
 
+    public void InsertDecoration(DecoData decoData)
+    {
+        decorations.Add(decoData);
+    }
 
     public void SetPlant(PlantData plantData)
     {
@@ -143,6 +153,16 @@ public class PlayerDataSO : SavableSO
     public void ClearList()
     {
         this.plants = new List<PlantData>();
+    }
+
+    public int GetLastHeldItem()
+    {
+        return lastHeldItem;
+    }
+
+    public void SetLastHeldItem(int i)
+    {
+        lastHeldItem = i;
     }
     // Snap
     public String GetSnapTimer() { return snapTimer; }
@@ -198,6 +218,7 @@ public class PlayerDataSO : SavableSO
         {
             playerName = this.playerName,
             lastSurvey = lastSurvey.ToString(DATETIME_FORMAT),
+            lastHeldItem = this.lastHeldItem,
             fertilizer = this.fertilizer,
             water = this.water,
             steps = this.steps,
@@ -209,6 +230,7 @@ public class PlayerDataSO : SavableSO
             papayacrop = this.papayacrop,
             kalamansicrop = this.kalamansicrop,
             plants = this.plants,
+            decorations = this.decorations,
             snapTimer = this.snapTimer,
             matchingCardTimer = this.matchingCardTimer,
             chickenInvaderTimer = this.chickenInvaderTimer,
@@ -222,6 +244,7 @@ public class PlayerDataSO : SavableSO
     public override void LoadFromString(string saveString)
     {
         SaveObject loadedObject = JsonUtility.FromJson<SaveObject>(saveString);
+        lastHeldItem = loadedObject.lastHeldItem;
         fertilizer = loadedObject.fertilizer;
         water = loadedObject.water;
         steps = loadedObject.steps;
@@ -233,6 +256,7 @@ public class PlayerDataSO : SavableSO
         papayacrop= loadedObject.papayacrop;
         kalamansicrop= loadedObject.kalamansicrop;
         plants = loadedObject.plants;
+        decorations = loadedObject.decorations;
         snapTimer = loadedObject.snapTimer;
         matchingCardTimer = loadedObject.matchingCardTimer;
         chickenInvaderTimer = loadedObject.chickenInvaderTimer;
@@ -244,6 +268,7 @@ public class PlayerDataSO : SavableSO
     {
         public string playerName;
         public string lastSurvey;
+        public int lastHeldItem;
         public int fertilizer;
         public int water;
         public int steps;
@@ -255,6 +280,7 @@ public class PlayerDataSO : SavableSO
         public int papayacrop;
         public int kalamansicrop;
         public List<PlantData> plants;
+        public List<DecoData> decorations;
         public String snapTimer;
         public String matchingCardTimer;
         public String chickenInvaderTimer;

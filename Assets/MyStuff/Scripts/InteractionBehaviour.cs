@@ -13,6 +13,8 @@ public class InteractionBehaviour : MonoBehaviour
     [SerializeField] PlantManager plantManager;
     [SerializeField] PlayerDataSO player;
     [SerializeField] SaveManagerSO saveManager;
+    [SerializeField] AudioSource buttonClick;
+    [SerializeField] GardenUIEvents gardenUIEvents;
     DefaultInputActions actions;
 
     private void Awake()
@@ -81,6 +83,20 @@ public class InteractionBehaviour : MonoBehaviour
                         InsertPlant(heldItem.gameObject, plotLogic, hit.point);
                     }
                 }
+                //logic if player taps the garden
+                else if(hit.transform.TryGetComponent<GardenLogic>(out GardenLogic garden))
+                {
+                    Debug.Log("123 YOU HITTING THE GARDEN CUH");
+                    Component heldItem = gardenUIBehaviour2.getEquipped();
+                    if (heldItem != null && heldItem.TryGetComponent<FlowerLogic>(out FlowerLogic flower))
+                    {
+                        Debug.Log("123 I KNOW YOU HOLDING FLOWER CUH");
+                        player.SetLastHeldItem(-1);
+                        saveManager.Save();
+                        garden.InsertDecoration(DecoManager.instance.GetFlowerPrefab(), hit.point);
+                        gardenUIBehaviour2.UpdateItem(null);
+                    }
+                }
                 //logic if player taps bag of seeds
                 else if (hit.transform.TryGetComponent<ChilliBag>(out ChilliBag chilliBag) ||
                     hit.transform.TryGetComponent<EggplantBag>(out EggplantBag eggplantBag) ||
@@ -89,7 +105,15 @@ public class InteractionBehaviour : MonoBehaviour
                     hit.transform.TryGetComponent<CalamansiBag>(out CalamansiBag calamansiBag) ||
                     hit.transform.TryGetComponent<PapayaBag>(out PapayaBag papayaBag))
                 {
-                    gardenUIBehaviour2.UpdateItem(hit.transform);
+                    if(player.GetLastHeldItem() != 10)
+                    {
+                        buttonClick.Play();
+                        gardenUIBehaviour2.UpdateItem(hit.transform);
+                    }
+                    else
+                    {
+                        gardenUIEvents.ThrowError("You are holding a decoration. \nPlace it in your garden before proceeding");
+                    }
                 }
                 //logic if player taps a plant
                 else if (hit.transform.TryGetComponent<PlantLogic>(out PlantLogic plant))
@@ -115,10 +139,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -131,11 +159,19 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
+                            }
+                            else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
+                            {
+                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + plant.getGrowthRate() +"\nCurrent Wither amount: " + plant.getWither());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -171,10 +207,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -187,10 +227,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -227,10 +271,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -243,10 +291,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -283,10 +335,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -299,10 +355,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -339,10 +399,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -355,10 +419,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -395,10 +463,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No fertilizer");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -411,10 +483,14 @@ public class InteractionBehaviour : MonoBehaviour
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
+                                    else
+                                    {
+                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("No water");
+                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -433,9 +509,18 @@ public class InteractionBehaviour : MonoBehaviour
                     //if not plant, then check if player trying to equip fertilizer or water OR trowel
                     if ((hit.transform.TryGetComponent<WaterLogic>(out WaterLogic water) || 
                         (hit.transform.TryGetComponent<FertiliserLogic>(out FertiliserLogic fertiliser)) ||
-                        hit.transform.TryGetComponent<TrowelLogic>(out TrowelLogic trowel)))
+                        hit.transform.TryGetComponent<TrowelLogic>(out TrowelLogic trowel) ||
+                        hit.transform.TryGetComponent<MagnifierLogic>(out MagnifierLogic magnifier)))
                     {
-                        gardenUIBehaviour2.UpdateItem(hit.transform);
+                        if(player.GetLastHeldItem() != 10)
+                        {
+                            buttonClick.Play();
+                            gardenUIBehaviour2.UpdateItem(hit.transform);
+                        }
+                        else
+                        {
+                            gardenUIEvents.ThrowError("You are holding a decoration. \nPlace it in your garden before proceeding");
+                        }
                     }
                 }
             }
