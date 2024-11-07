@@ -127,6 +127,7 @@ public class SnapGameManager : MonoBehaviour
 
     private void updateTextUI()
     {
+        // TODO: Look at here
         wrongText.text = nWrongs.ToString();
         correctText.text = nCorrects.ToString();
         nMatchesLeft.text = (level[currentLevelId, 1] - nCorrects - nWrongs).ToString();
