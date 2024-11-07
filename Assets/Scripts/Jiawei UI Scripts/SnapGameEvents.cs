@@ -29,12 +29,13 @@ public class SnapGameEvents : MonoBehaviour
 
     // Game Fields
     private int[] level = new int[] {35, 6}; 
-    private float[] timePerSnap = new float[] {6, 5, 4, 3, 2, 1};
+    private float[] timePerSnap = new float[] {6, 4, 1};
     private int intervalToPlayGame = 5;
     private float timeLeft;
     private int currentLevelId;
     private int currentDeckCard;
     private bool deckDrawn;
+    private bool lockout;
     private List<int> deckList;
 
     private int currentIndex;
@@ -44,6 +45,8 @@ public class SnapGameEvents : MonoBehaviour
 
     [SerializeField]
     Sprite[] cardSprites;
+    [SerializeField]
+    Sprite[] popupSprites; // 0 is instructions, 1 is incorrect, 2 is correct, 3 draw when not same, 4 buy when same, 5 is game end
     [SerializeField]
     PlayerDataSO playerDataSO;
     [SerializeField]
@@ -87,9 +90,10 @@ public class SnapGameEvents : MonoBehaviour
             menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
 
-        currentLevelId = 0;
+        currentLevelId = ResourceCollectionEvents.GameData.difficulty;
         deckDrawn = false;
         deckList = new List<int>();
+        lockout = false;
         SetupGame();
     }
 
@@ -108,12 +112,11 @@ public class SnapGameEvents : MonoBehaviour
 
     private void Update()
     {
-        if (deckDrawn)
+        if (deckDrawn && !lockout)
         {
             subtractTimer(Time.deltaTime);
             if (timeLeft < 0)
             {
-                // StartCoroutine(Popup("You did not snap in time!"));
                 incrementWrong();
             }
         }
@@ -135,6 +138,7 @@ public class SnapGameEvents : MonoBehaviour
             Debug.Log("Deck List has " + num);
         }
         updateTextUI();
+        spawnPopup(0);
     }
 
     private void setTimer(float val)
@@ -166,22 +170,39 @@ public class SnapGameEvents : MonoBehaviour
     private void incrementCorrect()
     {
         nCorrects++;
-        updateTextUI(); // Edge case where UI does not update when the game ends after we win using Snap.
+        updateTextUI();
+        removePlant();
+        spawnPopup(2);
+        StartCoroutine(HidePopUpAfterDelay(2f));
+
+        StartCoroutine(CheckCompletionCondition());
     }
 
     private void incrementWrong()
     {
-        //currentIndex++;
         deckDrawn = false;
         nWrongs++;
         updateTextUI();
+        spawnPopup(1);
+        StartCoroutine(HidePopUpAfterDelay(2f));
 
-        if (nWrongs + nCorrects >= level[1])
+        StartCoroutine(CheckCompletionCondition());
+    }
+
+    private IEnumerator CheckCompletionCondition()
+    {
+        while (isActive)
+        {
+            yield return null;
+        }
+
+        if (deckList.Max() == currentIndex || nWrongs + nCorrects >= level[1])
         {
             CompleteGame();
         } 
         else 
         {
+            currentIndex++;
             StartCoroutine(MoveCardsOut());
         }
     }
@@ -189,26 +210,24 @@ public class SnapGameEvents : MonoBehaviour
     private void CompleteGame()
     {
         deckDrawn = false;
-        RewardPlayer();
+        setTimer(0);
         playerDataSO.SetSnapTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         saveManager.Save();
-        if (currentLevelId < timePerSnap.Length) currentLevelId++;
-        deckDrawn = false;
-        setTimer(0);
-        //SetupGame();
+        spawnPopup(5);
+        StartCoroutine(RewardPlayer());
     }
 
-    private void RewardPlayer()
+    private IEnumerator RewardPlayer()
     {
-        int reward = (nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs);
-        playerDataSO.SetWater(playerDataSO.GetWater() + reward);
-        if (reward > 1)
+        while (isActive)
         {
-            // StartCoroutine(Popup(String.Format("Well done! With {1} correct and {2} wrongs, you've earned {0} water!", reward, nCorrects, nWrongs)));
-        } else
-        {
-            // StartCoroutine(Popup(String.Format("Oh no! You made too many mistakes. you've earned 1 water!", reward, nCorrects, nWrongs)));
+            yield return null;
         }
+
+        int reward = (nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs);
+        EndGameEvents.Rewards.waterReward = reward;
+        playerDataSO.SetWater(playerDataSO.GetWater() + reward);
+        SceneManager.LoadScene("EndGameScene");
     }
 
     private void OnExitClick(ClickEvent evt)
@@ -222,6 +241,7 @@ public class SnapGameEvents : MonoBehaviour
     {
         Debug.Log("You pressed Draw Button");
 
+        if (lockout || isActive) return;
         DrawNext();
     }
 
@@ -233,7 +253,8 @@ public class SnapGameEvents : MonoBehaviour
             if (deckList.Contains(currentIndex)) // Prevent drawing when the cards are the same
             {
                 Debug.Log(currentIndex);
-                // StartCoroutine(Popup("Buy when the cards are the same!"));
+                spawnPopup(4);
+                StartCoroutine(HidePopUpAfterDelay(2f));
                 return;
             }
             setTimer(timePerSnap[currentLevelId]);
@@ -254,26 +275,18 @@ public class SnapGameEvents : MonoBehaviour
     {
         Debug.Log("You pressed Buy Button");
 
+        if (lockout || isActive) return;
         totalMoves++;
         if (!deckList.Contains(currentIndex)) // Current index
         {
-            //StartCoroutine(Popup("Draw the next card when the cards are not the same!"));
+            spawnPopup(3);
+            StartCoroutine(HidePopUpAfterDelay(2f));
             return;
         } 
         else 
         {
-            incrementCorrect();
-            updateTextUI();
-            removePlant();
-            if (deckList.Max() == currentIndex || nWrongs + nCorrects >= level[1])
-            {
-                Debug.Log("Game ended!");
-                CompleteGame();
-                return;
-            }
-            currentIndex++;
-            StartCoroutine(MoveCardsOut());
             deckDrawn = false;
+            incrementCorrect();
         }
     }
 
@@ -304,6 +317,7 @@ public class SnapGameEvents : MonoBehaviour
 
     private IEnumerator FlipBothCards() // Only used for game setup
     {
+        lockout = true;
         int newDeckCard = UnityEngine.Random.Range(0, cardSprites.Length);
         while (newDeckCard == currentDeckCard)
         {
@@ -320,16 +334,18 @@ public class SnapGameEvents : MonoBehaviour
         }
 
         playerCard.style.backgroundImage = new StyleBackground(cardSprites[newPlayerCard]);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.25f);
         
         deckCard.style.backgroundImage = new StyleBackground(cardSprites[newDeckCard]);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         currentDeckCard = newDeckCard;
         deckDrawn = true;
+        lockout = false;
     }
 
     private IEnumerator FlipNewPlayerCard()
     {
+        lockout = true;
         int newPlayerCard = UnityEngine.Random.Range(0, cardSprites.Length);
         if (deckList.Contains(currentIndex))
         {
@@ -341,18 +357,32 @@ public class SnapGameEvents : MonoBehaviour
         }
 
         playerCard.style.backgroundImage = new StyleBackground(cardSprites[newPlayerCard]);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
+        lockout = false;
     }
 
     private IEnumerator MoveCardsOut()
     {
+        lockout = true;
+        deckDrawn = false;
         playerCard.style.backgroundImage = new StyleBackground((Sprite)null);
         deckCard.style.backgroundImage = new StyleBackground((Sprite)null);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
+        lockout = false;
 
         if (!(nWrongs + nCorrects >= level[1]))
         {
             DrawNext();
         }
+    }
+
+    private void spawnPopup(int index) 
+    {
+        if (!isActive)
+        {
+            popUp.style.display = DisplayStyle.Flex;  
+        }
+        popUp.style.backgroundImage = new StyleBackground(popupSprites[index]);
+        isActive = true;
     }
 }

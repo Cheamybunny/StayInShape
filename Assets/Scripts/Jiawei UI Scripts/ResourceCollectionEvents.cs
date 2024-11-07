@@ -18,6 +18,12 @@ public class ResourceCollectionEvents : MonoBehaviour
 
     private AudioSource audioSource;
 
+    public static class GameData
+    {
+        public static string selectedGame;
+        public static int difficulty = -1;
+    }
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -66,22 +72,25 @@ public class ResourceCollectionEvents : MonoBehaviour
     private void OnSnapPlayClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Snap Play Button");
-
-        SceneManager.LoadScene("SnapScene");
+        
+        GameData.selectedGame = "SnapSceneJia";
+        SceneManager.LoadScene("DifficultySelectionScene");
     }
 
     private void OnMatchingPlayClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Matching Play Button");
 
-        SceneManager.LoadScene("MatchingCardScene");
+        GameData.selectedGame = "MatchingCardScene";
+        SceneManager.LoadScene("DifficultySelectionScene");
     }
 
     private void OnChickenPlayClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Chicken Play Button");
 
-        SceneManager.LoadScene("ChickenInvaderScene");
+        GameData.selectedGame = "ChickenInvaderScene";
+        SceneManager.LoadScene("DifficultySelectionScene");
     }
 
     private void OnAllButtonsClick(ClickEvent evt)
