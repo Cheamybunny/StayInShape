@@ -1,6 +1,7 @@
 using System.Collections;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.XR.ARFoundation;
 
@@ -27,6 +28,7 @@ public class ChickenInvaderManager : MonoBehaviour
     public int reward = 12;
     public int nChickens = 10;
     public int chickenInterval = 3;
+    private int gameLevel;
 
     private Transform target;
     private Transform ground;
@@ -42,6 +44,7 @@ public class ChickenInvaderManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         randomRangeMin = new Vector3(-spawnRange, 0, -spawnRange);
         randomRangeMax = new Vector3(spawnRange, 0, spawnRange);
+        gameLevel = ResourceCollectionEvents.GameData.difficulty;
     }
 
     IEnumerator StartCountdown()
@@ -69,7 +72,10 @@ public class ChickenInvaderManager : MonoBehaviour
         player.SetChickenInvaderTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
+        EndGameEvents.Rewards.waterReward = reward;
+        EndGameEvents.Rewards.fertReward = reward;
         saveManager.Save();
+        SceneManager.LoadScene("EndGameScene");
     }
 
     public void WinGame()
@@ -85,7 +91,6 @@ public class ChickenInvaderManager : MonoBehaviour
     {
         StopCoroutine(countdownCoroutine);
         reward = 0;
-        RewardPlayer();
         instructionsUI.text = "Oh No! A chicken has reached your seeds. You lost.";
         timerUI.text = String.Format("Next time to play is {0} minutes later", intervalToPlayGame);
         PlaySound(loseGameClip);
@@ -97,7 +102,6 @@ public class ChickenInvaderManager : MonoBehaviour
         isGameEnded = true;
         timeLeft = 0;
         RewardPlayer();
-        saveManager.Save();
     }
 
     public void SetupGame(Transform target, Transform ground, ChickenInvaderPrefab prefab)

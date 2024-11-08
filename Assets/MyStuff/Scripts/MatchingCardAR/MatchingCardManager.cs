@@ -38,6 +38,7 @@ public class MatchingCardManager : MonoBehaviour
     private CardLogic selectedCard;
     private int nCardsLeft;
     private int currReward;
+    private int gameLevel;
     private AudioSource audioSource;
     private Transform parentTransform;
     private MatchingCardsPrefab gamePrefab;
@@ -65,6 +66,7 @@ public class MatchingCardManager : MonoBehaviour
         StartCoroutine(HidePopUpAfterDelay(5f));
 
         currReward = 0;
+        gameLevel = ResourceCollectionEvents.GameData.difficulty;
     }
 
     private void RewardPlayer(int reward)
@@ -72,8 +74,9 @@ public class MatchingCardManager : MonoBehaviour
         PlaySound(winGameClip);
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
-        // DisplayText(String.Format("You have earned {0} fertilizers and water!", 
-        //     reward));
+        EndGameEvents.Rewards.waterReward = reward;
+        EndGameEvents.Rewards.fertReward = reward;
+        SceneManager.LoadScene("EndGameScene");
     }
 
     private void AddReward(int add, string plantName) // TODO: Find a way to utilise currReward
@@ -84,10 +87,10 @@ public class MatchingCardManager : MonoBehaviour
 
     private void CompleteGame()
     {
-        RewardPlayer(reward);
         player.SetMatchingCardTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         // instructions.text = "You have won the game. Tap on the back button to go to the home screen.\n Next time to play is " + player.GetMatchingCardTimer();
         saveManager.Save();
+        RewardPlayer(reward);
     }
 
     private void SpawnCards()
