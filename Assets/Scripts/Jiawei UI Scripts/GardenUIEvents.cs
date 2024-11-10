@@ -13,6 +13,7 @@ public class GardenUIEvents : MonoBehaviour
     private Button _button2;
     private Button _button3;
     private Button _button4;
+    private Button _button5;
     private Button closeErrorButton;
 
     public static Texture2D capturedScreenshot;
@@ -63,6 +64,9 @@ public class GardenUIEvents : MonoBehaviour
 
         _button4 = _document.rootVisualElement.Q("ShopButton") as Button;
         _button4.RegisterCallback<ClickEvent>(OnShopClick);
+
+        _button5 = _document.rootVisualElement.Q("GamesButton") as Button;
+        _button5.RegisterCallback<ClickEvent>(OnGamesClick);
 
         closeErrorButton = _document.rootVisualElement.Q("CloseErrorMessage") as Button;
         closeErrorButton.RegisterCallback<ClickEvent>(OnCloseErrorClick);
@@ -226,6 +230,13 @@ public class GardenUIEvents : MonoBehaviour
         sceneChanger.GoToScene("ShopScene");
     }
 
+    private void OnGamesClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Games Button");
+
+        sceneChanger.GoToScene("ResourceCollectionSceneJia");
+    }
+
     
     private void OnResourceTrackerClick(ClickEvent evt)
     {
@@ -240,7 +251,7 @@ public class GardenUIEvents : MonoBehaviour
 
         isOriginal = !isOriginal;
         **/
-        sceneChanger.GoToScene("ResourceCollectionSceneJia");
+        // sceneChanger.GoToScene("ResourceCollectionSceneJia");
     }
     
 
