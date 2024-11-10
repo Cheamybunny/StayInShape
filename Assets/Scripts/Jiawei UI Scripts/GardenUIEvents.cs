@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GardenUIEvents : MonoBehaviour
 {
+    [SerializeField] SceneChanger sceneChanger;
     private UIDocument _document;
 
     private Button _button1;
@@ -14,6 +15,7 @@ public class GardenUIEvents : MonoBehaviour
     private Button _button4;
     private Button closeErrorButton;
 
+    public static Texture2D capturedScreenshot;
     private IntegerField fertiliserValue;
     private IntegerField waterValue;
     private IntegerField levelValue;
@@ -53,10 +55,8 @@ public class GardenUIEvents : MonoBehaviour
         _button1 = _document.rootVisualElement.Q("StepsButton") as Button;
         _button1.RegisterCallback<ClickEvent>(OnStepsButtonClick);
 
-
         _button2 = _document.rootVisualElement.Q("TakePhotoButton") as Button;
         _button2.RegisterCallback<ClickEvent>(OnTakePhotoClick);
-
         
         _button3 = _document.rootVisualElement.Q("CareBookButton") as Button;
         _button3.RegisterCallback<ClickEvent>(OnCareBookClick);
@@ -126,8 +126,9 @@ public class GardenUIEvents : MonoBehaviour
     {
         Debug.Log("You pressed Steps Button");
 
-        SceneManager.LoadScene("MyStepsScene");
+        sceneChanger.GoToScene("MyStepsScene");
     }
+
     public void UpdatePickedItem(int item)
     {
         pickedItemType = item;
@@ -199,49 +200,30 @@ public class GardenUIEvents : MonoBehaviour
 
     private IEnumerator TakeScreenshot()
     {
-        // Wait until the end of the frame to capture
         yield return new WaitForEndOfFrame();
 
-        // Define the file path and name
-        string fileName = "Screenshot_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
-        string defaultLocation = Application.persistentDataPath + "/" + fileName;
-        string desiredFolder = "/storage/emulated/0/DCIM/Screenshots/";
-        string desiredSSLocation = desiredFolder + fileName;
+        int width = Screen.width;
+        int height = Screen.height;
+        capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+        capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        capturedScreenshot.Apply();
 
-        if (!System.IO.Directory.Exists(desiredFolder))
-        {
-            System.IO.Directory.CreateDirectory(desiredFolder);
-        }
-
-        // Capture the screenshot
-        ScreenCapture.CaptureScreenshot(fileName);
-
-        // Wait for the file to be saved
-        yield return new WaitForSeconds(1);
-
-        // Move the file to the gallery
-        System.IO.File.Move(defaultLocation, desiredSSLocation);
-
-        // Refresh the Android gallery to show the new screenshot
-        AndroidJavaClass classPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject objActivity = classPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaClass classUri = new AndroidJavaClass("android.net.Uri");
-        AndroidJavaObject objIntent = new AndroidJavaObject("android.content.Intent", new object[2] { "android.intent.action.MEDIA_MOUNTED", classUri.CallStatic<AndroidJavaObject>("parse", "file://" + desiredSSLocation) });
-        objActivity.Call("sendBroadcast", objIntent);
-        }
+        // Load the scene where the screenshot will be displayed
+        SceneManager.LoadScene("ScreenshotDisplayScene");
+    }
 
     private void OnCareBookClick(ClickEvent evt)
     {
         Debug.Log("You pressed Care Book Button");
 
-        SceneManager.LoadScene("CareBookScene");
+        sceneChanger.GoToScene("CareBookScene");
     }
 
     private void OnShopClick(ClickEvent evt)
     {
         Debug.Log("You pressed Shop Button");
 
-        SceneManager.LoadScene("ShopScene");
+        sceneChanger.GoToScene("ShopScene");
     }
 
     
@@ -258,7 +240,7 @@ public class GardenUIEvents : MonoBehaviour
 
         isOriginal = !isOriginal;
         **/
-        SceneManager.LoadScene("ResourceCollectionSceneJia");
+        sceneChanger.GoToScene("ResourceCollectionSceneJia");
     }
     
 
