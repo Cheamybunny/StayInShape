@@ -10,17 +10,23 @@ using System.Linq;
 public class SnapGameEvents : MonoBehaviour
 {
     private AudioSource audioSource;
+    [SerializeField]
     private UIDocument document;
+    [SerializeField]
+    private UIDocument pauseDocument;
 
     private Button button1;
     private Button button2;
     private Button button3;
+    private Button button4;
+    private Button button5;
 
     private VisualElement popUp;
     private bool isActive = true;
     private VisualElement playerCard;
     private VisualElement deckCard;
     private VisualElement[] plants;
+    private VisualElement pauseHeader;
     private Label nCorrect;
     private Label nWrong;
     private Label timer;
@@ -37,16 +43,23 @@ public class SnapGameEvents : MonoBehaviour
     private bool deckDrawn;
     private bool lockout;
     private List<int> deckList;
-
     private int currentIndex;
     private int totalMoves;
     private int nCorrects;
     private int nWrongs;
+    private bool isExit = false;
+    private bool deckLastState;
 
     [SerializeField]
     Sprite[] cardSprites;
     [SerializeField]
     Sprite[] popupSprites; // 0 is instructions, 1 is incorrect, 2 is correct, 3 draw when not same, 4 buy when same, 5 is game end
+    [SerializeField]
+    Sprite[] resumeSprites;
+    [SerializeField]
+    Sprite[] exitSprites;
+    [SerializeField]
+    Sprite[] headingSprites;
     [SerializeField]
     PlayerDataSO playerDataSO;
     [SerializeField]
@@ -55,10 +68,10 @@ public class SnapGameEvents : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        document = GetComponent<UIDocument>();
+        pauseDocument.rootVisualElement.style.display = DisplayStyle.None;
 
-        button1 = document.rootVisualElement.Q("ExitButton") as Button;
-        button1.RegisterCallback<ClickEvent>(OnExitClick);
+        button1 = document.rootVisualElement.Q("PauseButton") as Button;
+        button1.RegisterCallback<ClickEvent>(OnPauseClick);
 
         button2 = document.rootVisualElement.Q("DrawButton") as Button;
         button2.RegisterCallback<ClickEvent>(OnDrawClick);
@@ -66,12 +79,19 @@ public class SnapGameEvents : MonoBehaviour
         button3 = document.rootVisualElement.Q("BuyButton") as Button;
         button3.RegisterCallback<ClickEvent>(OnBuyClick);
 
+        button4 = pauseDocument.rootVisualElement.Q("ResumeButton") as Button;
+        button4.RegisterCallback<ClickEvent>(OnResumeClick);
+
+        button5 = pauseDocument.rootVisualElement.Q("ExitButton") as Button;
+        button5.RegisterCallback<ClickEvent>(OnExitClick);
+
         popUp = document.rootVisualElement.Q("PopUp") as VisualElement;
         popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
         StartCoroutine(HidePopUpAfterDelay(5f));
 
         playerCard = document.rootVisualElement.Q("Card1") as VisualElement;
         deckCard = document.rootVisualElement.Q("Card2") as VisualElement;
+        pauseHeader = pauseDocument.rootVisualElement.Q("Heading") as VisualElement;
 
         plants = new VisualElement[6];
         for (int i = 0; i < 6; i++)
@@ -99,7 +119,7 @@ public class SnapGameEvents : MonoBehaviour
 
     private void OnDisable()
     {
-        button1.UnregisterCallback<ClickEvent>(OnExitClick);
+        button1.UnregisterCallback<ClickEvent>(OnPauseClick);
         button2.UnregisterCallback<ClickEvent>(OnDrawClick);
         button3.UnregisterCallback<ClickEvent>(OnBuyClick);
         popUp.UnregisterCallback<ClickEvent>(OnPopUpClick);
@@ -231,11 +251,13 @@ public class SnapGameEvents : MonoBehaviour
         SceneManager.LoadScene("EndGameScene");
     }
 
-    private void OnExitClick(ClickEvent evt)
+    private void OnPauseClick(ClickEvent evt)
     {
-        Debug.Log("You pressed Exit Button");
+        Debug.Log("You pressed Pause Button");
 
-        SceneManager.LoadScene("ResourceCollectionSceneJia");
+        deckLastState = deckDrawn;
+        deckDrawn = false;
+        pauseDocument.rootVisualElement.style.display = DisplayStyle.Flex;
     }
 
     private void OnDrawClick(ClickEvent evt)
@@ -385,5 +407,49 @@ public class SnapGameEvents : MonoBehaviour
         }
         popUp.style.backgroundImage = new StyleBackground(popupSprites[index]);
         isActive = true;
+    }
+
+    private void OnResumeClick(ClickEvent evt)
+    {
+        if (!isExit)
+        {
+            Debug.Log("Resumed Clicked");
+
+            pauseDocument.rootVisualElement.style.display = DisplayStyle.None;   
+            deckDrawn = deckLastState;
+        }
+        else
+        {
+            Debug.Log("Confirmed Exit");
+
+            SceneManager.LoadScene("ResourceCollectionSceneJia");
+        }
+    }
+
+    private void OnExitClick(ClickEvent evt)
+    {
+        if (!isExit)
+        {
+            Debug.Log("Exit Clicked");
+
+            isExit = true;
+            button4.style.backgroundImage = new StyleBackground(resumeSprites[1]);
+            button5.style.backgroundImage = new StyleBackground(exitSprites[1]);
+            pauseHeader.style.backgroundImage = new StyleBackground(headingSprites[1]);
+            pauseHeader.style.height = new Length(10f, LengthUnit.Percent);
+            pauseHeader.style.top = new Length(28f, LengthUnit.Percent);
+            
+        }
+        else
+        {  
+            Debug.Log("Canceled Exit");
+
+            isExit = false;
+            button4.style.backgroundImage = new StyleBackground(resumeSprites[0]);
+            button5.style.backgroundImage = new StyleBackground(exitSprites[0]);
+            pauseHeader.style.backgroundImage = new StyleBackground(headingSprites[0]);
+            pauseHeader.style.height = new Length(5f, LengthUnit.Percent);
+            pauseHeader.style.top = new Length(30f, LengthUnit.Percent);
+        }
     }
 }
