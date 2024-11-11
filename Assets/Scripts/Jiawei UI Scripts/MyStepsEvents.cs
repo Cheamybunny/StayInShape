@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -10,10 +11,15 @@ public class MyStepsEvents : MonoBehaviour
 
     private Button button1;
     private ScrollView scrollView1;
+    private Label countdown;
+    private Label stepCount;
 
     private List<Button> menuButtons = new List<Button>();
 
     private AudioSource audioSource;
+
+    [SerializeField]
+    PlayerDataSO playerDataSO;
 
     private void Awake()
     {
@@ -24,6 +30,9 @@ public class MyStepsEvents : MonoBehaviour
         button1.RegisterCallback<ClickEvent>(OnBackClick);
 
         scrollView1 = document.rootVisualElement.Q("Goals") as ScrollView;
+
+        countdown = document.rootVisualElement.Q("CountdownLabel") as Label;
+        stepCount = document.rootVisualElement.Q("StepCount") as Label;
 
         menuButtons = document.rootVisualElement.Query<Button>().ToList();
 
@@ -41,6 +50,23 @@ public class MyStepsEvents : MonoBehaviour
         {
             menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+    }
+
+    private void Update()
+    {
+        int daysRemaining = GetDaysUntilNextMonth();
+        string dayText = daysRemaining == 1 ? "day" : "days";
+        countdown.text = $"{daysRemaining} {dayText} until reset";
+
+        int steps = playerDataSO.GetSteps();
+        stepCount.text = $"Total steps: {steps}";
+    }
+
+    private int GetDaysUntilNextMonth()
+    {
+        DateTime now = DateTime.Now;
+        DateTime nextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(1);
+        return (nextMonth - now).Days;
     }
 
     private void OnBackClick(ClickEvent evt)
