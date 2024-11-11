@@ -204,16 +204,19 @@ public class GardenUIEvents : MonoBehaviour
 
     private IEnumerator TakeScreenshot()
     {
+        string timeStamp = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
+        string fileName = "Screenshot" + timeStamp + ".png";
+        string pathToSave = fileName;
+        ScreenCapture.CaptureScreenshot(pathToSave);
+        Debug.Log("Took a screenshot saved to " + pathToSave);
+        //int width = Screen.width;
+        //int height = Screen.height;
+        //capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+        //capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        //capturedScreenshot.Apply();
         yield return new WaitForEndOfFrame();
-
-        int width = Screen.width;
-        int height = Screen.height;
-        capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
-        capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        capturedScreenshot.Apply();
-
         // Load the scene where the screenshot will be displayed
-        SceneManager.LoadScene("ScreenshotDisplayScene");
+        //SceneManager.LoadScene("ScreenshotDisplayScene");
     }
 
     private void OnCareBookClick(ClickEvent evt)
