@@ -95,6 +95,11 @@ public class MyStepsEvents : MonoBehaviour
     private void Awake()
     {
         InstantiateGoals();
+        if (DateTime.Now.Day == 1)
+        {
+            ResetAllRewards();
+        }
+
         audioSource = GetComponent<AudioSource>();
         document = GetComponent<UIDocument>();
         counter = GetComponent<StepCounter>();
@@ -140,6 +145,10 @@ public class MyStepsEvents : MonoBehaviour
 
         int steps = counter.GetStepCount();
         stepCount.text = $"Total steps: {steps}";
+
+        int daysRemaining = GetDaysUntilNextMonth();
+        string dayText = daysRemaining == 1 ? "day" : "days";
+        countdown.text = $"{daysRemaining} {dayText} until reset";
     }
     
     private void OnDisable()
@@ -154,9 +163,16 @@ public class MyStepsEvents : MonoBehaviour
 
     private void Update()
     {
-        int daysRemaining = GetDaysUntilNextMonth();
-        string dayText = daysRemaining == 1 ? "day" : "days";
-        countdown.text = $"{daysRemaining} {dayText} until reset";
+    }
+
+    private void ResetAllRewards()
+    {
+        Debug.Log("Resetting all rewards");
+        for (int i = 0; i < playerDataSO.hasCollectedRewardStatus.Count; i++)
+        {
+            playerDataSO.SetHasCollectedRewardStatus(i, false);
+        }
+        saveManagerSO.Save();
     }
 
     public void SetStepUICount(int newSteps)
