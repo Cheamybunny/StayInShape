@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c148ca9f3efa0a41999aab11856582a, type: 3}
-  m_Name: SweetPotato_Card
+  m_Name: 7_Rambutan_Card
   m_EditorClassIdentifier: 
-  name: Sweet Potato
+  name: Rambutan
   descriptions:
-  - Staple food in the past
-  - From the Morning Glory family
-  - My leaves come in many colors
-  id: 5
-  col: {r: 0.5849056, g: 0.3276813, b: 0.13519046, a: 1}
-  img: {fileID: 21300000, guid: b9d4363a63bc72242ad53330608c0f9e, type: 3}
+  - Looks hairy
+  - Red on the outside, White on the inside
+  - Red and from the Sapindaceae family
+  id: 7
+  col: {r: 0.9716981, g: 0.2787893, b: 0.16958882, a: 1}
+  img: {fileID: 21300000, guid: 061b8e59bcac0314a91719d47005a8c2, type: 3}

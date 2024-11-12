@@ -919,9 +919,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5930c81987de0a34f8f7da7c5489be63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceText: {fileID: 0}
   threshold: 1
   stepLength: 0.75
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   saveManager: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
   playerData: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
   distanceWalked: 0
@@ -1309,14 +1311,10 @@ MonoBehaviour:
     type: 3}
   L_ui: {fileID: 1015861322}
   eye_ui: {fileID: 1908382382}
-  intervalToPlayGame: 5
-  timePerRound: 30
+  intervalToPlayGame: 3
   spawnRange: 2.75
   timeLeft: 0
   isGameEnded: 0
-  reward: 5
-  nChickens: 10
-  chickenInterval: 3
 --- !u!1 &1908382382
 GameObject:
   m_ObjectHideFlags: 0

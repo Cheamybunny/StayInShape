@@ -1,77 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\scripts\\jiawei ui scripts\\screenshotpreviewer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jiawei ui scripts\\screenshotpreviewer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\assets\\scripts\\jiawei ui scripts\\screenshotdisplayevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jiawei ui scripts\\screenshotdisplayevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\trlfr\\desktop\\nus_folders\\modslides\\ay2425_sem1\\cs4350\\stayinshape\\assets\\scripts\\jiawei ui scripts\\gardenuievents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jiawei ui scripts\\gardenuievents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ScreenshotDisplayEvents.cs",
-              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotDisplayEvents.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotDisplayEvents.cs",
-              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotDisplayEvents.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotDisplayEvents.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAQwC0AAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T07:13:02.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GardenUIEvents.cs",
-              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
-              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Jiawei UI Scripts\\GardenUIEvents.cs",
-              "ViewState": "AgIAAMYAAAAAAAAAAADwv9wAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T02:07:56.07Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ScreenshotPreviewer.cs",
-              "DocumentMoniker": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotPreviewer.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotPreviewer.cs",
-              "ToolTip": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotPreviewer.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Jiawei UI Scripts\\ScreenshotPreviewer.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBsAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T06:59:38.371Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

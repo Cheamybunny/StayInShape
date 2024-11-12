@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c148ca9f3efa0a41999aab11856582a, type: 3}
-  m_Name: Papaya_Card
+  m_Name: 9_SweetPotato_Card
   m_EditorClassIdentifier: 
-  name: Papaya
+  name: Sweet Potato
   descriptions:
-  - Beats the tropical heat
-  - Orange and from the Caricaceae family
-  - Unripe me has a latex that tenderises meat
-  id: 3
-  col: {r: 1, g: 0.4890508, b: 0, a: 1}
-  img: {fileID: 21300000, guid: 27c653d30efa27f4ca8157bec4617202, type: 3}
+  - Staple food in the past
+  - From the Morning Glory family
+  - My leaves come in many colors
+  id: 9
+  col: {r: 0.5849056, g: 0.3276813, b: 0.13519046, a: 1}
+  img: {fileID: 21300000, guid: b9d4363a63bc72242ad53330608c0f9e, type: 3}
