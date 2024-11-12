@@ -17,11 +17,11 @@ public class GardenUIEvents : MonoBehaviour
     private Button closeErrorButton;
 
     public static Texture2D capturedScreenshot;
-    private IntegerField fertiliserValue;
-    private IntegerField waterValue;
-    private IntegerField levelValue;
 
-    private TextField errorMessage;
+    private Label errorMessage2;
+    private Label levelvalue;
+    private Label watervalue;
+    private Label fertiliservalue;
 
     private VisualElement resourceTracker;
     private VisualElement pickedItem;
@@ -38,6 +38,10 @@ public class GardenUIEvents : MonoBehaviour
     public Sprite kalamansiSprite;
     public Sprite sweetPotatoSprite;
     public Sprite flowerSprite;
+    public Sprite flower2Sprite;
+    public Sprite sunflowerSprite;
+    public Sprite chickenSprite;
+    public Sprite radioSprite;
     private bool isOriginal = true;
     private int pickedItemType;
 
@@ -72,11 +76,11 @@ public class GardenUIEvents : MonoBehaviour
         closeErrorButton.RegisterCallback<ClickEvent>(OnCloseErrorClick);
         closeErrorButton.style.display = DisplayStyle.None;
 
-        fertiliserValue = _document.rootVisualElement.Q("fertiliserValue") as IntegerField;
-        waterValue = _document.rootVisualElement.Q("waterValue") as IntegerField;
-        levelValue = _document.rootVisualElement.Q("levelValue") as IntegerField;
-        errorMessage = _document.rootVisualElement.Q("ErrorMessage") as TextField;
-        errorMessage.style.display = DisplayStyle.None;
+        errorMessage2 = _document.rootVisualElement.Q("errorMessage") as Label;
+        errorMessage2.style.display = DisplayStyle.None;
+        levelvalue = _document.rootVisualElement.Q("levelvalue") as Label;
+        watervalue = _document.rootVisualElement.Q("watervalue") as Label;
+        fertiliservalue = _document.rootVisualElement.Q("fertiliservalue") as Label;
 
 
         pickedItem = _document.rootVisualElement.Q("PickedItem") as VisualElement;
@@ -115,15 +119,15 @@ public class GardenUIEvents : MonoBehaviour
     private void OnCloseErrorClick(ClickEvent evt)
     {
         closeErrorButton.style.display = DisplayStyle.None;
-        errorMessage.style.display = DisplayStyle.None;
+        errorMessage2.style.display = DisplayStyle.None;
 
     }
 
     public void ThrowError(string errorMessageText)
     {
         closeErrorButton.style.display = DisplayStyle.Flex;
-        errorMessage.value = errorMessageText;
-        errorMessage.style.display = DisplayStyle.Flex;
+        errorMessage2.text = errorMessageText;
+        errorMessage2.style.display = DisplayStyle.Flex;
     }
 
     private void OnStepsButtonClick(ClickEvent evt)
@@ -192,6 +196,22 @@ public class GardenUIEvents : MonoBehaviour
         else if (item == 10)
         {
             pickedItem.style.backgroundImage = new StyleBackground(flowerSprite);
+        }
+        else if (item == 11)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(flower2Sprite);
+        }
+        else if (item == 12)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(sunflowerSprite);
+        }
+        else if (item == 13)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(chickenSprite);
+        }
+        else if (item == 14)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(radioSprite);
         }
     }
 
@@ -295,17 +315,17 @@ public class GardenUIEvents : MonoBehaviour
     
     public void setWaterText(int value)
     {
-        waterValue.value = value;
+        watervalue.text = value.ToString();
     }
 
     public void setFertiliserText(int value)
     {
-        fertiliserValue.value = value;
+        fertiliservalue.text = value.ToString();
     }
 
     public void setCurrentLevel(int value)
     {
-        levelValue.value = value;
+        levelvalue.text = value.ToString();
     }
 
     public int GetPickedItemType()
