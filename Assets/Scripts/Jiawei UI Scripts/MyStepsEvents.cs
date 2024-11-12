@@ -13,6 +13,9 @@ public class MyStepsEvents : MonoBehaviour
     private ScrollView scrollView1;
     private Label countdown;
     private Label stepCount;
+    private VisualElement popup;
+    private Label popupLabel;
+    private bool isActive = false;
 
     private List<Button> menuButtons = new List<Button>();
 
@@ -34,6 +37,11 @@ public class MyStepsEvents : MonoBehaviour
         countdown = document.rootVisualElement.Q("CountdownLabel") as Label;
         stepCount = document.rootVisualElement.Q("StepCount") as Label;
 
+        popup = document.rootVisualElement.Q("Popup") as VisualElement;
+        popupLabel = document.rootVisualElement.Q("PopLabel") as Label;
+        popup.style.display = DisplayStyle.None;
+        popup.RegisterCallback<ClickEvent>(OnPopUpClick);
+
         menuButtons = document.rootVisualElement.Query<Button>().ToList();
 
         for (int i = 0; i < menuButtons.Count; i++)
@@ -45,6 +53,7 @@ public class MyStepsEvents : MonoBehaviour
     private void OnDisable()
     {
         button1.UnregisterCallback<ClickEvent>(OnBackClick);
+        popup.UnregisterCallback<ClickEvent>(OnPopUpClick);
 
         for (int i = 0; i < menuButtons.Count; i++)
         {
@@ -74,6 +83,22 @@ public class MyStepsEvents : MonoBehaviour
         Debug.Log("You pressed the Back Button");
 
         SceneManager.LoadScene("GardenSceneJia");
+    }
+
+    private void OnPopUpClick(ClickEvent evt)
+    {
+        if (isActive)
+        {
+            popup.style.display = DisplayStyle.None;
+            isActive = false;
+        }
+    }
+
+    private void PopUpSpawn(String message)
+    {
+        popupLabel.text = message;
+        popup.style.display = DisplayStyle.Flex;
+        isActive = true;
     }
 
     private void OnAllButtonsClick(ClickEvent evt)
