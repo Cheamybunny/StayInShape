@@ -92,14 +92,14 @@ public class ScreenshotDisplayEvents : MonoBehaviour
     {
         Debug.Log("You pressed Left Button");
 
-        screenshots.PreviousPicture();
+        setScreenshot(screenshots.PreviousPicture());
     }
 
     private void OnRightClick(ClickEvent evt)
     {
         Debug.Log("You pressed Right Button");
 
-        screenshots.NextPicture();
+        setScreenshot(screenshots.NextPicture());
     }
     
     private void OnAllButtonsClick(ClickEvent evt)

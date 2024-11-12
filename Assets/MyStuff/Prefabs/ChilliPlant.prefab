@@ -319,7 +319,8 @@ MonoBehaviour:
   stage2_withered: {fileID: 7308662405516953925}
   stage3_withered: {fileID: 1935251024473051086}
   warning: {fileID: 1003896256919738822}
-  waterParticles: {fileID: 3600589249047961611}
+  waterParticles: {fileID: 7856925076177089015, guid: 4e31905604b3a724799f0eadc04f55fb,
+    type: 3}
   waterSound: {fileID: 2135566356065072651}
 --- !u!198 &3600589249047961611
 ParticleSystem:

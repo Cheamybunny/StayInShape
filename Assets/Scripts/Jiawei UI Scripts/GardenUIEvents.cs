@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Xml.Linq;
+using UnityEngine.XR.ARFoundation;
 
 public class GardenUIEvents : MonoBehaviour
 {
     [SerializeField] SceneChanger sceneChanger;
+    [SerializeField] ARTrackedImageManager trackedImageManager;
+    private GardenCalibration gc;
+
     private UIDocument _document;
 
     private Button _button1;
@@ -15,8 +20,8 @@ public class GardenUIEvents : MonoBehaviour
     private Button _button4;
     private Button _button5;
     private Button closeErrorButton;
-
-    public static Texture2D capturedScreenshot;
+    private VisualElement L;
+    private Button spawnButton;
 
     private Label errorMessage2;
     private Label levelvalue;
@@ -72,6 +77,13 @@ public class GardenUIEvents : MonoBehaviour
         _button5 = _document.rootVisualElement.Q("GamesButton") as Button;
         _button5.RegisterCallback<ClickEvent>(OnGamesClick);
 
+        spawnButton = _document.rootVisualElement.Q("SpawnButton") as Button;
+        spawnButton.RegisterCallback<ClickEvent>(OnStartClick);
+        spawnButton.style.display = DisplayStyle.None;
+
+        L = _document.rootVisualElement.Q("L") as VisualElement;
+        L.style.display = DisplayStyle.None;
+
         closeErrorButton = _document.rootVisualElement.Q("CloseErrorMessage") as Button;
         closeErrorButton.RegisterCallback<ClickEvent>(OnCloseErrorClick);
         closeErrorButton.style.display = DisplayStyle.None;
@@ -98,6 +110,29 @@ public class GardenUIEvents : MonoBehaviour
         {
             _menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+    }
+
+    public void SetUp(GardenCalibration gc)
+    {
+        L.style.display = DisplayStyle.Flex;
+        //if (isActive)
+        //{
+        //    popUp.style.display = DisplayStyle.None;
+        //    isActive = false;
+        //}
+        spawnButton.style.display = DisplayStyle.Flex;
+        this.gc = gc;
+    }
+
+    private void OnStartClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Start Button");
+        L.style.display = DisplayStyle.None;
+        spawnButton.style.display = DisplayStyle.None;
+        // status.text = "Look up, the cards are in front of you. Good Luck!";
+        // instructions.text = "Match every card to another similar card!\r\nYou can select a card by tapping on them!";
+        trackedImageManager.enabled = false;
+        gc.SpawnGarden();
     }
 
     private void OnDisable()

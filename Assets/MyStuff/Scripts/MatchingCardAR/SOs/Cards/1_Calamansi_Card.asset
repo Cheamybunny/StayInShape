@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c148ca9f3efa0a41999aab11856582a, type: 3}
-  m_Name: Luffa_Card
+  m_Name: 1_Calamansi_Card
   m_EditorClassIdentifier: 
-  name: Luffa
+  name: Calamansi
   descriptions:
-  - Sponge-like texture
-  - Young me can be eaten
-  - Green and from the Melon family
-  id: 4
-  col: {r: 0.7924528, g: 0.7078436, b: 0.47472408, a: 1}
-  img: {fileID: 21300000, guid: 829172465e8e08e46b18465ddae201a0, type: 3}
+  - Looks like a lime!
+  - From the Citrus family
+  - Green and grows on trees
+  id: 1
+  col: {r: 0.54251814, g: 1, b: 0, a: 1}
+  img: {fileID: 21300000, guid: bb5a1453d53aee9469c458fcde4f595c, type: 3}

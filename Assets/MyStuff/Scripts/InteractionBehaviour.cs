@@ -73,6 +73,7 @@ public class InteractionBehaviour : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
+                Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
                 {
                     Component heldItem = gardenUIBehaviour2.getEquipped();
