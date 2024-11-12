@@ -30,18 +30,17 @@ public class MatchingCardManager : MonoBehaviour
     private bool isActive = true;
 
     public int timeToDisplayText = 3;
-    public int intervalToPlayGame = 5;
-    public int reward = 6;
+    public int intervalToPlayGame = 1;
+    public int reward = 0;
     public int heightOfCards = 4;
-    public int nCards = 8;
     public int spawnRange = 5;
     private CardLogic selectedCard;
     private int nCardsLeft;
-    private int currReward;
     private int gameLevel;
     private AudioSource audioSource;
     private Transform parentTransform;
     private MatchingCardsPrefab gamePrefab;
+    private int[] nCards = new int[] { 10, 14, 18 };
 
     private void Awake()
     {
@@ -64,24 +63,24 @@ public class MatchingCardManager : MonoBehaviour
         popUp = document.rootVisualElement.Q("PopUp") as VisualElement;
         popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
         StartCoroutine(HidePopUpAfterDelay(5f));
-
-        currReward = 0;
         gameLevel = ResourceCollectionEvents.GameData.difficulty;
     }
 
-    private void RewardPlayer(int reward)
+    private void RewardPlayer()
     {
+        reward = reward * (gameLevel + 1);
         PlaySound(winGameClip);
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
         EndGameEvents.Rewards.waterReward = reward;
         EndGameEvents.Rewards.fertReward = reward;
+        saveManager.Save();
         SceneManager.LoadScene("EndGameScene");
     }
 
-    private void AddReward(int add, string plantName) // TODO: Find a way to utilise currReward
+    private void AddReward(int add, string plantName) // TODO: Find a way to utilise reward
     {
-        currReward += add;
+        reward += add;
         // DisplayText(String.Format("You have matched a pair of {0} cards!", plantName));
     }
 
@@ -89,14 +88,14 @@ public class MatchingCardManager : MonoBehaviour
     {
         player.SetMatchingCardTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         // instructions.text = "You have won the game. Tap on the back button to go to the home screen.\n Next time to play is " + player.GetMatchingCardTimer();
-        saveManager.Save();
-        RewardPlayer(reward);
+
+        RewardPlayer();
     }
 
     private void SpawnCards()
     {
         // Spawn cards first
-        for (int i = 0; i < nCards; i++)
+        for (int i = 0; i < nCards[gameLevel]; i++)
         {
             GameObject instance = Instantiate(cardPrefab, Vector3.zero, transform.rotation);
             instance.gameObject.name = "Card " + i.ToString();
@@ -117,8 +116,8 @@ public class MatchingCardManager : MonoBehaviour
         button3.style.display = DisplayStyle.Flex;
         // instructions.text = "Don't see anything? Try moving closer or further to the QR code.";
         // status.text = "To properly spawn AR, move your phone so that the blue and red lines fit inside the L on your screen.\nOnce ready, press START GAME.";
-        currReward = 0;
-        nCardsLeft = nCards;
+        reward = 0;
+        nCardsLeft = nCards[gameLevel];
         parentTransform = pTransform;
     }
 
@@ -130,9 +129,9 @@ public class MatchingCardManager : MonoBehaviour
         // instructions.text = "Match every card to another similar card!\r\nYou can select a card by tapping on them!";
         trackedImageManager.enabled = false;
         SpawnCards();
-        Transform[] myCards = GetCards(parentTransform, nCards);
-        RandomiseCards(myCards, nCards);
-        ArrangeCards(myCards, spawnRange, nCards);
+        Transform[] myCards = GetCards(parentTransform, nCards[gameLevel]);
+        RandomiseCards(myCards, nCards[gameLevel]);
+        ArrangeCards(myCards, spawnRange, nCards[gameLevel]);
         gamePrefab.StartGame();
     }
 
@@ -177,6 +176,10 @@ public class MatchingCardManager : MonoBehaviour
         int z_offset = 3;
         float angleStep = 360f / nCards;
         float x, z;
+        int numberOfElementsPerRow = nCards / 2;
+        float unitSpacing = 2f;
+        float totalWidth = (numberOfElementsPerRow - 1) * unitSpacing;
+        float startX = -totalWidth / 2f;
 
         for (int i = 0; i < nCards; i++)
         {
@@ -186,11 +189,11 @@ public class MatchingCardManager : MonoBehaviour
             if (i % 2 == 0)
             {
                 x = Mathf.Cos(angleRadians) * spawnRange;
-                newSpawnPosition = new Vector3(i * spawnRange * 0.25f - 4, heightOfCards, z_offset);
+                newSpawnPosition = new Vector3(startX + (i/2) * unitSpacing, heightOfCards, z_offset);
             } else
             {
                 x = Mathf.Cos(angleRadians) * spawnRange;
-                newSpawnPosition = new Vector3((i-1) * spawnRange * 0.25f - 4, heightOfCards * 1.5f, z_offset);
+                newSpawnPosition = new Vector3(startX + ((i-1) / 2) * unitSpacing, heightOfCards * 1.5f, z_offset);
             }
             spawnPositions[i] = newSpawnPosition;
         }

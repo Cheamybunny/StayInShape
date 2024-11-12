@@ -622,10 +622,9 @@ MonoBehaviour:
   trackedImageManager: {fileID: 2512387470422636670}
   sceneChanger: {fileID: 1278672418}
   timeToDisplayText: 3
-  intervalToPlayGame: 5
-  reward: 6
+  intervalToPlayGame: 1
+  reward: 2
   heightOfCards: 4
-  nCards: 8
   spawnRange: 5
 --- !u!4 &1765540924 stripped
 Transform:
@@ -662,9 +661,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5930c81987de0a34f8f7da7c5489be63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceText: {fileID: 0}
   threshold: 1
   stepLength: 0.75
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   saveManager: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
   playerData: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
   distanceWalked: 0
