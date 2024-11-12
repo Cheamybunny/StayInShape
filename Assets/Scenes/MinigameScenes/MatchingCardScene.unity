@@ -621,6 +621,8 @@ MonoBehaviour:
     type: 3}
   trackedImageManager: {fileID: 2512387470422636670}
   sceneChanger: {fileID: 1278672418}
+  particlePrefab: {fileID: 4343652460349132687, guid: 802d46e527606bc4ca979450f5b4bf0e,
+    type: 3}
   timeToDisplayText: 3
   intervalToPlayGame: 1
   reward: 2
