@@ -56,6 +56,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MinigameScenes/EndGameScene.unity
     guid: 6179f9414c6cdf7429b7c2d4773d8369
+  - enabled: 1
+    path: Assets/Scenes/SurveyScene.unity
+    guid: ecded0b56a05cfe40914474dc349c56f
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af,
       type: 2}
