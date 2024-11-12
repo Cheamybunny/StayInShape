@@ -8,9 +8,11 @@ using UnityEngine.SceneManagement;
 public class ScreenshotDisplayEvents : MonoBehaviour
 {
     private UIDocument document;
-
+    [SerializeField] ScreenshotPreviewer screenshots;
     private Button button1;
     private Button button2;
+    private Button button3;
+    private Button button4;
 
     private VisualElement screenshotContainer;
     
@@ -23,35 +25,48 @@ public class ScreenshotDisplayEvents : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         document = GetComponent<UIDocument>();
 
-        button1 = document.rootVisualElement.Q("SaveButton") as Button;
-        button1.RegisterCallback<ClickEvent>(OnSaveClick);
+        button1 = document.rootVisualElement.Q("CancelButton") as Button;
+        button1.RegisterCallback<ClickEvent>(OnCancelClick);
 
-        button2 = document.rootVisualElement.Q("CancelButton") as Button;
-        button2.RegisterCallback<ClickEvent>(OnCancelClick);
+        button2 = document.rootVisualElement.Q("DeleteButton") as Button;
+        button2.RegisterCallback<ClickEvent>(OnDeleteClick);
+
+        button3 = document.rootVisualElement.Q("LeftButton") as Button;
+        button3.RegisterCallback<ClickEvent>(OnLeftClick);
+
+        button4 = document.rootVisualElement.Q("RightButton") as Button;
+        button4.RegisterCallback<ClickEvent>(OnRightClick);
 
         screenshotContainer = document.rootVisualElement.Q("ScreenshotContainer") as VisualElement;
-        if (GardenUIEvents.capturedScreenshot != null)
-        {
-            Debug.Log("Displaying SS");
-            // Convert Texture2D to a usable format for UI Toolkit
-            var sprite = Sprite.Create(GardenUIEvents.capturedScreenshot, new Rect(0, 0, GardenUIEvents.capturedScreenshot.width, GardenUIEvents.capturedScreenshot.height), new Vector2(0.5f, 0.5f));
-            var texture = sprite.texture;
-
-            screenshotContainer.style.backgroundImage = new StyleBackground(texture);
-        }
-
         menuButtons = document.rootVisualElement.Query<Button>().ToList();
 
         for (int i = 0; i < menuButtons.Count; i++)
         {
             menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+
+        // screenshots will not be initialised yet. So we must call from screenshot's end.
+    }
+
+    public void setScreenshot(Sprite ss)
+    {
+        if (ss != null)
+        {
+            var texture = ss.texture;
+            screenshotContainer.style.backgroundImage = new StyleBackground(texture);
+        }
+        else
+        {
+            Debug.Log("Cannot set screenshot!");
+        }
     }
 
     private void OnDisable()
     {
-        button1.UnregisterCallback<ClickEvent>(OnSaveClick);
-        button2.UnregisterCallback<ClickEvent>(OnCancelClick);
+        button1.UnregisterCallback<ClickEvent>(OnCancelClick);
+        button2.UnregisterCallback<ClickEvent>(OnDeleteClick);
+        button3.UnregisterCallback<ClickEvent>(OnLeftClick);
+        button4.UnregisterCallback<ClickEvent>(OnRightClick);
 
         for (int i = 0; i < menuButtons.Count; i++)
         {
@@ -59,44 +74,32 @@ public class ScreenshotDisplayEvents : MonoBehaviour
         }
     }
 
-    private void OnSaveClick(ClickEvent evt)
-    {
-        Debug.Log("You pressed Save Button");
-
-        SaveScreenshot();
-    }
-
-    private void SaveScreenshot()
-    {
-        // Define the path to save the screenshot in the public Pictures/Screenshots directory
-        string directoryPath = Path.Combine("/storage/emulated/0/Pictures/Screenshots");
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        string filePath = Path.Combine(directoryPath, $"Screenshot_{System.DateTime.Now:yyyyMMdd_HHmmss}.png");
-        byte[] bytes = GardenUIEvents.capturedScreenshot.EncodeToPNG();
-        File.WriteAllBytes(filePath, bytes);
-
-    #if UNITY_ANDROID
-        // Refresh the Android gallery so the image appears in the standard gallery app
-        AndroidJavaClass mediaScanner = new AndroidJavaClass("android.media.MediaScannerConnection");
-        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-        mediaScanner.CallStatic("scanFile", currentActivity, new string[] { filePath }, null, null);
-    #endif
-
-        Debug.Log($"Screenshot saved to: {filePath}");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("OriginalScene");
-    }
-
     private void OnCancelClick(ClickEvent evt)
     {
         Debug.Log("You pressed Cancel Button");
-
         SceneManager.LoadScene("GardenSceneJia");
+    }
+
+    private void OnDeleteClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Delete Button");
+
+        screenshots.ClearPictures();
+        SceneManager.LoadScene("GardenSceneJia");
+    }
+
+    private void OnLeftClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Left Button");
+
+        screenshots.PreviousPicture();
+    }
+
+    private void OnRightClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Right Button");
+
+        screenshots.NextPicture();
     }
     
     private void OnAllButtonsClick(ClickEvent evt)

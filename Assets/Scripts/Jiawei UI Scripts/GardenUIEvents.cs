@@ -224,14 +224,21 @@ public class GardenUIEvents : MonoBehaviour
 
     private IEnumerator TakeScreenshot()
     {
-        yield return new WaitForEndOfFrame();
-
-        int width = Screen.width;
-        int height = Screen.height;
-        capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
-        capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        capturedScreenshot.Apply();
-
+        string timeStamp = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
+        string fileName = "Screenshot" + timeStamp + ".png";
+        string pathToSave;
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            pathToSave = Application.persistentDataPath + "/" + fileName;
+            ScreenshotPreviewer.recentScreenshotPath = pathToSave;
+        } else
+        {
+            pathToSave = fileName;
+            ScreenshotPreviewer.recentScreenshotPath = Application.persistentDataPath + "/" + pathToSave;
+        }
+        ScreenCapture.CaptureScreenshot(pathToSave);
+        Debug.Log("Screenshot saved to " + pathToSave);
+        yield return new WaitForSeconds(1);
         // Load the scene where the screenshot will be displayed
         SceneManager.LoadScene("ScreenshotDisplayScene");
     }
