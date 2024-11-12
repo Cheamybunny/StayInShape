@@ -10,6 +10,7 @@ public class MainMenuEvents : MonoBehaviour
     private UIDocument _document;
 
     private Button _button1;
+    private Button _button2;
 
     private List<Button> _menuButtons = new List<Button>();
 
@@ -25,6 +26,9 @@ public class MainMenuEvents : MonoBehaviour
 
         _button1 = _document.rootVisualElement.Q("MyGardenButton") as Button;
         _button1.RegisterCallback<ClickEvent>(OnMyGardenClick);
+
+        _button2 = _document.rootVisualElement.Q("TestButton") as Button;
+        _button2.RegisterCallback<ClickEvent>(OnTestClick);
 
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
 
@@ -47,8 +51,15 @@ public class MainMenuEvents : MonoBehaviour
     private void OnMyGardenClick(ClickEvent evt)
     {
         Debug.Log("You pressed the My Garden Button");
-        onGardenButtonClicked?.Invoke();
+
         SceneManager.LoadScene("GardenSceneJia");
+    }
+
+    private void OnTestClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed the My Garden Button");
+
+        SceneManager.LoadScene("SurveyScene");
     }
 
     private void OnAllButtonsClick(ClickEvent evt)
