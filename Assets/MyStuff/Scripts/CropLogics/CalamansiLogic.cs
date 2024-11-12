@@ -17,12 +17,12 @@ public class CalamansiLogic : MonoBehaviour
     [SerializeField] private ParticleSystem waterParticles;
     [SerializeField] private AudioSource waterSound;
 
-    private float stage_1_threshold = 60f;
-    private float stage_2_threshold = 120f;
-    private float stage_3_threshold = 180f;
-    private float harvest_threshold = 240f;
-    private float wither_threshold = 120f;
-    private float warning_threshold = 90f;
+    private float stage_1_threshold = 220f;
+    private float stage_2_threshold = 230f;
+    private float stage_3_threshold = 250f;
+    private float harvest_threshold = 270f;
+    private float wither_threshold = 250f;
+    private float warning_threshold = 230f;
 
     private float growthAmount = 0f;
     private float growthRate = 1f;
@@ -179,9 +179,15 @@ public class CalamansiLogic : MonoBehaviour
         }
     }
 
-    public void getStatus()
+    public string getStatus()
     {
         Debug.Log("Growth Amount: " + growthAmount);
+        if (isWithered)
+        {
+            return ErrorManager.instance.CropWitheredError();
+        }
+        float timeToWither = ((wither_threshold - witherTime) / wither_threshold) * 100;
+        return "\n\nCurrent Growth Rate: " + getGrowthRate() + "\nRemaining water: " + timeToWither + "%";
     }
 
     public float getGrowthAmount()

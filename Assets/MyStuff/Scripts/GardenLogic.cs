@@ -34,13 +34,29 @@ public class GardenLogic : MonoBehaviour
         foreach(var decoData in decoDataList)
         {
             GameObject spawnedDeco;
-            if(decoData.decoType == 1)
+            if (decoData.decoType == 1)
             {
                 spawnedDeco = Instantiate(DecoManager.instance.GetFlowerPrefab());
             }
+            else if (decoData.decoType == 2)
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetFlower2Prefab());
+            }
+            else if (decoData.decoType == 3)
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetSunflowerPrefab());
+            }
+            else if (decoData.decoType == 4)
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetChickenPrefab());
+            }
+            else if (decoData.decoType == 5)
+            {
+                spawnedDeco = Instantiate(DecoManager.instance.GetRadioprefab());
+            }
             else
             {
-                spawnedDeco = Instantiate(DecoManager.instance.GetFlowerPrefab()); //yardstick for when more decos are added
+                spawnedDeco = Instantiate(DecoManager.instance.GetFlowerPrefab());
             }
             spawnedDeco.transform.SetParent(transform);
             spawnedDeco.transform.localPosition = decoData.position;
@@ -49,44 +65,6 @@ public class GardenLogic : MonoBehaviour
         }
     }
 
-    /**
-    private void OnEnable()
-    {
-        if (imageManager != null)
-        {
-            imageManager.trackedImagesChanged += OnTrackedImagesChanged;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (imageManager != null)
-        {
-            imageManager.trackedImagesChanged -= OnTrackedImagesChanged;
-        }
-    }
-
-    private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
-    {
-        foreach (var trackedImage in eventArgs.added)
-        {
-            // Set the position and scale of this object to match the tracked image
-            transform.position = trackedImage.transform.position;
-            transform.rotation = trackedImage.transform.rotation;
-            transform.localScale = scaleFactor;
-
-            // Optionally, set this object as a child of the tracked image
-            transform.SetParent(trackedImage.transform);
-            transform.localPosition += new Vector3(0, 2f, -5f);
-        }
-
-        foreach (var trackedImage in eventArgs.updated)
-        {
-            transform.position = trackedImage.transform.position;
-            transform.rotation = trackedImage.transform.rotation;
-        }
-    }
-    **/
     private void Update()
     {
 
@@ -98,7 +76,7 @@ public class GardenLogic : MonoBehaviour
         Debug.Log("Insert Here");
         GameObject deco = Instantiate(decoPrefab);
         deco.transform.SetParent(transform);
-        deco.transform.localPosition = transform.InverseTransformPoint(position);
+        deco.transform.localPosition = transform.InverseTransformPoint(position) + new Vector3(0f, 0.05f, 0f);
         deco.transform.rotation = transform.rotation;
         deco.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }

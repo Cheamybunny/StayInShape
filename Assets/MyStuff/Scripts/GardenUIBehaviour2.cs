@@ -22,6 +22,10 @@ public class GardenUIBehaviour2 : MonoBehaviour
     public const int PAPAYA = 8;
     public const int CALAMANSI = 9;
     public const int FLOWER = 10;
+    public const int FLOWER2 = 11;
+    public const int SUNFLOWER = 12;
+    public const int CHICKEN = 13;
+    public const int RADIO = 14;
     public int rayDistance = 5;
     private Component equippedItem;
     public GardenUIEvents gardenUIEvents;
@@ -34,10 +38,26 @@ public class GardenUIBehaviour2 : MonoBehaviour
     private void Awake()
     {
         saveManager.Load();
-        if(player.GetLastHeldItem() == 10)
+        if (player.GetLastHeldItem() == 10)
         {
             Debug.Log("123 Player is holding decoration!");
             UpdateItem(decoManager.GetFlowerPrefab().transform);
+        }
+        else if (player.GetLastHeldItem() == 11)
+        {
+            UpdateItem(decoManager.GetFlower2Prefab().transform);
+        }
+        else if (player.GetLastHeldItem() == 12)
+        {
+            UpdateItem(decoManager.GetSunflowerPrefab().transform);
+        }
+        else if (player.GetLastHeldItem() == 13)
+        {
+            UpdateItem(decoManager.GetChickenPrefab().transform);
+        }
+        else if (player.GetLastHeldItem() == 14)
+        {
+            UpdateItem(decoManager.GetRadioprefab().transform);
         }
     }
 
@@ -59,7 +79,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Chilli Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Chilli"));
         }
     }
 
@@ -74,7 +94,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Loofa Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Loofa"));
         }
     }
 
@@ -89,7 +109,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Eggplant Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Eggplant"));
         }
     }
 
@@ -104,7 +124,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Sweet Potato Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Sweet Potato"));
         }
     }
 
@@ -119,7 +139,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Papaya Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Papaya"));
         }
     }
 
@@ -134,7 +154,7 @@ public class GardenUIBehaviour2 : MonoBehaviour
         }
         else
         {
-            ThrowError("Oops! Unfortunately, you do not \nhave any Calamansi Stock.\nGo to the shop to buy more!");
+            ThrowError(ErrorManager.instance.NoSeedsError("Calamansi"));
         }
     }
     public void UpdateItem(Transform item)
@@ -196,6 +216,26 @@ public class GardenUIBehaviour2 : MonoBehaviour
             Debug.Log("123 Got component Reached here");
             gardenUIEvents.UpdatePickedItem(FLOWER);
             equippedItem = flowerLogic;
+        }
+        else if(item.TryGetComponent<Flower2Logic>(out Flower2Logic flower2Logic))
+        {
+            gardenUIEvents.UpdatePickedItem(FLOWER2);
+            equippedItem = flower2Logic;
+        }
+        else if(item.TryGetComponent<SunflowerLogic>(out SunflowerLogic sunflower))
+        {
+            gardenUIEvents.UpdatePickedItem(SUNFLOWER);
+            equippedItem = sunflower;
+        }
+        else if(item.TryGetComponent<ChickenDecorLogic>(out ChickenDecorLogic chicken))
+        {
+            gardenUIEvents.UpdatePickedItem(CHICKEN);
+            equippedItem = chicken;
+        }
+        else if (item.TryGetComponent<RadioLogic>(out RadioLogic radioLogic))
+        {
+            gardenUIEvents.UpdatePickedItem(RADIO);
+            equippedItem = radioLogic;
         }
         else if (item.TryGetComponent<MagnifierLogic>(out MagnifierLogic magnifierLogic))
         {
