@@ -19,6 +19,7 @@ public class MatchingCardManager : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
     [SerializeField] ARTrackedImageManager trackedImageManager;
     [SerializeField] SceneChanger sceneChanger;
+    [SerializeField] GameObject particlePrefab;
 
     // Jiawei UI stuff
     private UIDocument document;
@@ -245,6 +246,8 @@ public class MatchingCardManager : MonoBehaviour
     private void MatchCards(CardLogic card1, CardLogic card2)
     {
         Unselect();
+        SpawnParticles(card1.gameObject.transform.position);
+        SpawnParticles(card2.gameObject.transform.position);
         Destroy(card1.gameObject);
         Destroy(card2.gameObject);
         PlaySound(matchCorrectClip);
@@ -254,6 +257,15 @@ public class MatchingCardManager : MonoBehaviour
         {
             CompleteGame();
         }
+    }
+
+    private void SpawnParticles(Vector3 pos)
+    {
+        // Instantiate the particle system at the position
+        GameObject particleEffect = Instantiate(particlePrefab, pos, Quaternion.identity);
+
+        // Optionally, destroy the particle effect after 5 seconds
+        Destroy(particleEffect, 3f);
     }
 
     public void SelectCard(CardLogic card)

@@ -624,8 +624,8 @@ MonoBehaviour:
   particlePrefab: {fileID: 4343652460349132687, guid: 802d46e527606bc4ca979450f5b4bf0e,
     type: 3}
   timeToDisplayText: 3
-  intervalToPlayGame: 1
-  reward: 2
+  intervalToPlayGame: 15
+  reward: 0
   heightOfCards: 4
   spawnRange: 5
 --- !u!4 &1765540924 stripped

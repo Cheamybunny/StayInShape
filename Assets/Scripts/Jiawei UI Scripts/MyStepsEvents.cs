@@ -76,7 +76,7 @@ public class MyStepsEvents : MonoBehaviour
             if (counter.GetStepCount() >= chosenReward.stepsNeeded)
             {
                 string popupMessage = $"You have earned {chosenReward.waterReward} bag(s) of water and {chosenReward.fertilizerReward} bag(s) of fertilizer";
-                // Popup(popupMessage);
+                 PopUpSpawn(popupMessage);
                 // Update playerDataSO
                 playerDataSO.SetFertilizer(playerDataSO.GetFertilizer() + chosenReward.fertilizerReward);
                 playerDataSO.SetWater(playerDataSO.GetWater() + chosenReward.waterReward);
@@ -101,6 +101,7 @@ public class MyStepsEvents : MonoBehaviour
         if (DateTime.Now.Day == 1)
         {
             ResetAllRewards();
+            PopUpSpawn("The step reward system has just been resetted!");
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -168,10 +169,6 @@ public class MyStepsEvents : MonoBehaviour
         {
             menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
         }
-    }
-
-    private void Update()
-    {
     }
 
     private void ResetAllRewards()
