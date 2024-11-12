@@ -36,7 +36,7 @@ public class SnapGameEvents : MonoBehaviour
     // Game Fields
     private int[] level = new int[] {35, 6}; 
     private float[] timePerSnap = new float[] {6, 4, 1};
-    private int intervalToPlayGame = 10;
+    public int intervalToPlayGame = 3;
     private float timeLeft;
     private int currentLevelId;
     private int currentDeckCard;
