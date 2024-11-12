@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 1716597192}
   - component: {fileID: 1716597195}
   - component: {fileID: 1716597194}
+  - component: {fileID: 1716597196}
   m_Layer: 5
   m_Name: MyStepsUI
   m_TagString: Untagged
@@ -581,6 +582,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDataSO: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
+--- !u!114 &1716597196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716597191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5930c81987de0a34f8f7da7c5489be63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 1
+  stepLength: 0.75
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1716597195}
+        m_TargetAssemblyTypeName: MyStepsEvents, Assembly-CSharp
+        m_MethodName: SetStepUICount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  saveManager: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
+  playerData: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
+  distanceWalked: 0
+  stepCount: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

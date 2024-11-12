@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class MyStepsEvents : MonoBehaviour
 {
     private UIDocument document;
-
+    private StepCounter counter;
     private Button button1;
     private ScrollView scrollView1;
     private Label countdown;
@@ -21,10 +21,15 @@ public class MyStepsEvents : MonoBehaviour
     [SerializeField]
     PlayerDataSO playerDataSO;
 
+    [SerializeField]
+    private List<Sprite> collectedSprites;
+    private List<Sprite> uncollectedSprites;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         document = GetComponent<UIDocument>();
+        counter = GetComponent<StepCounter>();
 
         button1 = document.rootVisualElement.Q("BackButton") as Button;
         button1.RegisterCallback<ClickEvent>(OnBackClick);
@@ -39,7 +44,11 @@ public class MyStepsEvents : MonoBehaviour
         for (int i = 0; i < menuButtons.Count; i++)
         {
             menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
+            
         }
+
+        int steps = counter.GetStepCount();
+        stepCount.text = $"Total steps: {steps}";
     }
     
     private void OnDisable()
@@ -57,9 +66,11 @@ public class MyStepsEvents : MonoBehaviour
         int daysRemaining = GetDaysUntilNextMonth();
         string dayText = daysRemaining == 1 ? "day" : "days";
         countdown.text = $"{daysRemaining} {dayText} until reset";
+    }
 
-        int steps = playerDataSO.GetSteps();
-        stepCount.text = $"Total steps: {steps}";
+    public void SetStepUICount(int newSteps)
+    {
+        stepCount.text = $"Total steps: {newSteps}";
     }
 
     private int GetDaysUntilNextMonth()
