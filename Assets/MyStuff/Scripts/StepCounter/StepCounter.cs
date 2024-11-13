@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 // Code adapted from https://medium.com/@xavidevsama/create-a-simple-step-counter-pedometer-with-unity-c-a68151354b82
 
@@ -9,11 +10,12 @@ using UnityEngine.InputSystem;
 public class StepCounter : MonoBehaviour
 {
     // Variables
-    public TMP_Text distanceText;
     public float threshold = 1f;
     public float stepLength = 0.75f;
     private float timer = 0.0f;
     private float stepDelay = 0.35f;
+
+    [SerializeField] public UnityEvent<int> onUpdate;
 
     [SerializeField]
     public SaveManagerSO saveManager;
@@ -68,6 +70,7 @@ public class StepCounter : MonoBehaviour
         }
     }
 
+    // We should try to read from StepCounter as much as possible rather than PlayerDataSO
     private void OnDisable()
     {
         if (isInitialized)
@@ -86,9 +89,9 @@ public class StepCounter : MonoBehaviour
             DetectSteps();
             CalculateDistance();
 
-            if (distanceText != null)
+            if (onUpdate != null)
             {
-                distanceText.text = GetStepCount().ToString();
+                onUpdate.Invoke(GetStepCount());
             }
         }
         //if (Accelerometer.current != null)

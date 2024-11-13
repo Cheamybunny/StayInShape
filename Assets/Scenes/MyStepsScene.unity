@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 232190875}
   - component: {fileID: 232190874}
   - component: {fileID: 232190873}
+  - component: {fileID: 232190876}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -214,6 +215,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232190876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232190872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &625509834
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +478,7 @@ GameObject:
   - component: {fileID: 1716597192}
   - component: {fileID: 1716597195}
   - component: {fileID: 1716597194}
+  - component: {fileID: 1716597196}
   m_Layer: 5
   m_Name: MyStepsUI
   m_TagString: Untagged
@@ -580,6 +626,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be30c98ac9233ed4ca1f6dc6271c4a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDataSO: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
+  saveManagerSO: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
+  collectedSprites:
+  - {fileID: 21300000, guid: e031d80141a05ba4a8726cccb14fdefa, type: 3}
+  - {fileID: 21300000, guid: 085d3a8c67424024b81ecc1d1a7d38fe, type: 3}
+  - {fileID: 21300000, guid: c0930af6d7e56c84da86d9b7c7ecf9ac, type: 3}
+  - {fileID: 21300000, guid: c832a5bcf066e134486e8f5bcad0ccd4, type: 3}
+  - {fileID: 21300000, guid: 9b062737ab158944f8694ca1e69d1bd6, type: 3}
+  - {fileID: 21300000, guid: a453ac8c13547674c862ae94440c3ec9, type: 3}
+  - {fileID: 21300000, guid: 04b5fe405618b8c4a959994873ac40e7, type: 3}
+  - {fileID: 21300000, guid: 59be8de31becdd343b7aec0466567dc7, type: 3}
+  - {fileID: 21300000, guid: 8764172948b075844bc239b7bade9706, type: 3}
+  - {fileID: 21300000, guid: 4b69f12a92001534785a29a1d0c2d885, type: 3}
+  - {fileID: 21300000, guid: 336c8e12a2211ec498c137e18a660735, type: 3}
+  - {fileID: 21300000, guid: a76c9909c1d33ae4fb28bef54c3d253d, type: 3}
+  - {fileID: 21300000, guid: 7c359e6192f33154c96b91b2360dc019, type: 3}
+  - {fileID: 21300000, guid: 85ec5e6af4f317c48b1da6c2c6a8d8eb, type: 3}
+  - {fileID: 21300000, guid: d2ab19db22343e3458cf7d39c1fe1e5b, type: 3}
+  uncollectedSprites:
+  - {fileID: 21300000, guid: 85df05b6a51adb44196ed6aff69c893e, type: 3}
+  - {fileID: 21300000, guid: c98bdb5cbc10a0848a06b5ff2690f5e1, type: 3}
+  - {fileID: 21300000, guid: 2842715edaa8b1e4ea0fa7cd84d8f228, type: 3}
+  - {fileID: 21300000, guid: 8e60834678b7cd74b9fec4d688dfdb9b, type: 3}
+  - {fileID: 21300000, guid: 94f3af8bd3ad89b40b7b4479c85787fe, type: 3}
+  - {fileID: 21300000, guid: 773acdcedef28a84481919982816fca3, type: 3}
+  - {fileID: 21300000, guid: 9ee3ce3d1a4ecaf419a287fb92037c14, type: 3}
+  - {fileID: 21300000, guid: caa38087d9d916240aef4969319edaeb, type: 3}
+  - {fileID: 21300000, guid: 6ede98794f164804ba7ebe5ea9930de8, type: 3}
+  - {fileID: 21300000, guid: 6046515d81e16234eaaf7b2fa23c7ce9, type: 3}
+  - {fileID: 21300000, guid: e302bfa851b999b44919f9a04f37f8a1, type: 3}
+  - {fileID: 21300000, guid: 409b5417484c1bc49b64f2eee0f79c11, type: 3}
+  - {fileID: 21300000, guid: 86d93ffdbd9b04d4a8fb4d0b00cfc05e, type: 3}
+  - {fileID: 21300000, guid: ef278bc6152eb4c4d814aac498402a88, type: 3}
+  - {fileID: 21300000, guid: fedad461aa655c046ad8a67448b65427, type: 3}
+--- !u!114 &1716597196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716597191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5930c81987de0a34f8f7da7c5489be63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 1
+  stepLength: 0.75
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1716597195}
+        m_TargetAssemblyTypeName: MyStepsEvents, Assembly-CSharp
+        m_MethodName: SetStepUICount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  saveManager: {fileID: 11400000, guid: ddf61ec8f040149498b3a7d02638b035, type: 2}
+  playerData: {fileID: 11400000, guid: de7a4b855443e124e807893f98c13162, type: 2}
+  distanceWalked: 0
+  stepCount: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

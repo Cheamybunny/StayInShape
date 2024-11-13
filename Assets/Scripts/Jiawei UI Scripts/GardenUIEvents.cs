@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Xml.Linq;
+using UnityEngine.XR.ARFoundation;
 
 public class GardenUIEvents : MonoBehaviour
 {
     [SerializeField] SceneChanger sceneChanger;
+    [SerializeField] ARTrackedImageManager trackedImageManager;
+    private GardenCalibration gc;
+
     private UIDocument _document;
 
     private Button _button1;
     private Button _button2;
     private Button _button3;
     private Button _button4;
+    private Button _button5;
     private Button closeErrorButton;
+    private VisualElement L;
+    private Button spawnButton;
 
-    public static Texture2D capturedScreenshot;
-    private IntegerField fertiliserValue;
-    private IntegerField waterValue;
-    private IntegerField levelValue;
-
-    private TextField errorMessage;
+    private Label errorMessage2;
+    private Label levelvalue;
+    private Label watervalue;
+    private Label fertiliservalue;
 
     private VisualElement resourceTracker;
     private VisualElement pickedItem;
@@ -37,6 +43,10 @@ public class GardenUIEvents : MonoBehaviour
     public Sprite kalamansiSprite;
     public Sprite sweetPotatoSprite;
     public Sprite flowerSprite;
+    public Sprite flower2Sprite;
+    public Sprite sunflowerSprite;
+    public Sprite chickenSprite;
+    public Sprite radioSprite;
     private bool isOriginal = true;
     private int pickedItemType;
 
@@ -64,15 +74,25 @@ public class GardenUIEvents : MonoBehaviour
         _button4 = _document.rootVisualElement.Q("ShopButton") as Button;
         _button4.RegisterCallback<ClickEvent>(OnShopClick);
 
+        _button5 = _document.rootVisualElement.Q("GamesButton") as Button;
+        _button5.RegisterCallback<ClickEvent>(OnGamesClick);
+
+        spawnButton = _document.rootVisualElement.Q("SpawnButton") as Button;
+        spawnButton.RegisterCallback<ClickEvent>(OnStartClick);
+        spawnButton.style.display = DisplayStyle.None;
+
+        L = _document.rootVisualElement.Q("L") as VisualElement;
+        L.style.display = DisplayStyle.None;
+
         closeErrorButton = _document.rootVisualElement.Q("CloseErrorMessage") as Button;
         closeErrorButton.RegisterCallback<ClickEvent>(OnCloseErrorClick);
         closeErrorButton.style.display = DisplayStyle.None;
 
-        fertiliserValue = _document.rootVisualElement.Q("fertiliserValue") as IntegerField;
-        waterValue = _document.rootVisualElement.Q("waterValue") as IntegerField;
-        levelValue = _document.rootVisualElement.Q("levelValue") as IntegerField;
-        errorMessage = _document.rootVisualElement.Q("ErrorMessage") as TextField;
-        errorMessage.style.display = DisplayStyle.None;
+        errorMessage2 = _document.rootVisualElement.Q("errorMessage") as Label;
+        errorMessage2.style.display = DisplayStyle.None;
+        levelvalue = _document.rootVisualElement.Q("levelvalue") as Label;
+        watervalue = _document.rootVisualElement.Q("watervalue") as Label;
+        fertiliservalue = _document.rootVisualElement.Q("fertiliservalue") as Label;
 
 
         pickedItem = _document.rootVisualElement.Q("PickedItem") as VisualElement;
@@ -90,6 +110,29 @@ public class GardenUIEvents : MonoBehaviour
         {
             _menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+    }
+
+    public void SetUp(GardenCalibration gc)
+    {
+        L.style.display = DisplayStyle.Flex;
+        //if (isActive)
+        //{
+        //    popUp.style.display = DisplayStyle.None;
+        //    isActive = false;
+        //}
+        spawnButton.style.display = DisplayStyle.Flex;
+        this.gc = gc;
+    }
+
+    private void OnStartClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Start Button");
+        L.style.display = DisplayStyle.None;
+        spawnButton.style.display = DisplayStyle.None;
+        // status.text = "Look up, the cards are in front of you. Good Luck!";
+        // instructions.text = "Match every card to another similar card!\r\nYou can select a card by tapping on them!";
+        trackedImageManager.enabled = false;
+        gc.SpawnGarden();
     }
 
     private void OnDisable()
@@ -111,15 +154,15 @@ public class GardenUIEvents : MonoBehaviour
     private void OnCloseErrorClick(ClickEvent evt)
     {
         closeErrorButton.style.display = DisplayStyle.None;
-        errorMessage.style.display = DisplayStyle.None;
+        errorMessage2.style.display = DisplayStyle.None;
 
     }
 
     public void ThrowError(string errorMessageText)
     {
         closeErrorButton.style.display = DisplayStyle.Flex;
-        errorMessage.value = errorMessageText;
-        errorMessage.style.display = DisplayStyle.Flex;
+        errorMessage2.text = errorMessageText;
+        errorMessage2.style.display = DisplayStyle.Flex;
     }
 
     private void OnStepsButtonClick(ClickEvent evt)
@@ -189,6 +232,22 @@ public class GardenUIEvents : MonoBehaviour
         {
             pickedItem.style.backgroundImage = new StyleBackground(flowerSprite);
         }
+        else if (item == 11)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(flower2Sprite);
+        }
+        else if (item == 12)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(sunflowerSprite);
+        }
+        else if (item == 13)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(chickenSprite);
+        }
+        else if (item == 14)
+        {
+            pickedItem.style.backgroundImage = new StyleBackground(radioSprite);
+        }
     }
 
     private void OnTakePhotoClick(ClickEvent evt)
@@ -200,14 +259,21 @@ public class GardenUIEvents : MonoBehaviour
 
     private IEnumerator TakeScreenshot()
     {
-        yield return new WaitForEndOfFrame();
-
-        int width = Screen.width;
-        int height = Screen.height;
-        capturedScreenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
-        capturedScreenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        capturedScreenshot.Apply();
-
+        string timeStamp = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss");
+        string fileName = "Screenshot" + timeStamp + ".png";
+        string pathToSave;
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            pathToSave = Application.persistentDataPath + "/" + fileName;
+            ScreenshotPreviewer.recentScreenshotPath = pathToSave;
+        } else
+        {
+            pathToSave = fileName;
+            ScreenshotPreviewer.recentScreenshotPath = Application.persistentDataPath + "/" + pathToSave;
+        }
+        ScreenCapture.CaptureScreenshot(pathToSave);
+        Debug.Log("Screenshot saved to " + pathToSave);
+        yield return new WaitForSeconds(1);
         // Load the scene where the screenshot will be displayed
         SceneManager.LoadScene("ScreenshotDisplayScene");
     }
@@ -226,6 +292,13 @@ public class GardenUIEvents : MonoBehaviour
         sceneChanger.GoToScene("ShopScene");
     }
 
+    private void OnGamesClick(ClickEvent evt)
+    {
+        Debug.Log("You pressed Games Button");
+
+        sceneChanger.GoToScene("ResourceCollectionSceneJia");
+    }
+
     
     private void OnResourceTrackerClick(ClickEvent evt)
     {
@@ -240,7 +313,7 @@ public class GardenUIEvents : MonoBehaviour
 
         isOriginal = !isOriginal;
         **/
-        sceneChanger.GoToScene("ResourceCollectionSceneJia");
+        // sceneChanger.GoToScene("ResourceCollectionSceneJia");
     }
     
 
@@ -277,17 +350,17 @@ public class GardenUIEvents : MonoBehaviour
     
     public void setWaterText(int value)
     {
-        waterValue.value = value;
+        watervalue.text = value.ToString();
     }
 
     public void setFertiliserText(int value)
     {
-        fertiliserValue.value = value;
+        fertiliservalue.text = value.ToString();
     }
 
     public void setCurrentLevel(int value)
     {
-        levelValue.value = value;
+        levelvalue.text = value.ToString();
     }
 
     public int GetPickedItemType()

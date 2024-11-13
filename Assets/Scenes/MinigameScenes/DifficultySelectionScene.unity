@@ -224,6 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89434875}
   - component: {fileID: 89434874}
+  - component: {fileID: 89434876}
   m_Layer: 5
   m_Name: DifficultySelectionUI
   m_TagString: Untagged
@@ -263,6 +264,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &89434876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89434873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f327ea720c52e3c4e80586cf88cb6404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  easySprites:
+  - {fileID: 21300000, guid: 8696252d103cb8448a5dcf46b3267827, type: 3}
+  - {fileID: 21300000, guid: 6df5acf4d329cac4ab1b71b4309b0b08, type: 3}
+  mediumSprites:
+  - {fileID: 21300000, guid: bb8aedc3f5c298942a0a27d5e0983473, type: 3}
+  - {fileID: 21300000, guid: 7452514d10da469438730b554cfc2e3c, type: 3}
+  difficultSprites:
+  - {fileID: 21300000, guid: 1671feb857c1e8a40a31d2d61e462fa8, type: 3}
+  - {fileID: 21300000, guid: 7077bb326d74c26409ef857a4d4a156b, type: 3}
 --- !u!1 &1091732715
 GameObject:
   m_ObjectHideFlags: 0

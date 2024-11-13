@@ -22,12 +22,11 @@ public class CareBookEvents : MonoBehaviour
     private AudioSource audioSource;
 
     private Sprite spriteToUse;
-    public Sprite chilliSprite;
-    public Sprite loofaSprite;
-    public Sprite calamansiSprite;
-    public Sprite sweetPotatoSprite;
-    public Sprite eggplantSprite;
-    public Sprite papayaSprite;
+    private Sprite arToUse;
+    [SerializeField]
+    private Sprite[] fruitSprite;  // 0 chilli, 1 loofa, 2 cala, 3 sp, 4 egg, 5 papaya
+    [SerializeField]
+    private Sprite[] arSprite;
 
     private void Awake()
     {
@@ -90,48 +89,48 @@ public class CareBookEvents : MonoBehaviour
     {
         Debug.Log("You pressed the Chilli Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", chilliSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[0], arSprite[0]);
     }
 
     private void OnLoofaClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Loofa Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", loofaSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[1], arSprite[1]);
     }
 
     private void OnCalamansiClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Calamansi Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", calamansiSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[2], arSprite[2]);
     }
 
     private void OnEggplantClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Eggplant Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", eggplantSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[4], arSprite[4]);
     }
 
     private void OnSweetPotatoClick(ClickEvent evt)
     {
         Debug.Log("You pressed the SweetPotato Button");
         
-        ChangeSceneWithSprite("PlantInstructionsScene", sweetPotatoSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[3], arSprite[3]);
     }
 
     private void OnPapayaClick(ClickEvent evt)
     {
         Debug.Log("You pressed the Papaya Button");
 
-        ChangeSceneWithSprite("PlantInstructionsScene", papayaSprite);
+        ChangeSceneWithSprite("PlantInstructionsScene", fruitSprite[5], arSprite[5]);
     }
 
-    private void ChangeSceneWithSprite(string sceneName, Sprite sprite)
+    private void ChangeSceneWithSprite(string sceneName, Sprite sprite, Sprite arfruit)
     {
         spriteToUse = sprite;
-        Debug.Log(spriteToUse);
+        arToUse = arfruit;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -143,10 +142,12 @@ public class CareBookEvents : MonoBehaviour
         UIDocument root = FindObjectOfType<UIDocument>();
 
         VisualElement plantDetails = root.rootVisualElement.Q("PlantDetails") as VisualElement;
+        VisualElement arDetails = root.rootVisualElement.Q("PlantAR") as VisualElement;
 
-        if (plantDetails != null && spriteToUse != null)
+        if (plantDetails != null && spriteToUse != null && arDetails != null && arToUse != null)
         {
             plantDetails.style.backgroundImage = new StyleBackground(spriteToUse);
+            arDetails.style.backgroundImage = new StyleBackground(arToUse);
             Debug.Log("Changed");
         }
 

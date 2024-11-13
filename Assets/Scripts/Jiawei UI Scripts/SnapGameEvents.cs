@@ -10,17 +10,23 @@ using System.Linq;
 public class SnapGameEvents : MonoBehaviour
 {
     private AudioSource audioSource;
+    [SerializeField]
     private UIDocument document;
+    [SerializeField]
+    private UIDocument pauseDocument;
 
     private Button button1;
     private Button button2;
     private Button button3;
+    private Button button4;
+    private Button button5;
 
     private VisualElement popUp;
     private bool isActive = true;
     private VisualElement playerCard;
     private VisualElement deckCard;
     private VisualElement[] plants;
+    private VisualElement pauseHeader;
     private Label nCorrect;
     private Label nWrong;
     private Label timer;
@@ -29,21 +35,31 @@ public class SnapGameEvents : MonoBehaviour
 
     // Game Fields
     private int[] level = new int[] {35, 6}; 
-    private float[] timePerSnap = new float[] {6, 5, 4, 3, 2, 1};
-    private int intervalToPlayGame = 5;
+    private float[] timePerSnap = new float[] {6, 4, 1};
+    public int intervalToPlayGame = 3;
     private float timeLeft;
     private int currentLevelId;
     private int currentDeckCard;
     private bool deckDrawn;
+    private bool lockout;
     private List<int> deckList;
-
     private int currentIndex;
     private int totalMoves;
     private int nCorrects;
     private int nWrongs;
+    private bool isExit = false;
+    private bool deckLastState;
 
     [SerializeField]
     Sprite[] cardSprites;
+    [SerializeField]
+    Sprite[] popupSprites; // 0 is instructions, 1 is incorrect, 2 is correct, 3 draw when not same, 4 buy when same, 5 is game end
+    [SerializeField]
+    Sprite[] resumeSprites;
+    [SerializeField]
+    Sprite[] exitSprites;
+    [SerializeField]
+    Sprite[] headingSprites;
     [SerializeField]
     PlayerDataSO playerDataSO;
     [SerializeField]
@@ -52,10 +68,10 @@ public class SnapGameEvents : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        document = GetComponent<UIDocument>();
+        pauseDocument.rootVisualElement.style.display = DisplayStyle.None;
 
-        button1 = document.rootVisualElement.Q("ExitButton") as Button;
-        button1.RegisterCallback<ClickEvent>(OnExitClick);
+        button1 = document.rootVisualElement.Q("PauseButton") as Button;
+        button1.RegisterCallback<ClickEvent>(OnPauseClick);
 
         button2 = document.rootVisualElement.Q("DrawButton") as Button;
         button2.RegisterCallback<ClickEvent>(OnDrawClick);
@@ -63,12 +79,19 @@ public class SnapGameEvents : MonoBehaviour
         button3 = document.rootVisualElement.Q("BuyButton") as Button;
         button3.RegisterCallback<ClickEvent>(OnBuyClick);
 
+        button4 = pauseDocument.rootVisualElement.Q("ResumeButton") as Button;
+        button4.RegisterCallback<ClickEvent>(OnResumeClick);
+
+        button5 = pauseDocument.rootVisualElement.Q("ExitButton") as Button;
+        button5.RegisterCallback<ClickEvent>(OnExitClick);
+
         popUp = document.rootVisualElement.Q("PopUp") as VisualElement;
         popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
         StartCoroutine(HidePopUpAfterDelay(5f));
 
         playerCard = document.rootVisualElement.Q("Card1") as VisualElement;
         deckCard = document.rootVisualElement.Q("Card2") as VisualElement;
+        pauseHeader = pauseDocument.rootVisualElement.Q("Heading") as VisualElement;
 
         plants = new VisualElement[6];
         for (int i = 0; i < 6; i++)
@@ -87,15 +110,16 @@ public class SnapGameEvents : MonoBehaviour
             menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
 
-        currentLevelId = 0;
+        currentLevelId = ResourceCollectionEvents.GameData.difficulty;
         deckDrawn = false;
         deckList = new List<int>();
+        lockout = false;
         SetupGame();
     }
 
     private void OnDisable()
     {
-        button1.UnregisterCallback<ClickEvent>(OnExitClick);
+        button1.UnregisterCallback<ClickEvent>(OnPauseClick);
         button2.UnregisterCallback<ClickEvent>(OnDrawClick);
         button3.UnregisterCallback<ClickEvent>(OnBuyClick);
         popUp.UnregisterCallback<ClickEvent>(OnPopUpClick);
@@ -108,12 +132,11 @@ public class SnapGameEvents : MonoBehaviour
 
     private void Update()
     {
-        if (deckDrawn)
+        if (deckDrawn && !lockout)
         {
             subtractTimer(Time.deltaTime);
             if (timeLeft < 0)
             {
-                // StartCoroutine(Popup("You did not snap in time!"));
                 incrementWrong();
             }
         }
@@ -135,6 +158,7 @@ public class SnapGameEvents : MonoBehaviour
             Debug.Log("Deck List has " + num);
         }
         updateTextUI();
+        spawnPopup(0);
     }
 
     private void setTimer(float val)
@@ -166,22 +190,39 @@ public class SnapGameEvents : MonoBehaviour
     private void incrementCorrect()
     {
         nCorrects++;
-        updateTextUI(); // Edge case where UI does not update when the game ends after we win using Snap.
+        updateTextUI();
+        removePlant();
+        spawnPopup(2);
+        StartCoroutine(HidePopUpAfterDelay(2f));
+
+        StartCoroutine(CheckCompletionCondition());
     }
 
     private void incrementWrong()
     {
-        //currentIndex++;
         deckDrawn = false;
         nWrongs++;
         updateTextUI();
+        spawnPopup(1);
+        StartCoroutine(HidePopUpAfterDelay(2f));
 
-        if (nWrongs + nCorrects >= level[1])
+        StartCoroutine(CheckCompletionCondition());
+    }
+
+    private IEnumerator CheckCompletionCondition()
+    {
+        while (isActive)
+        {
+            yield return null;
+        }
+
+        if (deckList.Max() == currentIndex || nWrongs + nCorrects >= level[1])
         {
             CompleteGame();
         } 
         else 
         {
+            currentIndex++;
             StartCoroutine(MoveCardsOut());
         }
     }
@@ -189,39 +230,41 @@ public class SnapGameEvents : MonoBehaviour
     private void CompleteGame()
     {
         deckDrawn = false;
-        RewardPlayer();
-        playerDataSO.SetSnapTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
-        saveManager.Save();
-        if (currentLevelId < timePerSnap.Length) currentLevelId++;
-        deckDrawn = false;
         setTimer(0);
-        //SetupGame();
+        playerDataSO.SetSnapTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
+        spawnPopup(5);
+        StartCoroutine(RewardPlayer());
     }
 
-    private void RewardPlayer()
+    private IEnumerator RewardPlayer()
     {
-        int reward = (nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs);
-        playerDataSO.SetWater(playerDataSO.GetWater() + reward);
-        if (reward > 1)
+        while (isActive)
         {
-            // StartCoroutine(Popup(String.Format("Well done! With {1} correct and {2} wrongs, you've earned {0} water!", reward, nCorrects, nWrongs)));
-        } else
-        {
-            // StartCoroutine(Popup(String.Format("Oh no! You made too many mistakes. you've earned 1 water!", reward, nCorrects, nWrongs)));
+            yield return null;
         }
+
+        int reward = ((nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs)) * (currentLevelId + 1);
+        EndGameEvents.Rewards.waterReward = reward;
+        EndGameEvents.Rewards.fertReward = 0;
+        playerDataSO.SetWater(playerDataSO.GetWater() + reward);
+        saveManager.Save();
+        SceneManager.LoadScene("EndGameScene");
     }
 
-    private void OnExitClick(ClickEvent evt)
+    private void OnPauseClick(ClickEvent evt)
     {
-        Debug.Log("You pressed Exit Button");
+        Debug.Log("You pressed Pause Button");
 
-        SceneManager.LoadScene("ResourceCollectionSceneJia");
+        deckLastState = deckDrawn;
+        deckDrawn = false;
+        pauseDocument.rootVisualElement.style.display = DisplayStyle.Flex;
     }
 
     private void OnDrawClick(ClickEvent evt)
     {
         Debug.Log("You pressed Draw Button");
 
+        if (lockout || isActive) return;
         DrawNext();
     }
 
@@ -233,7 +276,8 @@ public class SnapGameEvents : MonoBehaviour
             if (deckList.Contains(currentIndex)) // Prevent drawing when the cards are the same
             {
                 Debug.Log(currentIndex);
-                // StartCoroutine(Popup("Buy when the cards are the same!"));
+                spawnPopup(4);
+                StartCoroutine(HidePopUpAfterDelay(2f));
                 return;
             }
             setTimer(timePerSnap[currentLevelId]);
@@ -254,26 +298,18 @@ public class SnapGameEvents : MonoBehaviour
     {
         Debug.Log("You pressed Buy Button");
 
+        if (lockout || isActive) return;
         totalMoves++;
         if (!deckList.Contains(currentIndex)) // Current index
         {
-            //StartCoroutine(Popup("Draw the next card when the cards are not the same!"));
+            spawnPopup(3);
+            StartCoroutine(HidePopUpAfterDelay(2f));
             return;
         } 
         else 
         {
-            incrementCorrect();
-            updateTextUI();
-            removePlant();
-            if (deckList.Max() == currentIndex || nWrongs + nCorrects >= level[1])
-            {
-                Debug.Log("Game ended!");
-                CompleteGame();
-                return;
-            }
-            currentIndex++;
-            StartCoroutine(MoveCardsOut());
             deckDrawn = false;
+            incrementCorrect();
         }
     }
 
@@ -304,6 +340,7 @@ public class SnapGameEvents : MonoBehaviour
 
     private IEnumerator FlipBothCards() // Only used for game setup
     {
+        lockout = true;
         int newDeckCard = UnityEngine.Random.Range(0, cardSprites.Length);
         while (newDeckCard == currentDeckCard)
         {
@@ -320,16 +357,18 @@ public class SnapGameEvents : MonoBehaviour
         }
 
         playerCard.style.backgroundImage = new StyleBackground(cardSprites[newPlayerCard]);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.25f);
         
         deckCard.style.backgroundImage = new StyleBackground(cardSprites[newDeckCard]);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         currentDeckCard = newDeckCard;
         deckDrawn = true;
+        lockout = false;
     }
 
     private IEnumerator FlipNewPlayerCard()
     {
+        lockout = true;
         int newPlayerCard = UnityEngine.Random.Range(0, cardSprites.Length);
         if (deckList.Contains(currentIndex))
         {
@@ -341,18 +380,76 @@ public class SnapGameEvents : MonoBehaviour
         }
 
         playerCard.style.backgroundImage = new StyleBackground(cardSprites[newPlayerCard]);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
+        lockout = false;
     }
 
     private IEnumerator MoveCardsOut()
     {
+        lockout = true;
+        deckDrawn = false;
         playerCard.style.backgroundImage = new StyleBackground((Sprite)null);
         deckCard.style.backgroundImage = new StyleBackground((Sprite)null);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
+        lockout = false;
 
         if (!(nWrongs + nCorrects >= level[1]))
         {
             DrawNext();
+        }
+    }
+
+    private void spawnPopup(int index) 
+    {
+        if (!isActive)
+        {
+            popUp.style.display = DisplayStyle.Flex;  
+        }
+        popUp.style.backgroundImage = new StyleBackground(popupSprites[index]);
+        isActive = true;
+    }
+
+    private void OnResumeClick(ClickEvent evt)
+    {
+        if (!isExit)
+        {
+            Debug.Log("Resumed Clicked");
+
+            pauseDocument.rootVisualElement.style.display = DisplayStyle.None;   
+            deckDrawn = deckLastState;
+        }
+        else
+        {
+            Debug.Log("Confirmed Exit");
+
+            SceneManager.LoadScene("ResourceCollectionSceneJia");
+        }
+    }
+
+    private void OnExitClick(ClickEvent evt)
+    {
+        if (!isExit)
+        {
+            Debug.Log("Exit Clicked");
+
+            isExit = true;
+            button4.style.backgroundImage = new StyleBackground(resumeSprites[1]);
+            button5.style.backgroundImage = new StyleBackground(exitSprites[1]);
+            pauseHeader.style.backgroundImage = new StyleBackground(headingSprites[1]);
+            pauseHeader.style.height = new Length(10f, LengthUnit.Percent);
+            pauseHeader.style.top = new Length(28f, LengthUnit.Percent);
+            
+        }
+        else
+        {  
+            Debug.Log("Canceled Exit");
+
+            isExit = false;
+            button4.style.backgroundImage = new StyleBackground(resumeSprites[0]);
+            button5.style.backgroundImage = new StyleBackground(exitSprites[0]);
+            pauseHeader.style.backgroundImage = new StyleBackground(headingSprites[0]);
+            pauseHeader.style.height = new Length(5f, LengthUnit.Percent);
+            pauseHeader.style.top = new Length(30f, LengthUnit.Percent);
         }
     }
 }
