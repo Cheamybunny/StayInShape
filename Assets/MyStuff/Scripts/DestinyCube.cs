@@ -43,4 +43,9 @@ public class DestinyCube : MonoBehaviour
         }
 
     }
+
+    public void Shot()
+    {
+        Destroy(gameObject);
+    }
 }

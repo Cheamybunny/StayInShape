@@ -59,7 +59,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SurveyScene.unity
     guid: ecded0b56a05cfe40914474dc349c56f
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: aa633360a6a851f41a33c4b6c49e1575
   m_configObjects:
