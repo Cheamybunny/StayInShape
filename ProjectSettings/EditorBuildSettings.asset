@@ -5,61 +5,61 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/HomeScene.unity
     guid: c66d9b461a5d9ee46a23d3274e30e4d8
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/GardenSceneJia.unity
     guid: 85123bf14dcf62447b67b818cd16d40a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ResourceCollectionScene.unity
     guid: 0095caf5a1c5f8f4382f4f18ab5d1169
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/SnapScene.unity
     guid: 27f278517f29a9242a174bf422fb82bc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/MatchingCardScene.unity
     guid: 8484cc7c66932a14ea4dbddc20b4a01b
   - enabled: 0
     path: Assets/Scenes/GardenScene.unity
     guid: 59233f0865880e7408a755524f0ccdd2
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/ChickenInvaderScene.unity
     guid: ffb64fe23e61d7a41aadc5d463d133be
   - enabled: 0
     path: Assets/Scenes/TempShop.unity
     guid: bbd7fb28131567544ab764d560fdbe3b
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MyStepsScene.unity
     guid: 8f23d4161f7d4914ab4a80c8759e4a8d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ResourceCollectionSceneJia.unity
     guid: cc96de53a985e3d438cb7d3ffab9ddbc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/CareScenes/PlantInstructionsScene.unity
     guid: 98076f2b143c7cc4d9b06c72aa549ffb
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/CareScenes/CareBookScene.unity
     guid: 3fe44dcecfb220d4388f36b34865053d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ShopScene.unity
     guid: 5dae67ac1d4a9494dbd7f4416f31b2ec
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ScreenshotDisplayScene.unity
     guid: 9f688d2886f39014fbb44a48a1927294
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/SnapSceneJia.unity
     guid: b3cc5e95ebb2de444aaac0db546754d7
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/DifficultySelectionScene.unity
     guid: 9477075430ad88b46ba9bd180bdefd5d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MinigameScenes/EndGameScene.unity
     guid: 6179f9414c6cdf7429b7c2d4773d8369
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SurveyScene.unity
     guid: ecded0b56a05cfe40914474dc349c56f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test.unity
     guid: aa633360a6a851f41a33c4b6c49e1575
   m_configObjects:
