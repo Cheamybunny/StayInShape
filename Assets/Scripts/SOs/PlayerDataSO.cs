@@ -9,25 +9,30 @@ public class PlayerDataSO : SavableSO
 {
     public string playerName = "DEFAULTUSERNAME";
     public DateTime lastSurvey;
-    private int fertilizer = 0;
-    private int water = 0;
-    private int steps = 200;
-    private int exp = 0;
-    private int chillicrop = 3;
-    private int loofacrop = 0;
-    private int eggplantcrop = 3;
-    private int sweetpotatocrop = 0;
-    private int papayacrop = 0;
-    private int kalamansicrop = 0;
-    private int lastHeldItem = -1;
-    private List<PlantData> plants = new List<PlantData>();
-    private List<DecoData> decorations = new List<DecoData>();
-    private String snapTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the Snap minigame again
-    private String matchingCardTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the matching cards minigame again
-    private String chickenInvaderTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the chicken invaders minigame again
+    public int fertilizer = 0;
+    public int water = 0;
+    public int steps = 200;
+    public int exp = 0;
+    public int chillicrop = 3;
+    public int loofacrop = 0;
+    public int eggplantcrop = 3;
+    public int sweetpotatocrop = 0;
+    public int papayacrop = 0;
+    public int kalamansicrop = 0;
+    public int lastHeldItem = -1;
+    public List<PlantData> plants = new List<PlantData>();
+    public List<DecoData> decorations = new List<DecoData>();
+    public String snapTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the Snap minigame again
+    public String matchingCardTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the matching cards minigame again
+    public String chickenInvaderTimer = DateTime.Now.AddDays(-1).ToString(DATETIME_FORMAT); // When the player can play the chicken invaders minigame again
+
+    // Hardcoded
+    public List<bool> hasCollectedRewardStatus = new List<bool>(new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false });
+
 
     const string DATETIME_FORMAT = "MM/dd/yyyy HH:mm";
     const string DATETIME_FORMAT_PLANT = "MM/dd/yyyy HH:mm:ss";
+
     public void ResetSurveyTime()
     {
         lastSurvey = DateTime.Now;
@@ -212,6 +217,17 @@ public class PlayerDataSO : SavableSO
         return ans;
     }
 
+    // Rewards
+    public bool GetHasCollectedRewardStatus(int index)
+    {
+        return this.hasCollectedRewardStatus[index];
+    }
+
+    public void SetHasCollectedRewardStatus(int index, bool newStatus)
+    {
+        this.hasCollectedRewardStatus[index] = newStatus;
+    }
+
     public override string ToJson()
     {
         SaveObject saveObject = new SaveObject
@@ -234,10 +250,10 @@ public class PlayerDataSO : SavableSO
             snapTimer = this.snapTimer,
             matchingCardTimer = this.matchingCardTimer,
             chickenInvaderTimer = this.chickenInvaderTimer,
+            hasCollectedRewardStatus = this.hasCollectedRewardStatus,
         };
 
         string saveString = JsonUtility.ToJson(saveObject);
-        //Debug.Log("Generated save string for " + this + ": " + saveString);
         return saveString;
     }
 
@@ -260,7 +276,7 @@ public class PlayerDataSO : SavableSO
         snapTimer = loadedObject.snapTimer;
         matchingCardTimer = loadedObject.matchingCardTimer;
         chickenInvaderTimer = loadedObject.chickenInvaderTimer;
-
+        hasCollectedRewardStatus = loadedObject.hasCollectedRewardStatus;
         lastSurvey = DateTime.ParseExact(loadedObject.lastSurvey, DATETIME_FORMAT, CultureInfo.InvariantCulture);
     }
 
@@ -284,5 +300,6 @@ public class PlayerDataSO : SavableSO
         public String snapTimer;
         public String matchingCardTimer;
         public String chickenInvaderTimer;
+        public List<bool> hasCollectedRewardStatus;
     }
 }

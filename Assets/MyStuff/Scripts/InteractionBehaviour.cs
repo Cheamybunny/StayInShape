@@ -73,6 +73,7 @@ public class InteractionBehaviour : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
+                Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.TryGetComponent<PlotLogic>(out PlotLogic plotLogic))
                 {
                     Component heldItem = gardenUIBehaviour2.getEquipped();
@@ -96,6 +97,34 @@ public class InteractionBehaviour : MonoBehaviour
                         garden.InsertDecoration(DecoManager.instance.GetFlowerPrefab(), hit.point);
                         gardenUIBehaviour2.UpdateItem(null);
                     }
+                    else if (heldItem != null && heldItem.TryGetComponent<Flower2Logic>(out Flower2Logic flower2Logic))
+                    {
+                        player.SetLastHeldItem(-1);
+                        saveManager.Save();
+                        garden.InsertDecoration(DecoManager.instance.GetFlower2Prefab(), hit.point);
+                        gardenUIBehaviour2.UpdateItem(null);
+                    }
+                    else if (heldItem != null && heldItem.TryGetComponent<SunflowerLogic>(out SunflowerLogic sunflower))
+                    {
+                        player.SetLastHeldItem(-1);
+                        saveManager.Save();
+                        garden.InsertDecoration(DecoManager.instance.GetSunflowerPrefab(), hit.point);
+                        gardenUIBehaviour2.UpdateItem(null);
+                    }
+                    else if (heldItem != null && heldItem.TryGetComponent<ChickenDecorLogic>(out ChickenDecorLogic chickenDecor))
+                    {
+                        player.SetLastHeldItem(-1);
+                        saveManager.Save();
+                        garden.InsertDecoration(DecoManager.instance.GetChickenPrefab(), hit.point);
+                        gardenUIBehaviour2.UpdateItem(null);
+                    }
+                    else if (heldItem != null && heldItem.TryGetComponent<RadioLogic>(out RadioLogic radio))
+                    {
+                        player.SetLastHeldItem(-1);
+                        saveManager.Save();
+                        garden.InsertDecoration(DecoManager.instance.GetRadioprefab(), hit.point);
+                        gardenUIBehaviour2.UpdateItem(null);
+                    }
                 }
                 //logic if player taps bag of seeds
                 else if (hit.transform.TryGetComponent<ChilliBag>(out ChilliBag chilliBag) ||
@@ -105,14 +134,14 @@ public class InteractionBehaviour : MonoBehaviour
                     hit.transform.TryGetComponent<CalamansiBag>(out CalamansiBag calamansiBag) ||
                     hit.transform.TryGetComponent<PapayaBag>(out PapayaBag papayaBag))
                 {
-                    if(player.GetLastHeldItem() != 10)
+                    if(player.GetLastHeldItem() < 10)
                     {
                         buttonClick.Play();
                         gardenUIBehaviour2.UpdateItem(hit.transform);
                     }
                     else
                     {
-                        gardenUIEvents.ThrowError("You are holding a decoration. \nPlace it in your garden before proceeding");
+                        gardenUIEvents.ThrowError(ErrorManager.instance.HoldingDecorationError());
                     }
                 }
                 //logic if player taps a plant
@@ -135,18 +164,18 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (plant.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        plant.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        Debug.Log("ERROR HERE");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertilizer"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -155,23 +184,22 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (plant.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        plant.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + plant.getGrowthRate() +"\nCurrent Wither amount: " + plant.getWither());
+                                gardenUIBehaviour2.ThrowError(plant.getStatus());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -203,18 +231,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (loofa.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        loofa.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertiliser"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -223,23 +250,22 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (loofa.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        loofa.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + loofa.getGrowthRate() + "\nCurrent Wither amount: " + loofa.getWither());
+                                gardenUIBehaviour2.ThrowError(loofa.getStatus());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -271,18 +297,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (eggplant.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        eggplant.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertiliser"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -291,23 +316,22 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (eggplant.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        eggplant.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + eggplant.getGrowthRate() + "\nCurrent Wither amount: " + eggplant.getWither());
+                                gardenUIBehaviour2.ThrowError(eggplant.getStatus());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -339,18 +363,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (sweetpotato.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        sweetpotato.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertiliser"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -359,23 +382,22 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (sweetpotato.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        sweetpotato.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if(gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + sweetpotato.getGrowthRate() + "\nCurrent Wither amount: " + sweetpotato.getWither());
+                                gardenUIBehaviour2.ThrowError(sweetpotato.getStatus());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -407,18 +429,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (papaya.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        papaya.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertiliser"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -427,18 +448,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (papaya.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        papaya.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
@@ -447,7 +467,7 @@ public class InteractionBehaviour : MonoBehaviour
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + papaya.getGrowthRate() + "\nCurrent Wither amount: " + papaya.getWither());
+                                gardenUIBehaviour2.ThrowError(papaya.getStatus());
                             }
                         }
                         else
@@ -475,18 +495,17 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (calamansi.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        calamansi.getStatus();
                                         player.SetFertilizer(player.GetFertilizer() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Fertiliser.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Fertiliser"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(WaterLogic))
@@ -495,23 +514,22 @@ public class InteractionBehaviour : MonoBehaviour
                                 {
                                     if (calamansi.Insert(gardenUIBehaviour2.getEquipped()))
                                     {
-                                        calamansi.getStatus();
                                         player.SetWater(player.GetWater() - 1);
                                         saveManager.Save();
                                     }
                                     else
                                     {
-                                        gardenUIBehaviour2.ThrowError("Unfortunately, this crop has withered.\nEquip a trowel and remove it!");
+                                        gardenUIBehaviour2.ThrowError(ErrorManager.instance.CropWitheredError());
                                     }
                                 }
                                 else
                                 {
-                                    gardenUIBehaviour2.ThrowError("Oops! Unfortunately, you do not \nhave any Water.\nPlay games to get more!");
+                                    gardenUIBehaviour2.ThrowError(ErrorManager.instance.NoResourcesError("Water"));
                                 }
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(MagnifierLogic))
                             {
-                                gardenUIBehaviour2.ThrowError("Current Growth Rate: " + calamansi.getGrowthRate() + "\nCurrent Wither amount: " + calamansi.getWither());
+                                gardenUIBehaviour2.ThrowError(calamansi.getStatus());
                             }
                             else if (gardenUIBehaviour2.getEquipped().GetType() == typeof(TrowelLogic))
                             {
@@ -532,14 +550,14 @@ public class InteractionBehaviour : MonoBehaviour
                         hit.transform.TryGetComponent<TrowelLogic>(out TrowelLogic trowel) ||
                         hit.transform.TryGetComponent<MagnifierLogic>(out MagnifierLogic magnifier)))
                     {
-                        if(player.GetLastHeldItem() != 10)
+                        if(player.GetLastHeldItem() < 10)
                         {
                             buttonClick.Play();
                             gardenUIBehaviour2.UpdateItem(hit.transform);
                         }
                         else
                         {
-                            gardenUIEvents.ThrowError("You are holding a decoration. \nPlace it in your garden before proceeding");
+                            gardenUIEvents.ThrowError(ErrorManager.instance.HoldingDecorationError());
                         }
                     }
                 }

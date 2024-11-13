@@ -17,12 +17,12 @@ public class SweetpotatoLogic : MonoBehaviour
     [SerializeField] private ParticleSystem waterParticles;
     [SerializeField] private AudioSource waterSound;
 
-    private float stage_1_threshold = 60f;
-    private float stage_2_threshold = 120f;
-    private float stage_3_threshold = 180f;
+    private float stage_1_threshold = 180f;
+    private float stage_2_threshold = 200f;
+    private float stage_3_threshold = 220f;
     private float harvest_threshold = 240f;
-    private float wither_threshold = 120f;
-    private float warning_threshold = 90f;
+    private float wither_threshold = 220f;
+    private float warning_threshold = 200f;
 
     private float growthAmount = 0f;
     private float growthRate = 1f;
@@ -167,21 +167,27 @@ public class SweetpotatoLogic : MonoBehaviour
                 waterParticles.Play();
                 waterSound.Play();
                 witherTime = 0f;
-                growthRate += 0.5f;
+                growthRate += 0.1f;
             }
             else if (item.TryGetComponent<FertiliserLogic>(out FertiliserLogic fertiliser))
             {
                 waterParticles.Play();
                 waterSound.Play();
-                growthRate += 0.5f;
+                growthRate += 0.1f;
             }
             return true;
         }
     }
 
-    public void getStatus()
+    public string getStatus()
     {
         Debug.Log("Growth Amount: " + growthAmount);
+        if (isWithered)
+        {
+            return ErrorManager.instance.CropWitheredError();
+        }
+        float timeToWither = ((wither_threshold - witherTime) / wither_threshold) * 100;
+        return "\n\nCurrent Growth Rate: " + getGrowthRate() + "\nRemaining water: " + timeToWither + "%";
     }
 
     public float getGrowthAmount()

@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/TestVisualElement.uss?fileID=7433441132597879392&amp;guid=84c5b04845bbc5b4f8bfd970bbb0a8ac&amp;type=3#TestVisualElement" />
+    <ui:Label tabindex="-1" text="//intro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="introduction" style="background-image: url(&quot;project://database/Assets/MyStuff/Assets/images/popup-neutral.png?fileID=2800000&amp;guid=02c5ebe5cc8cf4c4fa7d422cfd81a736&amp;type=3#popup-neutral&quot;); position: absolute; left: 8%; top: 3%; width: 94%; height: 38%; font-size: 62%; -unity-text-align: middle-left;">
+        <ui:Button text="START!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="startButton" style="left: 32%; top: 105%; height: 15%; width: 22%; font-size: 89%;" />
+    </ui:Label>
+    <ui:VisualElement name="colourContainer" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box1" style="left: 3%; top: 43%; width: 17%; height: 10%; font-size: 54%; color: rgb(255, 255, 255); background-color: rgba(255, 255, 255, 0.92);" />
+        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box2" style="left: 22%; top: 33%; width: 17%; height: 10%; background-color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box3" style="left: 41%; top: 23%; width: 17%; height: 10%; background-color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box4" style="left: 60%; top: 13%; width: 17%; height: 10%; background-color: rgb(255, 255, 255);" />
+        <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box5" style="left: 79%; top: 3%; width: 17%; height: 10%; background-color: rgb(255, 255, 255);" />
+        <ui:Button text="START!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="startbutton2" style="left: 38%; top: 6%; width: 18%; height: 4%; font-size: 75%;" />
+    </ui:VisualElement>
+</ui:UXML>

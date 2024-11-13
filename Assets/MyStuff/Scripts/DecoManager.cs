@@ -7,6 +7,10 @@ public class DecoManager : MonoBehaviour
 {
     public static DecoManager instance;
     [SerializeField] private GameObject flowerPrefab;
+    [SerializeField] private GameObject flowerPrefab2;
+    [SerializeField] private GameObject sunflowerprefab;
+    [SerializeField] private GameObject chickenprefab;
+    [SerializeField] private GameObject radioprefab;
     [SerializeField] private GameObject gardenUI;
     [SerializeField] private PlayerDataSO player;
     [SerializeField] private SaveManagerSO saveManager;
@@ -38,6 +42,25 @@ public class DecoManager : MonoBehaviour
         return flowerPrefab;
     }
 
+    public GameObject GetFlower2Prefab()
+    {
+        return flowerPrefab2;
+    }
+
+    public GameObject GetSunflowerPrefab()
+    {
+        return sunflowerprefab;
+    }
+
+    public GameObject GetChickenPrefab()
+    {
+        return chickenprefab;
+    }
+
+    public GameObject GetRadioprefab()
+    {
+        return radioprefab;
+    }
     public List<DecoData> GetDecorations()
     {
         return player.GetDecorations();
@@ -55,6 +78,22 @@ public class DecoManager : MonoBehaviour
         if(decoType == 10)
         {
             gardenUIBehaviour2.UpdateItem(flowerPrefab.transform);
+        }
+        else if(decoType == 11)
+        {
+            gardenUIBehaviour2.UpdateItem(flowerPrefab2.transform);
+        }
+        else if(decoType == 12)
+        {
+            gardenUIBehaviour2.UpdateItem(sunflowerprefab.transform);
+        }
+        else if(decoType == 13)
+        {
+            gardenUIBehaviour2.UpdateItem(chickenprefab.transform);
+        }
+        else if (decoType == 14)
+        {
+            gardenUIBehaviour2.UpdateItem(radioprefab.transform);
         }
     }
 }

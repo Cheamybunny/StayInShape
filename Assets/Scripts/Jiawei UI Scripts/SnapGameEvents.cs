@@ -36,7 +36,7 @@ public class SnapGameEvents : MonoBehaviour
     // Game Fields
     private int[] level = new int[] {35, 6}; 
     private float[] timePerSnap = new float[] {6, 4, 1};
-    private int intervalToPlayGame = 10;
+    public int intervalToPlayGame = 3;
     private float timeLeft;
     private int currentLevelId;
     private int currentDeckCard;
@@ -232,7 +232,6 @@ public class SnapGameEvents : MonoBehaviour
         deckDrawn = false;
         setTimer(0);
         playerDataSO.SetSnapTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
-        saveManager.Save();
         spawnPopup(5);
         StartCoroutine(RewardPlayer());
     }
@@ -244,10 +243,11 @@ public class SnapGameEvents : MonoBehaviour
             yield return null;
         }
 
-        int reward = (nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs);
+        int reward = ((nCorrects - nWrongs) < 0 ? 1 : (nCorrects - nWrongs)) * (currentLevelId + 1);
         EndGameEvents.Rewards.waterReward = reward;
         EndGameEvents.Rewards.fertReward = 0;
         playerDataSO.SetWater(playerDataSO.GetWater() + reward);
+        saveManager.Save();
         SceneManager.LoadScene("EndGameScene");
     }
 

@@ -21,13 +21,13 @@ public class ChickenInvaderManager : MonoBehaviour
     [SerializeField] GameObject eye_ui;
 
     public int intervalToPlayGame = 5;
-    public int timePerRound = 30;
+    private int timePerRound = 60;
     public float spawnRange = 5;
     public float timeLeft;
     public bool isGameEnded;
-    public int reward = 12;
-    public int nChickens = 10;
-    public int chickenInterval = 3;
+    private int reward = 10;
+    private int nChickens;
+    private int[] chickenInterval = new int[] { 5, 4, 3 };
     private int gameLevel;
 
     private Transform target;
@@ -45,6 +45,7 @@ public class ChickenInvaderManager : MonoBehaviour
         randomRangeMin = new Vector3(-spawnRange, 0, -spawnRange);
         randomRangeMax = new Vector3(spawnRange, 0, spawnRange);
         gameLevel = ResourceCollectionEvents.GameData.difficulty;
+        nChickens = timePerRound / chickenInterval[gameLevel];
     }
 
     IEnumerator StartCountdown()
@@ -69,6 +70,7 @@ public class ChickenInvaderManager : MonoBehaviour
 
     private void RewardPlayer()
     {
+        reward = reward * (gameLevel + 1);
         player.SetChickenInvaderTimer(DateTime.Now.AddMinutes(intervalToPlayGame));
         player.SetFertilizer(player.GetFertilizer() + reward);
         player.SetWater(player.GetWater() + reward);
@@ -176,7 +178,7 @@ public class ChickenInvaderManager : MonoBehaviour
         trackedImageManager.enabled = false;
         isGameEnded = false;
         countdownCoroutine = StartCoroutine(StartCountdown());
-        StartCoroutine(spawnChickens(chickenInterval, nChickens));
+        StartCoroutine(spawnChickens(chickenInterval[gameLevel], nChickens));
     }
     private void PlaySound(AudioClip clip)
     {
