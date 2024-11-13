@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GardenSceneJia.unity
     guid: 85123bf14dcf62447b67b818cd16d40a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ResourceCollectionScene.unity
     guid: 0095caf5a1c5f8f4382f4f18ab5d1169
   - enabled: 1
