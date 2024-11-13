@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class TestEvents : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class TestEvents : MonoBehaviour
 
     private Button startButton;
     private Button startButton2;
+    private Button shootButton;
+    private Button backButton;
     private Label introduction;
     private Label box1;
     private Label box2;
@@ -40,6 +43,11 @@ public class TestEvents : MonoBehaviour
         box5 = _document.rootVisualElement.Q("box5") as Label;
         startButton2 = _document.rootVisualElement.Q("startbutton2") as Button;
         startButton2.RegisterCallback<ClickEvent>(OnStartButton2Click);
+        shootButton = _document.rootVisualElement.Q("shootButton") as Button;
+        shootButton.RegisterCallback<ClickEvent>(OnShootButton);
+        shootButton.style.display = DisplayStyle.None;
+        backButton = _document.rootVisualElement.Q("BackButton") as Button;
+        backButton.RegisterCallback<ClickEvent>(OnBackButton);
         colourContainer = _document.rootVisualElement.Q("colourContainer") as VisualElement;
         colourContainer.style.display = DisplayStyle.None;
 
@@ -55,6 +63,12 @@ public class TestEvents : MonoBehaviour
     {
         startButton.UnregisterCallback<ClickEvent>(OnStartButtonClick);
         startButton2.UnregisterCallback<ClickEvent>(OnStartButton2Click);
+        shootButton.UnregisterCallback<ClickEvent>(OnShootButton);
+    }
+
+    private void OnBackButton(ClickEvent evt)
+    {
+        SceneManager.LoadScene("SurveyScene");
     }
 
     private void OnStartButtonClick(ClickEvent evt)
@@ -71,6 +85,19 @@ public class TestEvents : MonoBehaviour
         introduction.style.display= DisplayStyle.None;
         float endMemorise = Time.time - level2MemoriseStartTime;
         TestManager.instance.Level2(endMemorise, colours);
+    }
+
+    private void OnShootButton(ClickEvent evt)
+    {
+        introduction.style.display = DisplayStyle.None;
+        TestManager.instance.Level3();
+    }
+
+    public void DisplayResults(float result1, float result2, float result3)
+    {
+        shootButton.style.display = DisplayStyle.None;
+        introduction.text = "\n\nThis is the end of the test, \nthese are your results: \n" + result1 + ", \n" + result2 + ", \n" + result3;
+        introduction.style.display = DisplayStyle.Flex;
     }
     public void NextLevel(int nextLevel)
     {
@@ -168,6 +195,13 @@ public class TestEvents : MonoBehaviour
                     colours[4] = colour;
                 }
             }
+
+        }
+       else if(nextLevel == 3)
+        {
+            introduction.text = "This level tests your motor skills. \nFind and tap to destroy the 3 cubes!\nWhen you are ready, press the Fire! button";
+            introduction.style.display = DisplayStyle.Flex;
+            shootButton.style.display = DisplayStyle.Flex;
 
         }
     }

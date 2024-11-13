@@ -11,4 +11,6 @@
         <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="box5" style="left: 79%; top: 3%; width: 17%; height: 10%; background-color: rgb(255, 255, 255);" />
         <ui:Button text="START!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="startbutton2" style="left: 38%; top: 6%; width: 18%; height: 4%; font-size: 75%;" />
     </ui:VisualElement>
+    <ui:Button text="Fire!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="shootButton" style="position: absolute; left: 35%; top: 84%; align-items: center; justify-content: space-between; align-self: center; width: 28%; height: 6%; font-size: 75%;" />
+    <ui:Button text="Survey" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" style="position: absolute; width: 17%; height: 4%; font-size: 85%;" />
 </ui:UXML>

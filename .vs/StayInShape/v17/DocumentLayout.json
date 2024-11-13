@@ -1,12 +1,77 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\trlfr\\Desktop\\NUS_Folders\\ModSlides\\AY2425_Sem1\\CS4350\\StayInShape\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\mahathir\\desktop\\repos\\stayinshape\\assets\\mystuff\\scripts\\testevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\testevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\mahathir\\desktop\\repos\\stayinshape\\assets\\mystuff\\scripts\\testmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\testmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|c:\\users\\mahathir\\desktop\\repos\\stayinshape\\assets\\mystuff\\scripts\\destinycube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66D631D6-8BB4-0FDB-C552-CE4F5417DC5F}|Assembly-CSharp.csproj|solutionrelative:assets\\mystuff\\scripts\\destinycube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 215,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestManager.cs",
+              "DocumentMoniker": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\TestManager.cs",
+              "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\TestManager.cs",
+              "ToolTip": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\TestManager.cs",
+              "RelativeToolTip": "Assets\\MyStuff\\Scripts\\TestManager.cs",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAewJAAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T01:52:23.599Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 185,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DestinyCube.cs",
+              "DocumentMoniker": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\DestinyCube.cs",
+              "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\DestinyCube.cs",
+              "ToolTip": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\DestinyCube.cs",
+              "RelativeToolTip": "Assets\\MyStuff\\Scripts\\DestinyCube.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T02:32:36.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TestEvents.cs",
+              "DocumentMoniker": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\TestEvents.cs",
+              "RelativeDocumentMoniker": "Assets\\MyStuff\\Scripts\\TestEvents.cs",
+              "ToolTip": "C:\\Users\\Mahathir\\Desktop\\repos\\StayInShape\\Assets\\MyStuff\\Scripts\\TestEvents.cs",
+              "RelativeToolTip": "Assets\\MyStuff\\Scripts\\TestEvents.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAowEYAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T01:51:58.642Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
