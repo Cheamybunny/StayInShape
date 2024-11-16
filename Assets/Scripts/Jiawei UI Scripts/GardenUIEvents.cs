@@ -117,7 +117,7 @@ public class GardenUIEvents : MonoBehaviour
         L.style.display = DisplayStyle.Flex;
         //if (isActive)
         //{
-        //    popUp.style.display = DisplayStyle.None;
+        //    qr_popUp.style.display = DisplayStyle.None;
         //    isActive = false;
         //}
         spawnButton.style.display = DisplayStyle.Flex;

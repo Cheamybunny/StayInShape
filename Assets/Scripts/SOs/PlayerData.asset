@@ -13,3 +13,20 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   playerName: DEFAULTUSERNAME
+  fertilizer: 10
+  water: 0
+  steps: 0
+  exp: 0
+  chillicrop: 0
+  loofacrop: 0
+  eggplantcrop: 1
+  sweetpotatocrop: 0
+  papayacrop: 0
+  kalamansicrop: 0
+  lastHeldItem: 0
+  plants: []
+  decorations: []
+  snapTimer: 10/14/2024 18:03
+  matchingCardTimer: 10/14/2024 18:03
+  chickenInvaderTimer: 10/14/2024 18:03
+  hasCollectedRewardStatus: 000000000000000000000000000000

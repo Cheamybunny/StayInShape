@@ -27,8 +27,11 @@ public class MatchingCardManager : MonoBehaviour
     private Button button2;
     private Button button3;
     private VisualElement L;
-    private VisualElement popUp;
+    private VisualElement qr_popUp;
+    private VisualElement popup;
+    private Label popupLabel;
     private bool isActive = true;
+    private bool isMessageActive = false;
 
     public int timeToDisplayText = 3;
     public int intervalToPlayGame = 1;
@@ -61,9 +64,14 @@ public class MatchingCardManager : MonoBehaviour
         L = document.rootVisualElement.Q("L") as VisualElement;
         L.style.display = DisplayStyle.None;
 
-        popUp = document.rootVisualElement.Q("PopUp") as VisualElement;
-        popUp.RegisterCallback<ClickEvent>(OnPopUpClick);
+        qr_popUp = document.rootVisualElement.Q("QRPopUp") as VisualElement;
+        qr_popUp.RegisterCallback<ClickEvent>(OnQRPopUpClick);
         StartCoroutine(HidePopUpAfterDelay(5f));
+
+        popup = document.rootVisualElement.Q("Popup") as VisualElement;
+        popupLabel = document.rootVisualElement.Q("PopLabel") as Label;
+        popup.style.display = DisplayStyle.None;
+        popup.RegisterCallback<ClickEvent>(OnPopupClick);
         gameLevel = ResourceCollectionEvents.GameData.difficulty;
     }
 
@@ -111,7 +119,7 @@ public class MatchingCardManager : MonoBehaviour
 
         L.style.display = DisplayStyle.Flex;
         if (isActive) {
-            popUp.style.display = DisplayStyle.None;
+            qr_popUp.style.display = DisplayStyle.None;
             isActive = false;
         }
         button3.style.display = DisplayStyle.Flex;
@@ -124,6 +132,7 @@ public class MatchingCardManager : MonoBehaviour
 
     public void StartGame()
     {
+        PopUpSpawn("Look up and match all the cards in front of you. Good Luck!");
         L.style.display = DisplayStyle.None;
         button3.style.display = DisplayStyle.None;
         // status.text = "Look up, the cards are in front of you. Good Luck!";
@@ -245,6 +254,7 @@ public class MatchingCardManager : MonoBehaviour
 
     private void MatchCards(CardLogic card1, CardLogic card2)
     {
+        PopUpSpawn($"You matched the {card1.plantName} cards!");
         Unselect();
         SpawnParticles(card1.gameObject.transform.position);
         SpawnParticles(card2.gameObject.transform.position);
@@ -320,11 +330,30 @@ public class MatchingCardManager : MonoBehaviour
         StartGame();
     }
 
-    private void OnPopUpClick(ClickEvent evt)
+    // Message Popup
+    private void PopUpSpawn(String message)
+    {
+        popupLabel.text = message;
+        popup.style.display = DisplayStyle.Flex;
+        isMessageActive = true;
+    }
+
+    private void OnPopupClick(ClickEvent evt)
+    {
+        if (isMessageActive)
+        {
+            popup.style.display = DisplayStyle.None;
+            isMessageActive = false;
+        }
+    }
+
+    // QR Popup
+
+    private void OnQRPopUpClick(ClickEvent evt)
     {
         if (isActive)
         {
-            popUp.style.display = DisplayStyle.None;
+            qr_popUp.style.display = DisplayStyle.None;
             isActive = false;
         }
     }
@@ -335,7 +364,7 @@ public class MatchingCardManager : MonoBehaviour
 
         if (isActive)
         {
-            popUp.style.display = DisplayStyle.None;
+            qr_popUp.style.display = DisplayStyle.None;
             isActive = false;
         }
     }
