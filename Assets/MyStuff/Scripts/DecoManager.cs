@@ -66,6 +66,12 @@ public class DecoManager : MonoBehaviour
         return player.GetDecorations();
     }
 
+    public void ClearDecos()
+    {
+        player.ClearDecoList();
+        saveManager.Save();
+    }
+
     public void InsertDecoration(DecoData decoData)
     {
         player.InsertDecoration(decoData);

@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   playerName: DEFAULTUSERNAME
-  fertilizer: 10
-  water: 0
+  fertilizer: 100
+  water: 100
   steps: 0
-  exp: 0
-  chillicrop: 0
-  loofacrop: 0
-  eggplantcrop: 1
-  sweetpotatocrop: 0
-  papayacrop: 0
-  kalamansicrop: 0
-  lastHeldItem: 0
+  exp: 10000
+  chillicrop: 10
+  loofacrop: 10
+  eggplantcrop: 10
+  sweetpotatocrop: 10
+  papayacrop: 10
+  kalamansicrop: 10
+  lastHeldItem: -1
   plants: []
   decorations: []
   snapTimer: 10/14/2024 18:03

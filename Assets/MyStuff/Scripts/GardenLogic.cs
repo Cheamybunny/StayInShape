@@ -63,6 +63,7 @@ public class GardenLogic : MonoBehaviour
             spawnedDeco.transform.rotation = transform.rotation;
             spawnedDeco.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         }
+        DecoManager.instance.ClearDecos();
     }
 
     private void Update()

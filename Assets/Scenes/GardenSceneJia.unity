@@ -202,10 +202,10 @@ MonoBehaviour:
   kalamansiSprite: {fileID: 21300000, guid: 9b880e5fd0e11784e83e2cf7ecde30ba, type: 3}
   sweetPotatoSprite: {fileID: 21300000, guid: 03809e3c133f6fb4cba5df19a045548d, type: 3}
   flowerSprite: {fileID: 21300000, guid: e9c0dfd08da9e4e4b821ec54f697d079, type: 3}
-  flower2Sprite: {fileID: 0}
-  sunflowerSprite: {fileID: 0}
-  chickenSprite: {fileID: 0}
-  radioSprite: {fileID: 0}
+  flower2Sprite: {fileID: 21300000, guid: a370a4b333f78a849b690ac26fc57a01, type: 3}
+  sunflowerSprite: {fileID: 21300000, guid: bb7cdb6d32a20c042876645909bb5b70, type: 3}
+  chickenSprite: {fileID: 21300000, guid: 9632bece85aa77244b170a1ddac2bf19, type: 3}
+  radioSprite: {fileID: 21300000, guid: af80ae7c5adc4cf45a2f235ccd65eda6, type: 3}
 --- !u!82 &191597531
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1343,8 +1343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5930c81987de0a34f8f7da7c5489be63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 0.25
-  stepLength: 0.75
   onUpdate:
     m_PersistentCalls:
       m_Calls: []
