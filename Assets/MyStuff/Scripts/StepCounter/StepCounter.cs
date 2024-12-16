@@ -10,8 +10,8 @@ using UnityEngine.Events;
 public class StepCounter : MonoBehaviour
 {
     // Variables
-    public float threshold = 1f;
-    public float stepLength = 0.75f;
+    private float threshold = 0.175f;
+    private float stepLength = 0.75f;
     private float timer = 0.0f;
     private float stepDelay = 0.35f;
 

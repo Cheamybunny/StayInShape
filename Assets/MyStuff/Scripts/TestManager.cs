@@ -15,9 +15,14 @@ public class TestManager : MonoBehaviour
     private Renderer targetRenderer;
     private int currLevel = 1;
     private GameObject[] spawnedCubes;
+    private GameObject[] spawnedTargets;
+    private float result1;
+    private float result2;
+    private float result3;
     public float distanceBetweenCubes = 2f; // Distance between each cubes for lvl2
     public float timeToMemorise;
     private int[] coloursShown;
+    private int cubesDestroyed = 0;
     private void Awake()
     {
         if (instance == null)
@@ -83,6 +88,63 @@ public class TestManager : MonoBehaviour
         StartCoroutine(WaitForPlayerRecall());
     }
 
+    public void Level3()
+    {
+        float distFromcamera = 5f;
+        float maxLeft = -3f;
+        float maxright = 3f;
+        float maxtop = 3f;
+        float maxbottom = -3f;
+
+        spawnedTargets = new GameObject[3];
+        for (int i = 0; i < 3; i++)
+        {
+            //generate random position
+            Vector3 spawnPosition = Camera.main.transform.position +
+                (Camera.main.transform.forward * distFromcamera) +
+                (Camera.main.transform.right * Random.Range(maxLeft, maxright)) +
+                (Camera.main.transform.up * Random.Range(maxbottom, maxtop));
+            // Instantiate the cube at the calculated position
+            spawnedTargets[i] = Instantiate(destinycubePrefab, spawnPosition, Quaternion.identity);
+
+            // Make the cube face the camera
+            spawnedTargets[i].transform.LookAt(Camera.main.transform);
+            spawnedTargets[i].transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        StartCoroutine(WaitForPlayerShoot());
+    }
+
+    private IEnumerator WaitForPlayerShoot()
+    {
+        float startTime = Time.time;
+        while(cubesDestroyed != 3)
+        {
+            // Check if the player clicks on the object
+            if (actions.UI.Click.WasPressedThisFrame())
+            {
+                Vector2 clickPosition = actions.UI.Point.ReadValue<Vector2>();
+                Ray ray = Camera.main.ScreenPointToRay(clickPosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    // Check if the player clicked the target object
+                    if (hit.collider.gameObject.TryGetComponent<DestinyCube>(out DestinyCube destiny))
+                    {
+                        destiny.Shot();
+                        cubesDestroyed++;
+                    }
+                }
+            }
+            // Yield for a frame before checking again
+            yield return null;
+        }
+        float timeFinish = Time.time - startTime;
+        result3 = timeFinish;
+        Debug.Log("Player destroyed all cubes in " + timeFinish + " seconds.");
+        testEvents.DisplayResults(result1, result2, result3);
+    }
+
     private IEnumerator WaitForPlayerTap()
     {
         // Pick a random time between 3 and 8 seconds
@@ -120,6 +182,7 @@ public class TestManager : MonoBehaviour
                         float timeClicked = Time.time - startTime;
                         Destroy(destiny.gameObject);
                         Debug.Log("Player clicked the object after " + timeClicked + " seconds.");
+                        result1 = timeClicked;
                         currLevel = 2;
                         testEvents.NextLevel(currLevel);
                     }
@@ -175,8 +238,13 @@ public class TestManager : MonoBehaviour
             // Yield for a frame before checking again
             yield return null;
         }
+        for(int i = 0;i < 5; i++)
+        {
+            Destroy(spawnedCubes[i].gameObject);
+        }
         float timefinished = Time.time - startTime;
         float totalTimetaken = timefinished + timeToMemorise;
+        result2 = totalTimetaken;
         Debug.Log("Player managed to memorise in " + totalTimetaken + " seconds.");
         currLevel = 3;
         testEvents.NextLevel(currLevel);

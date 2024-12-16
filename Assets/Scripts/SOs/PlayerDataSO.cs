@@ -160,6 +160,11 @@ public class PlayerDataSO : SavableSO
         this.plants = new List<PlantData>();
     }
 
+    public void ClearDecoList()
+    {
+        this.decorations = new List<DecoData>();
+    }
+
     public int GetLastHeldItem()
     {
         return lastHeldItem;

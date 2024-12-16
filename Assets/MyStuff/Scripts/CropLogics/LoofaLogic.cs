@@ -32,7 +32,7 @@ public class LoofaLogic : MonoBehaviour
 
     private void Awake()
     {
-        gameObject.SetActive(true);
+
 
     }
 
@@ -44,19 +44,6 @@ public class LoofaLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isWithered)
-        {
-            growthAmount += Time.deltaTime * growthRate;
-            witherTime += Time.deltaTime;
-        }
-        if (witherTime > warning_threshold && witherTime < wither_threshold && !isWithered)
-        {
-            warning.SetActive(true);
-        }
-        if (witherTime <= warning_threshold && !isWithered)
-        {
-            warning.SetActive(false);
-        }
         if (witherTime >= wither_threshold)
         {
             isWithered = true;
@@ -92,17 +79,20 @@ public class LoofaLogic : MonoBehaviour
                 stage3_withered.SetActive(true);
             }
         }
-        if (growthAmount < stage_1_threshold && !isWithered)
+        if (!isWithered)
         {
-            stage1.SetActive(true);
-            stage2.SetActive(false);
-            stage3.SetActive(false);
-            stage3_harvest.SetActive(false);
-            stage1_withered.SetActive(false);
-            stage2_withered.SetActive(false);
-            stage3_withered.SetActive(false);
+            growthAmount += Time.deltaTime * growthRate;
+            witherTime += Time.deltaTime;
         }
-        else if (growthAmount < stage_2_threshold && !isWithered)
+        if (witherTime > warning_threshold && witherTime < wither_threshold && !isWithered)
+        {
+            warning.SetActive(true);
+        }
+        if (witherTime <= warning_threshold && !isWithered)
+        {
+            warning.SetActive(false);
+        }
+        if (growthAmount > stage_1_threshold && !isWithered)
         {
             stage1.SetActive(false);
             stage2.SetActive(true);
@@ -112,7 +102,7 @@ public class LoofaLogic : MonoBehaviour
             stage2_withered.SetActive(false);
             stage3_withered.SetActive(false);
         }
-        else if (growthAmount < stage_3_threshold && !isWithered)
+        if (growthAmount > stage_2_threshold && !isWithered)
         {
             stage1.SetActive(false);
             stage2.SetActive(false);
@@ -122,7 +112,7 @@ public class LoofaLogic : MonoBehaviour
             stage2_withered.SetActive(false);
             stage3_withered.SetActive(false);
         }
-        else if (growthAmount > harvest_threshold && !isWithered)
+        if (growthAmount > harvest_threshold && !isWithered)
         {
             stage1.SetActive(false);
             stage2.SetActive(false);
