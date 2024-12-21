@@ -1,0 +1,10 @@
+/* Target the slider track */
+.unity-base-slider__tracker {
+    height: 20px;    /* Adjust the height of the slider track */
+}
+
+/* Target the slider handle */
+.unity-base-slider__dragger {
+    height: 100px;    /* Make the handle taller */
+    width: 40px;     /* Optional: Make the handle wider */
+}
